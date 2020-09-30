@@ -1,0 +1,12 @@
+{
+  "restartable": "rs",
+  "verbose": true,
+  "watch": [
+    "src",
+    "index.ts"
+  ],
+  "ignore": ["node_modules"],
+  "delay": "1000",
+  "exec": "node --inspect -r ts-node/register ./src/index.ts",
+  "ext": "ts js"
+}

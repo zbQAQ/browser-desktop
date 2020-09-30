@@ -1,0 +1,17 @@
+.DS_Store
+.idea
+.vscode
+.eslintcache
+.editorconfig
+dist
+logs
+var
+node_modules
+npm-debug.log*
+config.json
+package-lock.json
+.csscomb.json
+.cache-loader
+ssi
+server/src/__test__/*.json
+server/docs

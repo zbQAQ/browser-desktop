@@ -1,6 +1,6 @@
 import React from "react"
 import { RouteComponentProps, withRouter } from "react-router-dom"
-import "./background.css"
+import "./wallpaper.css"
 
 type Props = RouteComponentProps<any>;
 

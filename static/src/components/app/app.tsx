@@ -7,7 +7,10 @@ import {
   Link
 } from 'react-router-dom';
 
-import Background from "../background/background"
+import Wallpaper from "../wallpaper/wallpaper"
+
+// pages
+import Home from "@/pages/home/home"
 
 type Props = RouteComponentProps<any>;
 
@@ -15,10 +18,10 @@ class App extends React.Component<Props> {
   public render() {
     return (
       <Switch>
-        <Background>
-          <Route exact path="/" render={() => <CmpRoot />}></Route>
+        <Wallpaper>
+          <Route exact path="/" render={() => <Home />}></Route>
           <Route exact path="/aa" render={() => <Cmpaa />}></Route>
-        </Background>
+        </Wallpaper>
       </Switch>
     )
   }
@@ -27,17 +30,8 @@ class App extends React.Component<Props> {
 function Cmpaa() {
   return (
     <div>
-      hi aa<br />
-      <Link to='/'>root页</Link>
-    </div>
-  )
-}
-
-function CmpRoot() {
-  return (
-    <div>
-      hi root<br />
-      <Link to='/aa'>aa页</Link>
+      hi aa页<br />
+      <Link to='/'>aa页</Link>
     </div>
   )
 }

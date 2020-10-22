@@ -1,5 +1,11 @@
 .searchBar {
   width: 100%;
+}
 
-  background-color: rosybrown;
+.testBox {
+  /* position: absolute; */
+  width: 50%;
+  height: 100px;
+  color: #fff;
+  background-color: saddlebrown;
 }

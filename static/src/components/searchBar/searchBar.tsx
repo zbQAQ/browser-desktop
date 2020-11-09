@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { timeFormat, animation } from "@/util/common"
+import { timeFormat } from "@/util/common"
 import useSetInterval from "@/hooks/useSetInterval"
 
 import "./searchBar.css"
@@ -11,7 +11,7 @@ interface IProps {
 
 interface IState {}
 
-export default function SearchBar(props: IProps, state: IState) {
+export default function SearchBar(props: IProps) {
   const [timeText, setTimeText] = useState(timeFormat(new Date(), "HH:mm:ss"));
   const { timerFlag = true } = props
   //时钟功能

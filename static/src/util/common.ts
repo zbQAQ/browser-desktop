@@ -46,11 +46,9 @@ export const getRealStyleValue = (el: HTMLElement, key: string) => {
  */
 export const animation = (el: HTMLElement | null, options: Record<string,  number>, rate: number = 10) => {
   if(!el) return;
-  // debugger;
   const timer = setInterval(() => {
     let flag = true;
     for(let k in options) {
-      // debugger;
       let curVal: number;
       let realVal = getRealStyleValue(el, k)
       let unit = ""

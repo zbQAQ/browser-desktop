@@ -1,11 +1,15 @@
 .searchBar {
-  width: 100%;
+  width: 60%;
+  margin: 15vh auto 0;
+}
+.searchBar .countTime {
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.testBox {
-  /* position: absolute; */
-  width: 50%;
-  height: 100px;
-  color: #fff;
-  background-color: saddlebrown;
+.searchBar .searchInput {
+  height: 35px;
+  line-height: 35px;
+  margin: 0 auto;
+  border-radius: 20px;
 }

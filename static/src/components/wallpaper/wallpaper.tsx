@@ -8,7 +8,7 @@ class background extends React.Component<Props> {
   render() {
     return (
       <div className="background">
-        {this.props.children}
+        {/* {this.props.children} */}
       </div>
     )
   }

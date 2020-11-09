@@ -17,23 +17,14 @@ type Props = RouteComponentProps<any>;
 class App extends React.Component<Props> {
   public render() {
     return (
-      <Switch>
-        <Wallpaper>
+      <div className="app">
+        <Wallpaper />
+        <Switch>
           <Route exact path="/" render={() => <Home />}></Route>
-          <Route exact path="/aa" render={() => <Cmpaa />}></Route>
-        </Wallpaper>
-      </Switch>
+        </Switch>
+      </div>
     )
   }
-}
-
-function Cmpaa() {
-  return (
-    <div>
-      hi aa页<br />
-      <Link to='/'>aa页</Link>
-    </div>
-  )
 }
 
 export default withRouter(App)

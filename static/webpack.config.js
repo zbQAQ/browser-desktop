@@ -1,11 +1,12 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const devConfig = require("./config/webpack.dev")
-const prodConfig = require("./config/webpack.prod")
+const devConfig = require("./config/webpack.dev");
+const prodConfig = require("./config/webpack.prod");
 const { merge } = require("webpack-merge");
 
-const mergeConfig = process.env.NODE_ENV === 'development' ? devConfig : prodConfig
+const mergeConfig =
+  process.env.NODE_ENV === "development" ? devConfig : prodConfig;
 
 const config = {
   entry: "./src/index.tsx",
@@ -25,6 +26,18 @@ const config = {
         use: [MiniCssExtractPlugin.loader, "css-loader"],
         exclude: /node_modules/,
       },
+      {
+        test: /\.(png|jpg|gif)/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 50000 /*图片小于limit值时，将图片打印成base64放在js文件中;大于时直接打包到dist文件中*/,
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
     ],
   },
   plugins: [
@@ -35,9 +48,9 @@ const config = {
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
-      chunkFilename: "[id].css"
+      chunkFilename: "[id].css",
     }),
   ],
 };
 
-module.exports = merge(config, mergeConfig)
+module.exports = merge(config, mergeConfig);

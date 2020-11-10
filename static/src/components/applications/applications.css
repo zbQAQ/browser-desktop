@@ -1,4 +1,6 @@
 .applications {
+  height: 100%;
+  box-sizing: border-box;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -7,9 +9,9 @@
 }
 .aitem {
   width: 3em;
-  height: 4em;
+  height: 3.8em;
   margin-right: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   padding: 4px 12px;
   border: 1px solid transparent;
   border-radius: 2px;

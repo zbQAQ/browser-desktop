@@ -19,4 +19,4 @@ const mockData = (count: number) => {
   return result
 }
 
-export default mockData(11)
+export default mockData(26)

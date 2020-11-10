@@ -8,6 +8,9 @@ import {
 } from 'react-router-dom';
 
 import Wallpaper from "../wallpaper/wallpaper"
+import MissionBar from "../missionBar/missionBar"
+
+import "./app.css"
 
 // pages
 import Home from "@/pages/home/home"
@@ -22,6 +25,7 @@ class App extends React.Component<Props> {
         <Switch>
           <Route exact path="/" render={() => <Home />}></Route>
         </Switch>
+        <MissionBar />
       </div>
     )
   }

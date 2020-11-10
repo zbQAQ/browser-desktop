@@ -8,7 +8,7 @@ export default function useSetInterval(callback: Function, delay: number) {
   const ref = useRef() as IntervalRef
 
   useEffect(() => {
-    ref.current= callback
+    ref.current = callback
   })
 
   useEffect(() => {

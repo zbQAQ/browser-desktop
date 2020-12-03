@@ -8,26 +8,21 @@ import { AppInfoContext } from "../../home"
 
 import "./appDialog.css"
 
-export default function AppDialog() {
+interface IProps {
+  visible: boolean;
+}
 
+export default function AppDialog(props: IProps) {
+  const { visible } = props
   const { appKey, setAppKey } = useContext(AppInfoContext)
-  const [dialogIsShow, setDialogIsShow] = useState(false)
   const rootDom = document.getElementById("root")
-
-  useEffect(() => {
-    if(appKey) {
-      setDialogIsShow(true)
-    }else {
-      setDialogIsShow(false)
-    }
-  }, [appKey])
 
   const renderConetent = () => {
     return (
-      <TransitionGroup 
-        enterAnimation="fadeIn"
-        levaeAnimation="fadeOut" 
-        rate={10}
+      <TransitionGroup
+        visible={visible}
+        enterAnimation="pulse"
+        levaeAnimation="slideOutUp" 
       >
         <div className="appDialog">
           <div className="closeBtn pointer" onClick={()=>{setAppKey('')}}>
@@ -39,7 +34,7 @@ export default function AppDialog() {
     )
   }
   return (
-    !dialogIsShow || !rootDom ? null : (
+    !rootDom ? null : (
       ReactDOM.createPortal(renderConetent(), rootDom)
     )
   )

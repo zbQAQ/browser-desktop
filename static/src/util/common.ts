@@ -41,22 +41,21 @@ export const getRealStyleValue = (el: HTMLElement, key: string) => {
  * options 支持大部分基础样式
  * 需要注意的是 opacity的范围是 1~100 而不是 0~1
  * 
- * key 不支持驼峰 比如 fontSize就不行 必须font-size
- * 
  */
-export const animation = (el: HTMLElement | null, options: Record<string,  number>, rate: number = 10) => {
+export const animation = (el: HTMLElement | null, options: Record<string,  number>, rate: number = 10, callBack?: Function) => {
   if(!el) return;
   const timer = setInterval(() => {
     let flag = true;
     for(let k in options) {
       let curVal: number;
-      let realVal = getRealStyleValue(el, k)
+      let realKey = k.replace(/[A-Z]/g, (str) => `-${str.toLowerCase()}`);
+      let realVal = getRealStyleValue(el, realKey)
       let unit = ""
       if(realVal.includes("px")) {
         unit = "px"
       }
 
-      if(k === 'opacity') {
+      if(realKey === 'opacity') {
         curVal = Number(realVal) * 100
       }else {
         curVal = parseInt(realVal.replace("px", "")) //加上parseInt修复原始值带小数的情况
@@ -69,15 +68,18 @@ export const animation = (el: HTMLElement | null, options: Record<string,  numbe
       let speed = (options[k] - curVal) / rate //速率
       speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed)
 
-      if(k === 'opacity') {
-        el.style[k] = (curVal + speed) / 100 + unit
+      if(realKey === 'opacity') {
+        el.style[realKey] = (curVal + speed) / 100 + unit
       }else {
-        el.style[k] = curVal + speed + unit
+        el.style[realKey] = curVal + speed + unit
       }
       
     }
     if(flag) {
       clearInterval(timer)
+
+      if(callBack) callBack();
+
     }
   }, 1000/60)
 }

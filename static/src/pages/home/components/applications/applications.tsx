@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
 import { AppInfoContext } from "../../home"
+import mockData from "./mockData"
 
 import MSvg from "@/components/mSvg/mSvg"
-import mockData from "./mockData"
 
 import "./applications.css"
 

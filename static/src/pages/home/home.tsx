@@ -7,21 +7,21 @@ import "./home.css"
 interface IAppInfoContext {
   appKey: string;
   setAppKey: Function;
-  dialogIsShow: boolean;
-  // setDialogIsShow: Function;
+  // dialogIsShow: boolean;
+  setDialogIsShow: Function;
 }
 
 const defaultAppInfo: IAppInfoContext = {
   appKey: "",
   setAppKey: () => {},
-  dialogIsShow: false,
-  // setDialogIsShow: () => {}
+  // dialogIsShow: false,
+  setDialogIsShow: () => {}
 }
 
 export const AppInfoContext = React.createContext(defaultAppInfo);
 export default function Home() {
 
-  const [appKey, setAppKey] = useState('Search')
+  const [appKey, setAppKey] = useState('')
   const [dialogIsShow, setDialogIsShow] = useState(false)
 
   useEffect(() => {
@@ -33,10 +33,10 @@ export default function Home() {
   }, [appKey])
 
   return (
-    <AppInfoContext.Provider value={{appKey, setAppKey, dialogIsShow}}>
+    <AppInfoContext.Provider value={{appKey, setAppKey, setDialogIsShow}}>
       <div className="home">
         <Applications></Applications>
-        <AppDialog></AppDialog>
+        <AppDialog visible={dialogIsShow}></AppDialog>
       </div>
     </AppInfoContext.Provider>
   )

@@ -1,3 +1,16 @@
-.fade {
-  opacity: 0;
+.transitionGroup {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  /* opacity: 0; */
+}
+
+.transitionGroup.pointerEventsAll {
+  pointer-events: all;
+}
+.transitionGroup.pointerEventsNone {
+  pointer-events: none;
 }

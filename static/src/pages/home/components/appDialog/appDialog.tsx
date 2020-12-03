@@ -21,8 +21,8 @@ export default function AppDialog(props: IProps) {
     return (
       <TransitionGroup
         visible={visible}
-        enterAnimation="pulse"
-        levaeAnimation="slideOutUp" 
+        enterAnimation="fadeInUp"
+        levaeAnimation="fadeOutDown" 
       >
         <div className="appDialog">
           <div className="closeBtn pointer" onClick={()=>{setAppKey('')}}>

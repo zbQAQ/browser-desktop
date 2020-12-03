@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { AppInfoContext } from "../../home"
-import mockData from "./mockData"
+import mockData, { IMockFace } from "@/config/mockData"
 
 import MSvg from "@/components/mSvg/mSvg"
 
@@ -20,7 +20,7 @@ export default function Applications() {
 
   return (
     <div className="applications">
-      {data.map(item => (
+      {data.map((item: IMockFace) => (
         <div className="aitem textCenter pointer" key={item.id} onClick={()=>{setAppKey(item.key)}}>
           <div className="icon">
             {renderIcon(item.iconType, item.iconName)}

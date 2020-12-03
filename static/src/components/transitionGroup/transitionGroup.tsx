@@ -36,8 +36,6 @@ export default function TransitionGroup(props: IProps) {
 
   const render = () => {
     // debugger; 
-    console.log("render once", visible)
-
     const initStyle = {
       opacity: visible ? 1 : 0,
       //控制动画结束后 隐藏的时间 所以需要比动画执行的时间长

@@ -3,8 +3,7 @@ import {
   Route,
   Switch,
   withRouter,
-  RouteComponentProps,
-  Link
+  RouteComponentProps
 } from 'react-router-dom';
 
 import Wallpaper from "../wallpaper/wallpaper"
@@ -24,6 +23,7 @@ class App extends React.Component<Props> {
         <Wallpaper />
         <Switch>
           <Route exact path="/" render={() => <Home />}></Route>
+          <Route exact path="/search" render={() => <h1>search</h1>}></Route>
         </Switch>
         <MissionBar />
       </div>

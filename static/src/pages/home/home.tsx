@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react"
 import Applications from "./components/applications/applications"
 import AppDialog from "./components/appDialog/appDialog"
 
+import mockData, { IMockFace } from "@/config/mockData"
+
 import "./home.css"
+import { useHistory } from "react-router-dom"
 
 interface IAppInfoContext {
   appKey: string;
@@ -23,10 +26,16 @@ export default function Home() {
 
   const [appKey, setAppKey] = useState('')
   const [dialogIsShow, setDialogIsShow] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     if(appKey) {
-      setDialogIsShow(true)
+      const curApp = mockData.find((v: IMockFace) => v.key === appKey) as IMockFace
+      if(curApp.showType === 'dialog') {
+        setDialogIsShow(true)
+      } else if(curApp.showType === 'newPage' && curApp.pagePath) {
+        history.push(curApp.pagePath)
+      }
     }else {
       setDialogIsShow(false)
     }

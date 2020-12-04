@@ -2,7 +2,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  bottom: 0;
+  bottom: 40px;
   left: 0;
   width: 100%;
   background: #f5f5f5;
@@ -10,6 +10,8 @@
   background-image: url("@/assets/background.png");
   background-position: center;
   background-size: cover;
+  background-color: #333;
+  background-image: radial-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%), radial-gradient(rgba(0,0,0,0) 33%, rgba(0,0,0,0.3) 166%);
   z-index: -1;
-  filter: blur(2px);
+  /* filter: blur(2px); */
 }

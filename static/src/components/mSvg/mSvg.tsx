@@ -6,7 +6,7 @@ interface IProps {
   iconName: string;
   className?: string
 }
-
+//支持多色图标 
 export default function MSvg(props: IProps) {
   const { iconName, className = '' } = props
   return (

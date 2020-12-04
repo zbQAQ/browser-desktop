@@ -1,0 +1,76 @@
+.searchContainer {
+  position: absolute;
+  top: 20vh;
+
+  width: 100%;
+}
+
+.searchInput {
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  width: 230px;
+  padding: 12px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #fff;
+  background-color: #fff;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+  opacity: 1;
+  transition: all 0.25s;
+}
+
+.searchInput::-webkit-input-placeholder{
+  color: #fff;
+}
+
+.searchInput:hover {
+  width: 530px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 10px;
+}
+
+.searchInput.onFocus {
+  width: 530px;
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.searchOptBox {
+  position: absolute;
+  top: 60px;
+  width: 100%;
+  overflow: hidden;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.25s, top 0.35s;
+}
+.searchOptBox.hide {
+  top: 0;
+  opacity: 0;
+}
+.searchOptBox.show {
+  top: 60px;
+  opacity: 1;
+}
+
+.searchOptBox .searchOpt {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 5px 30px;
+  margin: 0 5px;
+  border-radius: 20px;
+  transition: 0.25s ease;
+  font-size: 9px;
+}
+.searchOptBox .searchOpt.active {
+  background-color: rgba(112, 192, 0, 0.6);
+}
+.searchOptBox .searchOpt:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}

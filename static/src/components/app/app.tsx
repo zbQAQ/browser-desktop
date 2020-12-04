@@ -13,6 +13,7 @@ import "./app.css"
 
 // pages
 import Home from "@/pages/home/home"
+import Search from "@/pages/search/search"
 
 type Props = RouteComponentProps<any>;
 
@@ -23,7 +24,7 @@ class App extends React.Component<Props> {
         <Wallpaper />
         <Switch>
           <Route exact path="/" render={() => <Home />}></Route>
-          <Route exact path="/search" render={() => <h1>search</h1>}></Route>
+          <Route exact path="/search" render={() => <Search />}></Route>
         </Switch>
         <MissionBar />
       </div>

@@ -44,7 +44,8 @@
 .searchOptBox {
   position: absolute;
   top: 60px;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   overflow: hidden;
   color: #fff;
   opacity: 0;
@@ -68,9 +69,25 @@
   transition: 0.25s ease;
   font-size: 9px;
 }
-.searchOptBox .searchOpt.active {
-  background-color: rgba(112, 192, 0, 0.6);
+.searchOptBox .searchOpt.active,
+.searchOptBox .searchOpt.active:hover {
+  background-color: rgba(112, 192, 0, 0.77);
 }
 .searchOptBox .searchOpt:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(112, 192, 0, 0.44);
+}
+
+.clock {
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.25s;
+  color: #fff;
+  font-size: 36px;
+  font-weight: 100;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.35);
+  margin: 0.5em 0;
 }

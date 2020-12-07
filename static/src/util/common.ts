@@ -36,7 +36,7 @@ export const getRealStyleValue = (el: HTMLElement, key: string) => {
  * 
  * @param el 元素HTMLElement
  * @param options 样式修改项
- * @param rate 速率 越大越慢越小越快
+ * @param rate 速率 越大越慢 越小越快
  * 
  * options 支持大部分基础样式
  * 需要注意的是 opacity的范围是 1~100 而不是 0~1
@@ -44,7 +44,9 @@ export const getRealStyleValue = (el: HTMLElement, key: string) => {
  */
 export const animation = (el: HTMLElement | null, options: Record<string,  number>, rate: number = 10, callBack?: Function) => {
   if(!el) return;
-  const timer = setInterval(() => {
+  let timer: any = null
+  if(timer) clearInterval(timer);
+  timer = setInterval(() => {
     let flag = true;
     for(let k in options) {
       let curVal: number;

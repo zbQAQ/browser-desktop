@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { AppInfoContext } from "../../home"
 import mockData, { IMockFace } from "@/config/mockData"
 
-import MSvg from "@/components/mSvg/mSvg"
+import MIcon from "@/components/mIcon/mIcon"
 
 import "./applications.css"
 
@@ -14,7 +14,7 @@ export default function Applications() {
   
   const renderIcon = (iconType: string, iconName: string) => {
     if(iconType === 'svg') {
-      return <MSvg iconName={iconName}></MSvg>
+      return <MIcon iconName={iconName}></MIcon>
     }
   }
 

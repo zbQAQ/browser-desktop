@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 import TransitionGroup from "@/components/transitionGroup/transitionGroup"
-import MSvg from "@/components/mSvg/mSvg"
+import MIcon from "@/components/mIcon/mIcon"
 
 import { AppInfoContext } from "../../home"
 
@@ -26,7 +26,7 @@ export default function AppDialog(props: IProps) {
       >
         <div className="appDialog">
           <div className="closeBtn pointer" onClick={()=>{setAppKey('')}}>
-            <MSvg iconName="iconclose" />
+            <MIcon iconName="iconclose" />
           </div>
           <h1>{appKey}</h1>
         </div>

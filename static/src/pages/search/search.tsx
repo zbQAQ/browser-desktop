@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 
-import MSvg from "@/components/mSvg/mSvg"
+import MIcon from "@/components/mIcon/mIcon"
 
 import "./search.css"
 
@@ -8,13 +8,13 @@ const INPUT_PLACEHOLDER_TEXT = "Search"
 const SEARCH_OPTIONS = [
   {
     type: "baidu",
-    svg: "iconbaiduGray",
+    icon: "iconbaidu",
     prePath: "https://www.baidu.com/s?word="
 
   },
   {
     type: "chrome",
-    svg: "iconguge",
+    icon: "iconguge",
     prePath: "https://www.google.com/search?q="
   }
 ]
@@ -57,7 +57,7 @@ export default function Search() {
         <div className={optClasses}>
           {searchOptList.map(v => (
             <div key={v.type} className={`searchOpt pointer ${searchType === v.type ? 'active' : ''}`} onClick={() => {setSearchType(v.type)}}>
-              <MSvg iconName={v.svg}></MSvg>
+              <MIcon iconName={v.icon} iconType="iconfont"></MIcon>
             </div>
           ))}
         </div>

@@ -1,6 +1,6 @@
 import React from "react"
 
-import MSvg from "@/components/mSvg/mSvg"
+import MIcon from "@/components/mIcon/mIcon"
 
 import "./missionBar.css"
 
@@ -8,7 +8,7 @@ export default function MissionBar() {
   return (
     <div className="missionBar">
       <div className="menuBtn">
-        <MSvg iconName="iconwindows" className="menuIcon"></MSvg>
+        <MIcon iconName="iconwindows" className="menuIcon"></MIcon>
       </div>
     </div>
   )

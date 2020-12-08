@@ -1,17 +1,27 @@
 import React from "react"
-import { RouteComponentProps, withRouter } from "react-router-dom"
+
 import "./wallpaper.css"
-
-type Props = RouteComponentProps<any>;
-
-class background extends React.Component<Props> {
-  render() {
-    return (
-      <div className="background">
-        {/* {this.props.children} */}
-      </div>
-    )
-  }
+interface IProps {
+  isBlur: boolean
 }
 
-export default withRouter(background)
+export default function Wallpaper(props: IProps) {
+  const { isBlur } = props
+
+  // background-image: url("@/assets/background.jpg");
+  // background-image: url("@/assets/background.png"); 
+  // const backgroundImage = new Image()
+  // backgroundImage.src = "@/assets/background.png"
+  // backgroundImage.onload = () => {
+  //   console.log("images loaded")
+  // }
+
+  const background = require("@/assets/background.jpg")
+  console.log("background", background)
+  const styles = {
+    backgroundImage: `url(${background.default})`
+  }
+  return (<div className={`background ${isBlur ? 'blur': ''}`} style={styles}></div>)
+}
+
+

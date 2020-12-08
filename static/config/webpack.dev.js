@@ -9,12 +9,6 @@ module.exports = {
     historyApiFallback: true,
     host: "localhost",
   },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js", "jsx"],
-    alias: {
-      "@": path.resolve(__dirname, "../src")
-    }
-  },
   plugins: [
     new ErrorOverlayPlugin()
   ],

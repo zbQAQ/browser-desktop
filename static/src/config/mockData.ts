@@ -17,7 +17,7 @@ const mockData: IMockFace[] = [
     name: "搜索",
     iconType: "svg",
     iconName: "iconsearch",
-    showType: "newPage",
+    showType: "dialog",
     pagePath: "/search"
   },
   {

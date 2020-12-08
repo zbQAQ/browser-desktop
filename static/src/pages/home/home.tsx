@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
+
+import Wallpaper from "@/components/wallpaper/wallpaper"
+
 import Applications from "./components/applications/applications"
 import AppDialog from "./components/appDialog/appDialog"
 
 import mockData, { IMockFace } from "@/config/mockData"
 
 import "./home.css"
-import { useHistory } from "react-router-dom"
 
 interface IAppInfoContext {
   appKey: string;
@@ -43,8 +46,9 @@ export default function Home() {
 
   return (
     <AppInfoContext.Provider value={{appKey, setAppKey, setDialogIsShow}}>
+      <Wallpaper isBlur={dialogIsShow} />
       <div className="home">
-        <Applications></Applications>
+        {!dialogIsShow && <Applications />}
         <AppDialog visible={dialogIsShow}></AppDialog>
       </div>
     </AppInfoContext.Provider>

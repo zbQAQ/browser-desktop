@@ -6,8 +6,8 @@ import {
   RouteComponentProps
 } from 'react-router-dom';
 
-import Wallpaper from "../wallpaper/wallpaper"
-import MissionBar from "../missionBar/missionBar"
+import TransitionGroup from "@/components/transitionGroup/transitionGroup"
+import MissionBar from "@/components/missionBar/missionBar"
 
 import "./app.css"
 
@@ -19,12 +19,22 @@ type Props = RouteComponentProps<any>;
 
 class App extends React.Component<Props> {
   public render() {
+    console.log("location", location)
     return (
       <div className="app">
-        <Wallpaper />
         <Switch>
           <Route exact path="/" render={() => <Home />}></Route>
-          <Route exact path="/search" render={() => <Search />}></Route>
+          <Route exact path="/search" render={() => {
+            return (
+              <TransitionGroup
+                visible={location.pathname === "/search"}
+                enterAnimation="fadeIn"
+                levaeAnimation="fadeOut" 
+              >
+                <Search /> 
+              </TransitionGroup>
+            )
+          }}></Route>
         </Switch>
         <MissionBar />
       </div>

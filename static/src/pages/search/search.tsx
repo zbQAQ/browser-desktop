@@ -67,13 +67,13 @@ export default function Search() {
     }, 1000)
 
     const hoverClockText = () => {
-      animation(clockText.current, {"font-size": 42}, 2, () => {
-        animation(clockText.current, {"font-size": 40}, 2)
+      animation(clockText.current, {"font-size": 42}, 0.8, () => {
+        animation(clockText.current, {"font-size": 40}, 1)
       })
     }
     const leaveClockText = () => {
-      animation(clockText.current, {"font-size": 34}, 2, () => {
-        animation(clockText.current, {"font-size": 36}, 2)
+      animation(clockText.current, {"font-size": 34}, 0.8, () => {
+        animation(clockText.current, {"font-size": 36}, 1)
       })
     }
 

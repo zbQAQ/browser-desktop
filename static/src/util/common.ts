@@ -42,9 +42,9 @@ export const getRealStyleValue = (el: HTMLElement, key: string) => {
  * 需要注意的是 opacity的范围是 1~100 而不是 0~1
  * 
  */
+let timer: any = null
 export const animation = (el: HTMLElement | null, options: Record<string,  number>, rate: number = 10, callBack?: Function) => {
   if(!el) return;
-  let timer: any = null
   if(timer) clearInterval(timer);
   timer = setInterval(() => {
     let flag = true;

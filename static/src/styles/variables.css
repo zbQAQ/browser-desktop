@@ -5,6 +5,10 @@
   cursor: default;
 }
 
+.none {
+  display: none;
+}
+
 .mr10 {
   margin-right: 10px;
 }

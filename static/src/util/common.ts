@@ -85,3 +85,19 @@ export const animation = (el: HTMLElement | null, options: Record<string,  numbe
     }
   }, 1000/60)
 }
+
+/**
+ * @name windowResize 窗口大小变化函数
+ * 
+ * @return {width: 100, height: 100} 返回当前窗口的宽度和高度
+ * 
+ * 需要主动使用addEventListener监听resize事件
+ * 在组件注销时使用removeEventListener主动销毁
+ */
+
+export const windowResize = () => {
+  return {
+    width: window.innerWidth,
+    height: window.innerHeight
+  }
+}

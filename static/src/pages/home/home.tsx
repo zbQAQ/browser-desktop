@@ -34,15 +34,35 @@ export default function Home() {
   useEffect(() => {
     if(appKey) {
       const curApp = mockData.find((v: IMockFace) => v.key === appKey) as IMockFace
-      if(curApp.showType === 'dialog') {
-        setDialogIsShow(true)
-      } else if(curApp.showType === 'newPage' && curApp.pagePath) {
-        history.push(curApp.pagePath)
+      if(curApp) {
+        if(curApp.showType === 'dialog') {
+          setDialogIsShow(true)
+        } else if(curApp.showType === 'newPage' && curApp.pagePath) {
+          history.push(curApp.pagePath)
+        }
+      } else {
+        console.error("未找到相关app")
       }
     }else {
       setDialogIsShow(false)
     }
   }, [appKey])
+
+  useEffect(() => {
+    const { search } = location
+    const searchArr = search.substr(1).split("&")
+    let urlParmas: UrlParmas = {}
+    if(searchArr.length > 0) {
+      for(let str in searchArr) {
+        let param = searchArr[str].split("=")
+        urlParmas[param[0]] = param[1]
+      }
+    }
+    if(urlParmas.appkey) {
+      setAppKey(urlParmas.appkey)
+    }
+  }, [])
+
 
   return (
     <AppInfoContext.Provider value={{appKey, setAppKey, setDialogIsShow}}>

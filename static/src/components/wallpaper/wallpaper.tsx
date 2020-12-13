@@ -11,9 +11,7 @@ function setBodyBackground(canvasDom: any, imageUrl: string) {
   const context = canvasDom.getContext("2d")
   const imageDom = new Image()
   imageDom.src = imageUrl
-  console.log("imageurl", imageUrl)
   imageDom.onload = () => {
-    console.log("imageDom onload")
     context.drawImage(imageDom, 0, 0);
     const { rgba } = getPixelColor(context, 1, 1)
     document.body.style.backgroundColor = rgba

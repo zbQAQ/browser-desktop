@@ -1,15 +1,11 @@
 .appDialog {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -400px;
-  margin-top: -400px; 
-  width: 100px;
-  height: 100px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   box-sizing: border-box;
-  border: 2px solid blue;
-  border-radius: 8px;
-  background-color: #fff;
+  /* background-color: rgba(0,0,0,0.6); */
   overflow: hidden;
   padding: 12px;
   z-index: 99;
@@ -18,4 +14,5 @@
 .closeBtn {
   float: right;
   font-size: 10px;
+  color: #fff;
 }

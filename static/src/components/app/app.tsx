@@ -19,7 +19,6 @@ type Props = RouteComponentProps<any>;
 
 class App extends React.Component<Props> {
   public render() {
-    console.log("location", location)
     return (
       <div className="app">
         <Switch>

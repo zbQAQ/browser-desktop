@@ -69,5 +69,8 @@
     "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
     "suppressImplicitAnyIndexErrors": true
   },
+  "files": [
+    "lib.d.ts"
+  ],
   "include": ["src"] /**指定编译目录**/ 
 }

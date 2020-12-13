@@ -1,0 +1,3 @@
+interface UrlParmas {
+  appkey?: string
+}

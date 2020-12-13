@@ -13,7 +13,7 @@ export interface IMockFace {
 const mockData: IMockFace[] = [
   {
     id: 1,
-    key: "Search",
+    key: "search",
     name: "搜索",
     iconType: "svg",
     iconName: "iconsearch",
@@ -22,7 +22,7 @@ const mockData: IMockFace[] = [
   },
   {
     id: 2,
-    key: "Chess",
+    key: "chess",
     name: "象棋",
     iconType: "svg",
     iconName: "iconyouxiyouxiqipai",
@@ -30,7 +30,7 @@ const mockData: IMockFace[] = [
   },
   {
     id: 3,
-    key: "TicTacToe",
+    key: "ticTacToe",
     name: "井字棋",
     iconType: "svg",
     iconName: "iconjingziqi",

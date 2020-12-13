@@ -21,14 +21,14 @@ export default function AppDialog(props: IProps) {
     return (
       <TransitionGroup
         visible={visible}
-        enterAnimation="fadeInUp"
-        levaeAnimation="fadeOutDown" 
+        enterAnimation="fadeIn"
+        levaeAnimation="fadeOut" 
       >
         <div className="appDialog">
           <div className="closeBtn pointer" onClick={()=>{setAppKey('')}}>
             <MIcon iconName="iconclose" />
           </div>
-          <h1>{appKey}</h1>
+          <h1 style={{color: "#fff"}}>{appKey}</h1>
         </div>
       </TransitionGroup>
     )

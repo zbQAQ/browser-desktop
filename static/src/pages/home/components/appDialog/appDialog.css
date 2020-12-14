@@ -1,14 +1,37 @@
 .appDialog {
   position: absolute;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 12px;
+  z-index: 99;
+}
+
+/* 全屏 */
+.appDialog.fullScreen {
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  box-sizing: border-box;
-  /* background-color: rgba(0,0,0,0.6); */
-  overflow: hidden;
-  padding: 12px;
-  z-index: 99;
+}
+
+/* 深色背景 */
+.appDialog.darkBackground {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* 悬浮窗口 */
+.appDialog.floatWindow {
+  width: 800px;
+  height: 800px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 10px 0px #8c8c8c;
+}
+
+/* 悬浮居中 */
+.appDialog.floatCenter {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .closeBtn {

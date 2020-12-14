@@ -6,15 +6,15 @@ import Wallpaper from "@/components/wallpaper/wallpaper"
 import Applications from "./components/applications/applications"
 import AppDialog from "./components/appDialog/appDialog"
 
-import mockData, { IMockFace } from "@/config/mockData"
+import { desktopApp } from "@/config/appContentMap"
 
 import "./home.css"
 
 interface IAppInfoContext {
-  appKey: string;
-  setAppKey: Function;
+  appKey: IAppKey
+  setAppKey: Function
   // dialogIsShow: boolean;
-  setDialogIsShow: Function;
+  setDialogIsShow: Function
 }
 
 const defaultAppInfo: IAppInfoContext = {
@@ -27,13 +27,13 @@ const defaultAppInfo: IAppInfoContext = {
 export const AppInfoContext = React.createContext(defaultAppInfo);
 export default function Home() {
 
-  const [appKey, setAppKey] = useState('')
+  const [appKey, setAppKey] = useState<IAppKey>('')  
   const [dialogIsShow, setDialogIsShow] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
     if(appKey) {
-      const curApp = mockData.find((v: IMockFace) => v.key === appKey) as IMockFace
+      const curApp = desktopApp.find((v: IDesktopAppType) => v.key === appKey) as IDesktopAppType
       if(curApp) {
         if(curApp.showType === 'dialog') {
           setDialogIsShow(true)
@@ -62,7 +62,6 @@ export default function Home() {
       setAppKey(urlParmas.appkey)
     }
   }, [])
-
 
   return (
     <AppInfoContext.Provider value={{appKey, setAppKey, setDialogIsShow}}>

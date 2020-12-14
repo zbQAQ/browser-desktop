@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { AppInfoContext } from "../../home"
-import mockData, { IMockFace } from "@/config/mockData"
+import { desktopApp } from "@/config/appContentMap"
 
 import MIcon from "@/components/mIcon/mIcon"
 
@@ -8,7 +8,7 @@ import "./applications.css"
 
 
 export default function Applications() {
-  const data = mockData
+  const data = desktopApp
   //context引发的重复渲染 详见https://zhuanlan.zhihu.com/p/50336226
   let { setAppKey } = useContext(AppInfoContext)
   
@@ -20,7 +20,7 @@ export default function Applications() {
 
   return (
     <div className="applications">
-      {data.map((item: IMockFace) => (
+      {data.map((item: IDesktopAppType) => (
         <div className="aitem textCenter pointer" key={item.id} onClick={()=>{setAppKey(item.key)}}>
           <div className="icon">
             {renderIcon(item.iconType, item.iconName)}

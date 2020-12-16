@@ -40,7 +40,8 @@ export default function Search() {
     const willFocusClass = ["searchOpt", "searchInput", "searchOptIcon"] 
     const className = e.target.className
     for(let i in willFocusClass) {
-      if(className.includes(willFocusClass[i])) {
+      //添加string类型的判断是为了防止点击 svg use 标签时 className 是对象而不是样式类名
+      if(typeof className === 'string' && className.includes(willFocusClass[i])) {
         onInputFocus(true)    
         return
       }

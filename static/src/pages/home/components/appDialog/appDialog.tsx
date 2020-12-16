@@ -26,19 +26,18 @@ export default function AppDialog(props: IProps) {
   }, [appKey])
   
   const renderConetent = () => {
-    console.log("curAppCnt", curAppCnt?.renderComponents)
-    const Comp=curAppCnt && curAppCnt.renderComponents
+    const Comp = curAppCnt && curAppCnt.renderComponents
     return (
       <TransitionGroup
         visible={visible}
         enterAnimation="fadeIn"
         levaeAnimation="fadeOut" 
       >
-        <div className="appDialog">
+        <div className={`appDialog ${curAppCnt?.dialogStyle.join(' ')}`}>
           <div className="closeBtn pointer" onClick={()=>{setAppKey('')}}>
             <MIcon iconName="iconclose" />
           </div>
-          {Comp && <Comp/>}
+          {Comp && visible ? <Comp /> : <></>}
         </div>
       </TransitionGroup>
     )

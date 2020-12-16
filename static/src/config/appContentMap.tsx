@@ -28,31 +28,6 @@ export const desktopApp: IDesktopAppType[] = [
   },
 ]
 
-
-function asyncComponent(importComponent: () => Promise<any>) {
-  class AsyncComponent extends React.Component<any, {component?:React.ComponentClass}> {
-    constructor(props: any) {
-      super(props);
-      this.state = {
-        component: undefined,
-      };
-    }
-    async componentDidMount() {
-      const component = await importComponent();
-      console.log("component", component)
-      this.setState({component: component.default})
-    }
-
-    render() {
-      const Comp = this.state.component;
-      console.log("Comp", Comp)
-      return Comp ? <Comp /> : <></>;
-    }
-  }
-
-  return AsyncComponent
-}
-
 export const appContentMap: IAppContentMap[] = [
   {
     key: "search",
@@ -66,8 +41,30 @@ export const appContentMap: IAppContentMap[] = [
   },
   {
     key: "ticTacToe",
-    dialogStyle: ["floatWindow", "floatCenter"],
+    dialogStyle: ["floatWindow", "floatCenter", "garyBackground"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/ticTacToe/ticTacToe"))
   },
 ]
+
+function asyncComponent(importComponent: () => Promise<any>) {
+  class AsyncComponent extends React.Component<any, any> {
+    constructor(props: any) {
+      super(props);
+      this.state = {
+        component: undefined,
+      };
+    }
+    async componentDidMount() {
+      const component = await importComponent();
+      this.setState({component: component.default})
+    }
+
+    render() {
+      const C = this.state.component;
+      return C ? <C /> : <></>;
+    }
+  }
+
+  return AsyncComponent
+}
 

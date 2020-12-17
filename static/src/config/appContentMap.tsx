@@ -10,20 +10,28 @@ export const desktopApp: IDesktopAppType[] = [
     showType: "dialog",
     pagePath: "/search"
   },
+  // {
+  //   id: 2,
+  //   key: "chess",
+  //   name: "象棋",
+  //   iconType: "svg",
+  //   iconName: "iconyouxiyouxiqipai",
+  //   showType: "dialog",
+  // },
+  // {
+  //   id: 3,
+  //   key: "ticTacToe",
+  //   name: "井字棋",
+  //   iconType: "svg",
+  //   iconName: "iconjingziqi",
+  //   showType: "dialog",
+  // },
   {
-    id: 2,
-    key: "chess",
-    name: "象棋",
+    id: 4,
+    key: "todo_list",
+    name: "todo",
     iconType: "svg",
-    iconName: "iconyouxiyouxiqipai",
-    showType: "dialog",
-  },
-  {
-    id: 3,
-    key: "ticTacToe",
-    name: "井字棋",
-    iconType: "svg",
-    iconName: "iconjingziqi",
+    iconName: "icontodo-line",
     showType: "dialog",
   },
 ]
@@ -40,9 +48,14 @@ export const appContentMap: IAppContentMap[] = [
     renderComponents: asyncComponent(() => import("@/pages/appContent/chess/chess"))
   },
   {
-    key: "ticTacToe",
+    key: "tic_tac_toe",
     dialogStyle: ["floatWindow", "floatCenter", "garyBackground"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/ticTacToe/ticTacToe"))
+  },
+  {
+    key: "todo_list",
+    dialogStyle: ["fullScreen", "darkBackground"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/todoList/todoList"))
   },
 ]
 

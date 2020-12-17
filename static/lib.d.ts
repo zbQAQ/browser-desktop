@@ -1,6 +1,6 @@
 
 //applications 唯一键值的appkey
-type IAppKey = '' | 'search' | 'chess' | 'ticTacToe'
+type IAppKey = '' | 'search' | 'chess' | 'tic_tac_toe' | 'todo_list'
 
 //applications 显示方式 
 type IShowType = 'dialog' |  'newPage';

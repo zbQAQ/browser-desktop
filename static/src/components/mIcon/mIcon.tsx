@@ -4,7 +4,7 @@ import "./mIcon.css";
 
 interface IProps {
   iconName: string;
-  iconType?: string;
+  iconType?: 'svg' | 'iconfont';
   className?: string
 }
 //支持多色图标 

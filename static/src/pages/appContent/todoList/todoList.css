@@ -15,6 +15,9 @@
 }
 
 .todoHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 50px;
   line-height: 50px;
   border-bottom: 1px solid #d8d8d8;
@@ -25,7 +28,56 @@
   font-size: 22px;
   font-weight: 500;
 }
+.todoHead .increase {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 65%;
+  height: 100%;
+}
+.todoHead .increase i {
+  font-size: 20px;
+  font-weight: bold;
+  transition: transform ease 0.45s;
+}
+.todoHead .increase i.isIncrease {
+  transform: rotate(405deg);
+}
+.todoHead .increase input {
+  width: 0;
+  padding: 0;
+  height: 26px;
+  line-height: 26px;
+  background-color: #eee;
+  font-size: 12px;
+  transition: all ease 0.45s;
+}
+.todoHead .increase input.isIncrease {
+  width: 100%;
+  padding: 0px 4px;
+}
 
+.todoCnt {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  overflow: auto;
+}
+.todoCnt::-webkit-scrollbar { /*滚动条整体部分，可以设置宽度啥的*/
+  /* width: 20px; */
+}
+.todoCnt::-webkit-scrollbar-button { /*滚动条两端的按钮*/
+
+}
+.todoCnt::-webkit-scrollbar-track  { /*外层轨道*/
+
+}
+.todoCnt::-webkit-scrollbar-track-piece  { /*内层滚动槽*/
+
+}
+.todoCnt::-webkit-scrollbar-thumb { /*滚动的滑块*/
+
+}
 .todoItem {
   width: 100%;
   height: 44px;
@@ -58,6 +110,18 @@
   padding: 0 1em;
   font-size: 14px;
 }
+.todoItem .name::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0px;
+  height: 1px;
+  background-color: #adadad;
+  border-radius: 8px;
+  opacity: 0;
+  transition: all ease 0.45s;
+}
 
 .todoItem .deleteIcon {
   width: 44px;
@@ -66,34 +130,31 @@
   opacity: 0;
   transition: opacity ease 0.45s;
 }
-
+.todoItem:hover .deleteIcon {
+  opacity: 1;
+}
 .todoItem .deleteIcon i {
   font-size: 18px;
 }
+
 
 .complete .name {
   color: #c1c1c1;
 }
 
 .complete .name::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
   width: 100%;
-  height: 1px;
-  background-color: #adadad;
-  border-radius: 8px;
+  opacity: 1;
 }
 .complete .checkbox::before {
   position: relative;
   top: -4px;
   width: 25%;
   height: 40%;
-  border-top-color: transparent;
-  border-right-color: #666;
-  border-bottom-color: #666;
-  border-left-color: transparent;
+  border-top-color: #666;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: #666;
   transform-origin: center;
-  transform: rotate(45deg);
+  transform: rotate(225deg);
 }

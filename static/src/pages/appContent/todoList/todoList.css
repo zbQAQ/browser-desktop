@@ -3,14 +3,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   width: 450px;
   height: 600px;
-
   border-radius: 8px;
-  box-shadow: 0px 0px 10px 0px #868686;
-  background-color: #fefefe;
-
   overflow: hidden;
 }
 
@@ -22,6 +17,7 @@
   line-height: 50px;
   border-bottom: 1px solid #d8d8d8;
   padding: 0 12px;
+  color: #fff;
 }
 
 .todoHead .title {
@@ -48,7 +44,8 @@
   padding: 0;
   height: 26px;
   line-height: 26px;
-  background-color: #eee;
+  background-color: rgba(64, 64, 64, 0.5);
+  color: #eee;
   font-size: 12px;
   transition: all ease 0.45s;
 }
@@ -63,20 +60,23 @@
   height: 520px;
   overflow: auto;
 }
-.todoCnt::-webkit-scrollbar { /*滚动条整体部分，可以设置宽度啥的*/
-  /* width: 20px; */
+.todoCnt::-webkit-scrollbar {
+  /*滚动条整体部分，可以设置宽度啥的*/
+  width: 4px;
+  height: 1px;
+  border-radius: 10px;
 }
-.todoCnt::-webkit-scrollbar-button { /*滚动条两端的按钮*/
-
+.todoCnt::-webkit-scrollbar-track {
+  /*外层轨道*/
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background: #ededed;
 }
-.todoCnt::-webkit-scrollbar-track  { /*外层轨道*/
-
-}
-.todoCnt::-webkit-scrollbar-track-piece  { /*内层滚动槽*/
-
-}
-.todoCnt::-webkit-scrollbar-thumb { /*滚动的滑块*/
-
+.todoCnt::-webkit-scrollbar-thumb {
+  /*滚动的滑块*/
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #535353;
 }
 .todoItem {
   width: 100%;
@@ -85,6 +85,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  color: #fff;
 }
 
 .todoItem .checkbox {
@@ -98,7 +99,7 @@
   box-sizing: border-box;
   width: 40%;
   height: 40%;
-  border: 2px solid #666;
+  border: 2px solid #fff;
   margin: 30% auto;
   transition: all ease 0.45s;
 }
@@ -117,7 +118,7 @@
   left: 0;
   width: 0px;
   height: 1px;
-  background-color: #adadad;
+  background-color: #f5f5f5;
   border-radius: 8px;
   opacity: 0;
   transition: all ease 0.45s;
@@ -137,11 +138,6 @@
   font-size: 18px;
 }
 
-
-.complete .name {
-  color: #c1c1c1;
-}
-
 .complete .name::after {
   width: 100%;
   opacity: 1;
@@ -151,10 +147,10 @@
   top: -4px;
   width: 25%;
   height: 40%;
-  border-top-color: #666;
+  border-top-color: #fff;
   border-right-color: transparent;
   border-bottom-color: transparent;
-  border-left-color: #666;
+  border-left-color: #fff;
   transform-origin: center;
   transform: rotate(225deg);
 }

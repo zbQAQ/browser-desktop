@@ -16,57 +16,7 @@ const mockTodoData: ITodoListItem[] = [
   { 
     id: 1,
     status: 0,
-    title: "nameeeeeeeeee1"
-  },
-  {
-    id: 2,
-    status: 1,
-    title: "nameeeeeeeeee2"
-  },
-  {
-    id: 3,
-    status: 0,
-    title: "nameeeeeeeeee3"
-  },
-  {
-    id: 4,
-    status: 0,
-    title: "nameeeeeeeeee3"
-  },
-  {
-    id: 5,
-    status: 0,
-    title: "nameeeeeeeeee3"
-  },
-  {
-    id: 6,
-    status: 0,
-    title: "nameeeeeeeeee3"
-  },
-  {
-    id: 7,
-    status: 0,
-    title: "nameeeeeeeeee3"
-  },
-  {
-    id: 8,
-    status: 0,
-    title: "nameeeeeeeeee3"
-  },
-  {
-    id: 9,
-    status: 0,
-    title: "nameeeeeeeeee3"
-  },
-  {
-    id: 10,
-    status: 0,
-    title: "nameeeeeeeeee3"
-  },
-  {
-    id: 11,
-    status: 0,
-    title: "nameeeeeeeeee3"
+    title: "点击 ➕ 添加你今天的第一件事吧~"
   },
 ]
 
@@ -101,7 +51,7 @@ export default function TodoList() {
   const setItemStatus = (item: ITodoListItem, status: boolean) => {
     //status 是经过取反的值
     const data = mockTodoApi.changeStatus(item.id, status ? 1 : 0)
-    setData(data)
+    setData([...data])
   }
 
   const delItem = (id: number) => {
@@ -110,7 +60,7 @@ export default function TodoList() {
       const data = mockTodoApi.delete(id)
       animation(itemDom, { opacity: 0 }, 5, () => {
         animation(itemDom, { height: 0, marginBottom: 0 }, 4, () => {
-          setData(data)
+          setData([...data])
         })
       })
     }
@@ -120,7 +70,8 @@ export default function TodoList() {
     const cntDom = document.getElementById(`todoCnt`)
     if(cntDom) {
       const width = cntDom.offsetWidth
-      const title = increaseInput.current.value
+      const title = increaseInput.current.value.trim()
+      if(title.length <= 0) return;
       const data = mockTodoApi.increase(title)
       increaseInput.current.value = ''
       animation(cntDom, { left: width, opacity: 0 }, 5, () => {
@@ -137,7 +88,7 @@ export default function TodoList() {
     return (
       <div key={id} id={`todoItem${id}`} className={`todoItem pointer mb10 ${status === 1 ? 'complete' : ''}`}>
         <div className="checkbox textCenter" onClick={()=>{setItemStatus(item, !status)}}></div>
-        <p className="name fontBlack">{title}</p>
+        <p className="name">{title}</p>
         <div className="deleteIcon textCenter" onClick={()=>{delItem(id)}}>
           <MIcon iconType="iconfont" iconName="iconlajitong"></MIcon>
         </div>
@@ -151,12 +102,14 @@ export default function TodoList() {
 
 
   const renderHead = () => {
+    const inputClassStr = `mr10 ${isIncrease ? 'isIncrease' : ''}`
+    const iconClassStr = `pointer ${isIncrease ? 'isIncrease' : ''}`
     return (
       <>
         <span className="title">Today</span>
         <div className="increase">
-          <input type="text" ref={increaseInput} className={`mr10 fontBlack ${isIncrease ? 'isIncrease' : ''}`} onKeyUp={(e: any) => {e.key === 'Enter' ? increaseTodo() : null} } />
-          <MIcon iconType="iconfont" iconName="iconadd" className={`pointer ${isIncrease ? 'isIncrease' : ''}`} onClick={() => {clickIncreaseIcon()}}></MIcon>
+          <input type="text" ref={increaseInput} className={inputClassStr} onKeyUp={(e: any) => {e.key === 'Enter' ? increaseTodo() : null} } />
+          <MIcon iconType="iconfont" iconName="iconadd" className={iconClassStr} onClick={() => {clickIncreaseIcon()}}></MIcon>
         </div>
       </>
     )
@@ -169,7 +122,7 @@ export default function TodoList() {
         <div className="todoHead">
           {renderHead()}
         </div>
-        <div className="todoCnt mt10 mb10" id="todoCnt">
+        <div className="todoCnt mt10 pb10" id="todoCnt">
           {data.map(v => renderItem(v))}
         </div>
       </div>

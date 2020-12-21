@@ -39,7 +39,7 @@ export const desktopApp: IDesktopAppType[] = [
 export const appContentMap: IAppContentMap[] = [
   {
     key: "search",
-    dialogStyle: ["fullScreen"],
+    dialogStyle: ["fullScreen", "darkBackground"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/search/search"))
   },
   {

@@ -18,14 +18,14 @@ export const desktopApp: IDesktopAppType[] = [
   //   iconName: "iconyouxiyouxiqipai",
   //   showType: "dialog",
   // },
-  // {
-  //   id: 3,
-  //   key: "ticTacToe",
-  //   name: "井字棋",
-  //   iconType: "svg",
-  //   iconName: "iconjingziqi",
-  //   showType: "dialog",
-  // },
+  {
+    id: 3,
+    key: "tic_tac_toe",
+    name: "井字棋",
+    iconType: "svg",
+    iconName: "iconjingziqi",
+    showType: "dialog",
+  },
   {
     id: 4,
     key: "todo_list",

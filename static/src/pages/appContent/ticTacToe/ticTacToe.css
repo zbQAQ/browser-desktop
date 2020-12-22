@@ -1,5 +1,5 @@
 .ticTacToeContainer {
-  position: relative;
+  position: absolute;
   width: 100%;
   height: 100%;
 }
@@ -19,6 +19,14 @@
   flex-wrap: wrap;
   width: 320px;
   height: 320px;
+}
+
+.gameStage.gameover {
+  pointer-events: none;
+}
+
+.gameStage.gameover .gameTips {
+  display: block;
 }
 
 .gameStage .cLine {

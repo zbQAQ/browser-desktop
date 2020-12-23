@@ -74,7 +74,7 @@ function asyncComponent(importComponent: () => Promise<any>) {
 
     render() {
       const C = this.state.component;
-      return C ? <C /> : <></>;
+      return C ? <C {...this.props}/> : <></>;
     }
   }
 

@@ -37,7 +37,7 @@ export default function AppDialog(props: IProps) {
           <div className="closeBtn pointer" onClick={()=>{setAppKey('')}}>
             <MIcon iconName="iconclose" />
           </div>
-          {Comp && visible ? <Comp /> : <></>}
+          {Comp && visible ? <Comp visible={visible} /> : <></>}
         </div>
       </TransitionGroup>
     )

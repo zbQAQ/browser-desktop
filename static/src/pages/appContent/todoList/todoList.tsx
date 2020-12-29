@@ -116,7 +116,6 @@ export default function TodoList() {
   }
 
   const render = () => {
-    console.log("render once")
     return (
       <div className="todoContainer">
         <div className="todoHead">

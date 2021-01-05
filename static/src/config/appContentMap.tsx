@@ -34,6 +34,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: "icontodo-line",
     showType: "dialog",
   },
+  {
+    id: 5,
+    key: "huarong_road",
+    name: "华容道仓库",
+    iconType: "svg",
+    iconName: "iconsearch",
+    showType: "dialog",
+  },
 ]
 
 export const appContentMap: IAppContentMap[] = [
@@ -56,6 +64,11 @@ export const appContentMap: IAppContentMap[] = [
     key: "todo_list",
     dialogStyle: ["fullScreen", "darkBackground"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/todoList/todoList"))
+  },
+  {
+    key: "huarong_road",
+    dialogStyle: ["fullScreen", "darkBackground"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/huarongRoad/huarongRoad"))
   },
 ]
 

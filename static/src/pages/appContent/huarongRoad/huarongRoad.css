@@ -1,0 +1,44 @@
+.huarongContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  overflow: auto;
+
+  
+  border-top: 1px solid #666;
+  border-left: 1px solid #666;
+}
+
+.huarongContainer::-webkit-scrollbar {
+  /*滚动条整体部分，可以设置宽度啥的*/
+  width: 0;
+  height: 1px;
+  border-radius: 10px;
+}
+.huarongContainer::-webkit-scrollbar-track {
+  /*外层轨道*/
+  background: #ededed;
+  border-radius: 10px;
+}
+.huarongContainer::-webkit-scrollbar-thumb {
+  /*滚动的滑块*/
+  background: #535353;
+  border-radius: 10px;
+}
+
+.singleGrid {
+  float: left;
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  font-size: 12px;
+  background-color: #000;
+
+  border-right: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+

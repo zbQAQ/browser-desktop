@@ -15,6 +15,9 @@ import "./huarongRoad.css"
 
 const capacity = { col: 8, row: 40 }
 
+const singleGridW = 100
+const singleGridH = 100
+
 const randomColor = () => {
   return '#' + Math.random().toString(16).substr(2, 6).toUpperCase();
 }
@@ -54,9 +57,13 @@ const goodsMockApi = {
 
 function getGridByMousePos(mousePos: IMousePosition, containerInfo: IContainerInfo) {
 
-  console.log("mousePos", mousePos)
-  console.log("containerInfo", containerInfo)
+  const { x: mouseX, y: mouseY } = mousePos
+  const { offsetLeft, offsetTop, scrollTop } = containerInfo
 
+  let gridX = Math.floor((mouseX - offsetLeft) / singleGridW)
+  let gridY = Math.floor((mouseY - offsetTop + scrollTop) / singleGridH)
+
+  return [gridX, gridY]
 }
 
 
@@ -73,9 +80,6 @@ export default function HuarongRoad() {
   })
 
   let gridMap = Array(capacity.row).fill(Array(capacity.col).fill(''))
-
-  const singleGridW = 100
-  const singleGridH = 100
 
   useEffect(() => {
     const container = document.getElementById("huarongContainer")
@@ -123,18 +127,19 @@ export default function HuarongRoad() {
     const hoverGoodsItem = goodsMockApi.findItemById(draggingId)
     console.log(hoverGoodsItem)
 
-    getGridByMousePos(mousePosition, containerInfo)
-
+    const [x, y] = getGridByMousePos({ x: e.clientX, y: e.clientY }, containerInfo)
+    
     setIsDragging(false)
     setDraggingId(0)
   }
 
   const renderGrid = () => {
     let html = []
+    // i 代表第几行 j代表第几列
     for(let i = 0; i < gridMap.length; i++) {
       const curRow = gridMap[i]
       for(let j = 0; j < curRow.length; j++) {
-        html.push(<div className="singleGrid fontWhite textCenter" key={`${i},${j}`}>{i}, {j}</div>)
+        html.push(<div className="singleGrid fontWhite textCenter" key={`${j},${i}`}>{j}, {i}</div>)
       }
     }
     return html

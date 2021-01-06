@@ -6,10 +6,9 @@
   width: 800px;
   height: 800px;
   overflow: auto;
-
   
-  border-top: 1px solid #666;
-  border-left: 1px solid #666;
+  border-top: 1px solid #5e5f61;
+  border-left: 1px solid #5e5f61;
 }
 
 .huarongContainer::-webkit-scrollbar {
@@ -36,9 +35,16 @@
   height: 100px;
   line-height: 100px;
   font-size: 12px;
-  background-color: #000;
+  background-color: #161a1d;
+  user-select: none;
 
-  border-right: 1px solid #666;
-  border-bottom: 1px solid #666;
+  border-right: 1px solid #5e5f61;
+  border-bottom: 1px solid #5e5f61;
+}
+
+.goodsItem {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 

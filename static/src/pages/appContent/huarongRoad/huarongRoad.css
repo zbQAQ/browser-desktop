@@ -42,6 +42,15 @@
   border-bottom: 1px solid #5e5f61;
 }
 
+/* 可放置 */
+.singleGrid.canPlaced {
+  background-color: greenyellow;
+}
+/* 不可放置 */
+.singleGrid.notPlaced {
+  background-color: rebeccapurple;
+}
+
 .goodsItem {
   position: absolute;
   top: 0;

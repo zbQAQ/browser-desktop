@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { debug } from "webpack"
+import { debounce, throttle } from "@/util/common"
 
 import "./huarongRoad.css"
 interface IContainerInfo {
@@ -97,7 +97,7 @@ function getGridByMousePos(mousePos: IMousePosition, containerInfo: IContainerIn
 }
 
 //根据当前渲染的grid xy, 判断是否 被某个goods占位
-function setGoodsIdByCoordinate(x: number, y: number, goods: IGoodsType[]) {
+function setGoodsIdByCoordinate(x: number, y: number, goods: IGoodsType[] = Goods) {
   let result = { flag: false, data: 0, corrdinate: [x, y] }
   for(let i = 0; i < goods.length; i++) {
     const { coordinate, size, id } = goods[i]
@@ -108,6 +108,25 @@ function setGoodsIdByCoordinate(x: number, y: number, goods: IGoodsType[]) {
       return result;
     } else {
       result = Object.assign(result, { flag: false, data: 0 })
+    }
+  }
+  return result
+}
+
+function getGoodsPlaceholder(startPointer: number[], endPointer: number[]) {
+  let result: number[][] = []
+  const width = endPointer[0] - startPointer[0] + 1
+  const height = endPointer[1] - startPointer[1] + 1
+  for(let i = 0; i < height; i++) {
+    const rPointer = [startPointer[0], startPointer[1] + i]
+    if(!result.find(v => v.join() === rPointer.join())) {
+      result.push(rPointer)
+    }
+    for(let j = 0; j < width; j++) {
+      const cPointer = [startPointer[0] + j, rPointer[1]]
+      if(!result.find(v => v.join() === cPointer.join())) {
+        result.push(cPointer)
+      }
     }
   }
   return result
@@ -140,6 +159,7 @@ export default function HuarongRoad() {
   }, [])
 
   useEffect(() => {
+
     if(isDragging) {
       window.addEventListener("mousemove", handleMouseMove)
       window.addEventListener("mouseup", handleMouseUp)
@@ -199,13 +219,36 @@ export default function HuarongRoad() {
           }
         }
 
-        const classs = "singleGrid fontWhite textCenter"
+        let classs = "singleGrid fontWhite textCenter"
         if(isDragging && draggingId != 0) {
           //当前被拖拽的goods
-          // const dragItem = goodsMockApi.findItemById(draggingId)
-          // const { size } = dragItem
-          
-          // console.log(getGridByMousePos(mousePosition, containerInfo))
+          const dragItem = goodsMockApi.findItemById(draggingId)
+          //拖拽时被hover的singleGrid
+          let hoverSingleGrid = []
+          if(!dragItem) {
+            console.error(" drag item id miss error!")
+          } else {
+            const { size } = dragItem
+            // 鼠标指向的是singleGrid 等于 将要放置goods的坐标中心
+            // 通过判断 将要放置goods的坐标 的起始点、中心点和结束点 来判断是否可以放置
+            const center = getGridByMousePos(mousePosition, containerInfo)
+            const start = [ size.col % 2 === 2 ? center[0] - size.col / 2 : center[0] - Math.floor(size.col / 2), size.row % 2 === 2 ? center[1] - size.row / 2 : center[1] - Math.floor(size.row / 2) ]
+            const end = [ start[0] + size.col - 1, start[1] + size.row - 1 ]
+
+            const centerPointer = setGoodsIdByCoordinate(center[0], center[1])
+            const startPointer = setGoodsIdByCoordinate(start[0], start[1])
+            const endPointer = setGoodsIdByCoordinate(end[0], end[1])
+
+            hoverSingleGrid = getGoodsPlaceholder(start, end)
+
+            if(hoverSingleGrid.find(v => v.join() === [j, i].join())) {
+              if(!centerPointer.flag && !startPointer.flag && !endPointer.flag) {
+                classs += " canPlaced"
+              }else {
+                classs += " notPlaced"
+              }
+            }
+          }
         }
 
         html.push(<div className={classs} key={`${j},${i}`}>{j}, {i} {gridMap[i][j] > 0 && `, ${gridMap[i][j]}`}</div>)

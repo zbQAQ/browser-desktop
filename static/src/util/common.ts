@@ -115,3 +115,35 @@ export const findAppContentByKey = (appKey: IAppKey) => {
     return appContentMap.find(c => c.key === appKey) || null
   }
 }
+
+/**
+ * 防抖
+ * 
+ * @param fn      防抖的回调函数
+ * @param delay   延迟
+ * @param args    剩余参数
+ */
+export function debounce(fn: Function, delay: number = 500, ...args: any[]) {
+  let timer: any = 0
+  return function () {
+    if(timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn(...args)
+    }, delay)
+  }
+}
+
+/**
+ * 节流
+ * 
+ */
+export function throttle(fn: Function, delay: number = 500, ...args: any[]) {
+  let last = Date.now()
+  return function() {
+    let now = Date.now()
+    if(now - last > delay) {
+      fn(...args)
+    }
+    last = now
+  }
+}

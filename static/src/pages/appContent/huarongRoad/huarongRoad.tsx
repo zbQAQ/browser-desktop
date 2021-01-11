@@ -186,7 +186,7 @@ export default function HuarongRoad() {
       //拖拽中
       // console.log("拖拽中", { x: e.clientX, y: e.clientY })
       setMousePosition({ x: e.clientX, y: e.clientY })
-      console.log(getGridByMousePos({ x: e.clientX, y: e.clientY }, containerInfo))
+      // console.log(getGridByMousePos({ x: e.clientX, y: e.clientY }, containerInfo))
     }
   }
   
@@ -219,7 +219,8 @@ export default function HuarongRoad() {
           }
         }
 
-        let classs = "singleGrid fontWhite textCenter"
+        // 0：无样式  1：可放置canPlaced  2：不可放置notPlaced
+        let isPlaced = 0
         if(isDragging && draggingId != 0) {
           //当前被拖拽的goods
           const dragItem = goodsMockApi.findItemById(draggingId)
@@ -235,22 +236,32 @@ export default function HuarongRoad() {
             const start = [ size.col % 2 === 2 ? center[0] - size.col / 2 : center[0] - Math.floor(size.col / 2), size.row % 2 === 2 ? center[1] - size.row / 2 : center[1] - Math.floor(size.row / 2) ]
             const end = [ start[0] + size.col - 1, start[1] + size.row - 1 ]
 
-            const centerPointer = setGoodsIdByCoordinate(center[0], center[1])
-            const startPointer = setGoodsIdByCoordinate(start[0], start[1])
-            const endPointer = setGoodsIdByCoordinate(end[0], end[1])
-
             hoverSingleGrid = getGoodsPlaceholder(start, end)
-
-            if(hoverSingleGrid.find(v => v.join() === [j, i].join())) {
+            const isOutbounds = hoverSingleGrid.flat().findIndex((v: number) => v < 0 || v >= 8)
+            if(hoverSingleGrid.find((v: number[]) => v.join() === [j, i].join())) {
+              const centerPointer = setGoodsIdByCoordinate(center[0], center[1])
+              const startPointer = setGoodsIdByCoordinate(start[0], start[1])
+              const endPointer = setGoodsIdByCoordinate(end[0], end[1])
               if(!centerPointer.flag && !startPointer.flag && !endPointer.flag) {
-                classs += " canPlaced"
-              }else {
-                classs += " notPlaced"
+                isPlaced = 1
+              } else {
+                isPlaced = 2
+              }
+              if(startPointer.data === draggingId || centerPointer.data === draggingId || endPointer.data === draggingId) {
+                isPlaced = 1
+              }
+              if(isOutbounds >= 0) {
+                isPlaced = 2
               }
             }
           }
         }
-
+        let classs = 'singleGrid fontWhite textCenter'
+        if(isPlaced === 1) {
+          classs += " canPlaced"
+        } else if(isPlaced === 2) {
+          classs += " notPlaced"
+        }
         html.push(<div className={classs} key={`${j},${i}`}>{j}, {i} {gridMap[i][j] > 0 && `, ${gridMap[i][j]}`}</div>)
       }
     }

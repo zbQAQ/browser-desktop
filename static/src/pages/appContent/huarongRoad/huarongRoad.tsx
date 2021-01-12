@@ -60,15 +60,19 @@ const goodsMockApi = {
   findItemById: (id: number) => {
     return Goods.find((v: { id: number; }) => v.id === id)
   },
-  changeCoordinate: (id: number, x: number, y: number, angle: number = 0) => {
-    const item = Goods.find((v: { id: number; }) => v.id === id)
+  changeCoordinate: (id: number, newCoordinate: { x: number, y: number, angle: number }, goods: IGoodsType[] = Goods) => {
+    const item = goods.find((v: { id: number; }) => v.id === id)
     if(item) {
       const { coordinate } = item
-      if(coordinate.x === x && coordinate.y === y && coordinate.angle === angle) return;
-      coordinate.x = x
-      coordinate.y = y
-      coordinate.angle = angle
+      const { x, y, angle } = newCoordinate
+      debugger;
+      if(coordinate.x !== x || coordinate.y !== y || coordinate.angle !== angle) {
+        coordinate.x = x
+        coordinate.y = y
+        coordinate.angle = angle
+      };
     }
+    Goods = goods
     return Goods
   }
 }
@@ -165,18 +169,20 @@ export default function HuarongRoad() {
   }, [])
 
   useEffect(() => {
-
     if(isDragging) {
       window.addEventListener("mousemove", handleMouseMove)
       window.addEventListener("mouseup", handleMouseUp)
+      window.addEventListener("keydown", handleKeyDownRoate)
     } else {
       window.removeEventListener("mousemove", handleMouseMove)
       window.removeEventListener("mouseup", handleMouseUp)
-    }
+      window.removeEventListener("keydown", handleKeyDownRoate)
 
+    }
     return () => {
       window.removeEventListener("mousemove", handleMouseMove)
       window.removeEventListener("mouseup", handleMouseUp)
+      window.removeEventListener("keydown", handleKeyDownRoate)
     }
   }, [isDragging])
 
@@ -207,6 +213,23 @@ export default function HuarongRoad() {
 
     setIsDragging(false)
     setDraggingId(0)
+  }
+
+  const handleKeyDownRoate = (e: any) => {
+    console.log("handleKeyDownRoate", e)
+    const dragItem = goods.find(v => v.id === draggingId)
+    if(!dragItem) {
+      console.error(" drag item id miss error!")
+    } else {
+      const { keyCode } = e
+      if(keyCode === 82) { //按下R键当前拖拽的goods 需要改变角度
+        const { coordinate: newCoordinate } = dragItem
+        newCoordinate.angle = newCoordinate.angle === 0 ? 90 : 0
+
+        const newGoods = goodsMockApi.changeCoordinate(draggingId, newCoordinate, goods)
+        setGoods(newGoods)
+      }
+    }
   }
 
   /**
@@ -248,7 +271,6 @@ export default function HuarongRoad() {
     return isPlaced
   }
 
-
   const renderGrid = () => {
     // console.log("renderGrid", mousePosition, isDragging)
     let html = []
@@ -269,18 +291,19 @@ export default function HuarongRoad() {
         let isPlaced = 0
         if(isDragging && draggingId != 0) {
           //当前被拖拽的goods
-          const dragItem = goodsMockApi.findItemById(draggingId)
+          const dragItem = goods.find(v => v.id === draggingId)
           //拖拽时被hover的singleGrid
           let hoverSingleGrid = []
           if(!dragItem) {
             console.error(" drag item id miss error!")
           } else {
-            const { size, coordinate } = dragItem
-            const rcol = coordinate.angle === 90 ? size.row : size.col
-            const rrow = coordinate.angle === 90 ? size.col : size.row
             // 鼠标指向的是singleGrid 等于 将要放置goods的坐标中心
             // 通过判断 将要放置goods的坐标 的起始点、中心点和结束点 来判断是否可以放置
             const center = getGridByMousePos(mousePosition, containerInfo)
+            if(center.join() === '5,4') debugger;
+            const { size, coordinate } = dragItem
+            const rcol = coordinate.angle === 90 ? size.row : size.col
+            const rrow = coordinate.angle === 90 ? size.col : size.row
             const start = [ 
               rcol % 2 === 2 ? center[0] - rcol / 2 : center[0] - Math.floor(rcol / 2),
               rrow % 2 === 2 ? center[1] - rrow / 2 : center[1] - Math.floor(rrow / 2) 

@@ -20,8 +20,10 @@ interface IGoodsType {
   coordinate: { x: number, y: number, angle: number }
 }
 
-const capacity = { col: 8, row: 8 }
+//gridMap 大小
+const capacity = { col: 8, row: 40 }
 
+//singleGrid 大小 单位px
 const singleGridW = 100
 const singleGridH = 100
 
@@ -41,16 +43,16 @@ const goodsMockApi = {
         style: {
           backgroundColor: 'rgb(87 80 204 / 0.8)',
         },
-        size: { col: 2, row: 2 },
-        coordinate: { x: 0, y: 0, angle: 0 }
+        size: { col: 1, row: 2 },
+        coordinate: { x: 1, y: 1, angle: 0 }
       },
       {
         id: 2,
         style: {
           backgroundColor: 'rgb(66 66 123 / 0.8)',
         },
-        size: { col: 3, row: 3 },
-        coordinate: { x: 0, y: 5, angle: 0 }
+        size: { col: 2, row: 4 },
+        coordinate: { x: 3, y: 5, angle: 90 }
       },
     ]
     return Goods
@@ -74,7 +76,7 @@ const goodsMockApi = {
 let gridMap: number[][] = []
 const gridMapMockApi = {
   initGridMap: () => {
-    gridMap = Array(8).fill(capacity.row).map(() => Array(capacity.col).fill(0))
+    gridMap = Array(capacity.row).fill(0).map(() => Array(capacity.col).fill(0))
     return gridMap
   },
   setSingleGridData: (j: number, i: number, goodsId: number) => {
@@ -97,12 +99,16 @@ function getGridByMousePos(mousePos: IMousePosition, containerInfo: IContainerIn
 }
 
 //根据当前渲染的grid xy, 判断是否 被某个goods占位
-function setGoodsIdByCoordinate(x: number, y: number, goods: IGoodsType[] = Goods) {
-  let result = { flag: false, data: 0, corrdinate: [x, y] }
+type ISetGoodsIdResult = { flag: boolean; data: number; coordinate: number[]; }
+function setGoodsIdByCoordinate(x: number, y: number, goods: IGoodsType[] = Goods): ISetGoodsIdResult {
+  let result: ISetGoodsIdResult = { flag: false, data: 0, coordinate: [x, y] }
   for(let i = 0; i < goods.length; i++) {
     const { coordinate, size, id } = goods[i]
     const start = [coordinate.x, coordinate.y]
-    const end = [coordinate.x + size.col - 1, coordinate.y + size.row - 1]
+    const end = [
+      coordinate.x + (coordinate.angle === 90 ? size.row : size.col) - 1,
+      coordinate.y + (coordinate.angle === 90 ? size.col : size.row) - 1
+    ]
     if(x >= start[0] && x <= end[0] && y >= start[1] && y <= end[1]) {
       result = Object.assign(result, { flag: true, data: id })
       return result;
@@ -203,6 +209,46 @@ export default function HuarongRoad() {
     setDraggingId(0)
   }
 
+  /**
+   * 当前渲染 [i, j]
+   * 
+   * 渲染 notPlaced 的情况如下
+   * 1. 超出边界
+   * 2. 将要放置的区域 有一个id 既不等于0也不等于 draggingId
+   * 
+   * 
+   * return 0：无样式  1：可放置canPlaced  2：不可放置notPlaced
+   */
+  const draggingGetPlacedStaus = (centerPointer: ISetGoodsIdResult, startPointer: ISetGoodsIdResult, endPointer: ISetGoodsIdResult, hoverSingleGrid: number[][]) => {
+    // if(centerPointer.coordinate.join() === "3,32") {
+    //   debugger 
+    // }
+    let isPlaced = 0
+    const isOutbounds = hoverSingleGrid.findIndex((v: number[]) => v[0] < 0 || v[0] >= capacity.col || v[1] < 0 || v[1] >= capacity.row)
+    if(isOutbounds >= 0) return 2;
+   
+    if(!centerPointer.flag && !startPointer.flag && !endPointer.flag) {
+      isPlaced = 1
+    } else {
+      isPlaced = 2
+    }
+
+    const willSetGridIds = hoverSingleGrid.map(v => gridMap[v[1]][v[0]])
+    if(willSetGridIds.findIndex(id => id !== 0 && id !== draggingId) >= 0) {
+      isPlaced = 2;
+    }
+    
+    if(startPointer.data === draggingId || centerPointer.data === draggingId || endPointer.data === draggingId) {
+      isPlaced = 1
+    }
+    if(isOutbounds >= 0) {
+      isPlaced = 2
+    }
+
+    return isPlaced
+  }
+
+
   const renderGrid = () => {
     // console.log("renderGrid", mousePosition, isDragging)
     let html = []
@@ -229,30 +275,30 @@ export default function HuarongRoad() {
           if(!dragItem) {
             console.error(" drag item id miss error!")
           } else {
-            const { size } = dragItem
+            const { size, coordinate } = dragItem
+            const rcol = coordinate.angle === 90 ? size.row : size.col
+            const rrow = coordinate.angle === 90 ? size.col : size.row
             // 鼠标指向的是singleGrid 等于 将要放置goods的坐标中心
             // 通过判断 将要放置goods的坐标 的起始点、中心点和结束点 来判断是否可以放置
             const center = getGridByMousePos(mousePosition, containerInfo)
-            const start = [ size.col % 2 === 2 ? center[0] - size.col / 2 : center[0] - Math.floor(size.col / 2), size.row % 2 === 2 ? center[1] - size.row / 2 : center[1] - Math.floor(size.row / 2) ]
-            const end = [ start[0] + size.col - 1, start[1] + size.row - 1 ]
+            const start = [ 
+              rcol % 2 === 2 ? center[0] - rcol / 2 : center[0] - Math.floor(rcol / 2),
+              rrow % 2 === 2 ? center[1] - rrow / 2 : center[1] - Math.floor(rrow / 2) 
+            ]
+            const end = [ 
+              start[0] + rcol - 1,
+              start[1] + rrow - 1 
+            ]
 
             hoverSingleGrid = getGoodsPlaceholder(start, end)
-            const isOutbounds = hoverSingleGrid.flat().findIndex((v: number) => v < 0 || v >= 8)
+            // console.log("hoverSingleGrid", hoverSingleGrid)
             if(hoverSingleGrid.find((v: number[]) => v.join() === [j, i].join())) {
               const centerPointer = setGoodsIdByCoordinate(center[0], center[1])
               const startPointer = setGoodsIdByCoordinate(start[0], start[1])
               const endPointer = setGoodsIdByCoordinate(end[0], end[1])
-              if(!centerPointer.flag && !startPointer.flag && !endPointer.flag) {
-                isPlaced = 1
-              } else {
-                isPlaced = 2
-              }
-              if(startPointer.data === draggingId || centerPointer.data === draggingId || endPointer.data === draggingId) {
-                isPlaced = 1
-              }
-              if(isOutbounds >= 0) {
-                isPlaced = 2
-              }
+              
+              isPlaced = draggingGetPlacedStaus(centerPointer, startPointer, endPointer, hoverSingleGrid)
+              
             }
           }
         }
@@ -275,8 +321,8 @@ export default function HuarongRoad() {
     
     for(let i = 0; i < goods.length; i++) {
       let { id, coordinate, size, style } = goods[i]
-      const width = size.col * singleGridW
-      const height = size.row * singleGridH
+      const width = (coordinate.angle === 90 ? size.row : size.col) * singleGridW
+      const height = (coordinate.angle === 90 ? size.col : size.row) * singleGridH
       let left = coordinate.x * singleGridW
       let top = coordinate.y * singleGridH
       if(isDragging && draggingId !== 0) {

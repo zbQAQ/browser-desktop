@@ -65,7 +65,7 @@ const goodsMockApi = {
     if(item) {
       const { coordinate } = item
       const { x, y, angle } = newCoordinate
-      debugger;
+      // debugger;
       if(coordinate.x !== x || coordinate.y !== y || coordinate.angle !== angle) {
         coordinate.x = x
         coordinate.y = y
@@ -143,8 +143,7 @@ function getGoodsPlaceholder(startPointer: number[], endPointer: number[]) {
 }
 
 export default function HuarongRoad() {
-  //通过第一次渲染 gridMap 时 来对 grid进行赋值
-  const [firstRender, setFirstRender] = useState(true)
+  const [isRenderId, setIsRenderId] = useState(true)
   const [isDragging, setIsDragging] = useState(false)
   const [draggingId, setDraggingId] = useState(0)
   const [mousePosition, setMousePosition] = useState<IMousePosition>({ x: 0, y: 0 })
@@ -216,7 +215,6 @@ export default function HuarongRoad() {
   }
 
   const handleKeyDownRoate = (e: any) => {
-    console.log("handleKeyDownRoate", e)
     const dragItem = goods.find(v => v.id === draggingId)
     if(!dragItem) {
       console.error(" drag item id miss error!")
@@ -228,6 +226,7 @@ export default function HuarongRoad() {
 
         const newGoods = goodsMockApi.changeCoordinate(draggingId, newCoordinate, goods)
         setGoods(newGoods)
+        setIsRenderId(true)
       }
     }
   }
@@ -279,9 +278,10 @@ export default function HuarongRoad() {
       const curRow = gridMap[i]
       for(let j = 0; j < curRow.length; j++) {
 
-        if(firstRender) {
+        //通过第一次渲染 gridMap 时 来对 grid进行赋值
+        if(isRenderId) {
           const { flag, data } = setGoodsIdByCoordinate(j, i, goods)
-          if(flag && data !== 0 && gridMap[i][j] === 0) {
+          if(flag && data !== 0) {
             const newGridMap = gridMapMockApi.setSingleGridData(j, i, data)
             setGirdMap(newGridMap)
           }
@@ -300,7 +300,6 @@ export default function HuarongRoad() {
             // 鼠标指向的是singleGrid 等于 将要放置goods的坐标中心
             // 通过判断 将要放置goods的坐标 的起始点、中心点和结束点 来判断是否可以放置
             const center = getGridByMousePos(mousePosition, containerInfo)
-            if(center.join() === '5,4') debugger;
             const { size, coordinate } = dragItem
             const rcol = coordinate.angle === 90 ? size.row : size.col
             const rrow = coordinate.angle === 90 ? size.col : size.row
@@ -335,7 +334,7 @@ export default function HuarongRoad() {
       }
     }
 
-    firstRender && setFirstRender(false)
+    isRenderId && setIsRenderId(false)
     return html
   }
 

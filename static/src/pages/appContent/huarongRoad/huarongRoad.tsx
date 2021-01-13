@@ -202,11 +202,25 @@ export default function HuarongRoad() {
   }
   
   const handleMouseUp = (e: any) => {
-    const hoverGoodsItem = goodsMockApi.findItemById(draggingId)
+    const hoverGoodsItem = goods.find(v => v.id === draggingId)
     
     console.log(hoverGoodsItem)
-    const [x, y] = getGridByMousePos({ x: e.clientX, y: e.clientY }, containerInfo)
-    console.log(x, y)
+    if(!hoverGoodsItem) {
+      console.error(" drag item id miss error!")
+    } else {
+      const center = getGridByMousePos({ x: e.clientX, y: e.clientY }, containerInfo)
+      const { size, coordinate } = hoverGoodsItem
+      const rcol = coordinate.angle === 90 ? size.row : size.col
+      const rrow = coordinate.angle === 90 ? size.col : size.row
+      const start = [ 
+        rcol % 2 === 2 ? center[0] - rcol / 2 : center[0] - Math.floor(rcol / 2),
+        rrow % 2 === 2 ? center[1] - rrow / 2 : center[1] - Math.floor(rrow / 2) 
+      ]
+
+      const newGoods = goodsMockApi.changeCoordinate(draggingId, { x: start[0], y: start[1], angle: coordinate.angle }, goods)
+      setGoods(newGoods)
+      setIsRenderId(true)
+    }
 
     // getGoodsIdByCoordinate(x, y, goods)
 

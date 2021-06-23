@@ -1,6 +1,3 @@
-import { appContentMap } from "@/config/appContentMap"
-
-
 export const timeFormat = (time: number | Date, fmt = "yyyy-MM-dd") => {
   const date = time ? new Date(time) : new Date()
   let resTime = fmt
@@ -105,18 +102,6 @@ export const windowResize = () => {
 }
 
 /**
- * 根据appkey 找到app对应的 content 信息
- * 
- * @param appKey: IAppKey
- * @return IAppContentMap
- */
-export const findAppContentByKey = (appKey: IAppKey) => {
-  if(appKey !== '') {
-    return appContentMap.find(c => c.key === appKey) || null
-  }
-}
-
-/**
  * 防抖
  * 
  * @param fn      防抖的回调函数
@@ -146,4 +131,50 @@ export function throttle(fn: Function, delay: number = 500, ...args: any[]) {
     }
     last = now
   }
+}
+
+
+/**
+ * @name queryParse 用于处理 页面参数解析
+ * 
+ * 不支持同名key值 后面的key-value会覆盖前面的
+ * 
+ * @param str       即将解析的数据 str
+ * @param seq       各个参数之间分隔符
+ * @param eq        单个参数中 key-value的分隔符
+ * 
+ * @return {Object} 返回解析后的数据对象
+ */
+export function queryParse(str: string, seq: string = "&", eq: string = "="): Record<string, any> {
+  const res = {}
+  // 删除 问号和问号之前的字符
+  const cStr = str.replace(/.*\?/g, '')
+  const valuesArr = cStr.split(seq)
+  const len = valuesArr.length
+  for(let i = 0; i < len; i++) {
+    const [key, value] = valuesArr[i].split(eq)
+    res[key] = value
+  }
+  return res
+}
+
+/**
+ * @name queryStringify 用于处理 对象格式化 为 类似页面参数形式
+ * 
+ * @param obj       即将格式化的数据对象
+ * @param seq       各个参数之间分隔符
+ * @param eq        单个参数中 key-value的分隔符
+ * 
+ * @return {string} 返回格式化后的字符串 不带问号
+ */
+export function queryStringify(obj: Record<string, any>, seq: string = "&", eq: string = "=") {
+  const qs = []
+  const keys = Object.keys(obj)
+  const len = keys.length
+  for(let i = 0; i < len; i++) {
+    const value = obj[keys[i]]
+    const key = keys[i]
+    qs.push( [key, value].join(eq) )
+  }
+  return qs.join(seq)
 }

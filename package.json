@@ -9,7 +9,8 @@
     "build-static": "cd static && cross-env NODE_ENV=production npm run build",
     "build-server": "cd server && cross-env NODE_ENV=production npm run build",
     "dev-static": "cd static && cross-env NODE_ENV=development npm run dev",
-    "dev-server": "cd server && npm run dev"
+    "dev-server": "cd server && npm run dev",
+    "update-iconfont": "node ./scripts/update-iconfont.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "file-loader": "^6.2.0",
+    "inquirer": "^8.1.1",
     "less": "^4.1.1",
     "less-loader": "^6.0.0",
     "ts-loader": "^8.0.4",

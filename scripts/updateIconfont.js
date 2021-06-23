@@ -7,12 +7,12 @@ const templateFilePath = path.resolve(__dirname, "../static/template.html")
 const opitons = [
   {
     name: "cssLink",
-    message: "please input iconfont css link",
+    message: "1. Please input iconfont css link",
     type: "input"
   },
   {
     name: "jsLink",
-    message: "please input iconfont js link",
+    message: "2. Please input iconfont js link",
     type: "input"
   },
 ]

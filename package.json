@@ -10,7 +10,7 @@
     "build-server": "cd server && cross-env NODE_ENV=production npm run build",
     "dev-static": "cd static && cross-env NODE_ENV=development npm run dev",
     "dev-server": "cd server && npm run dev",
-    "update-iconfont": "node ./scripts/update-iconfont.js"
+    "update-iconfont": "node ./scripts/updateIconfont.js"
   },
   "keywords": [],
   "author": "",

@@ -34,6 +34,11 @@ const config = {
         exclude: /node_modules/,
       },
       {
+        test: /\.less$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+        exclude: /node_modules/,
+      },
+      {
         test: /\.(png|jpg|gif)/,
         use: [
           {

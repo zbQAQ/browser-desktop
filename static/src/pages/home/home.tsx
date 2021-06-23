@@ -8,7 +8,7 @@ import AppDialog from "./components/appDialog/appDialog"
 
 import { desktopApp } from "@/config/appContentMap"
 
-import "./home.css"
+import "./home.less"
 
 interface IAppInfoContext {
   appKey: IAppKey
@@ -67,6 +67,7 @@ export default function Home() {
     <AppInfoContext.Provider value={{appKey, setAppKey, setDialogIsShow}}>
       <Wallpaper isBlur={dialogIsShow} />
       <div className="home">
+        <h1>123</h1>
         {dialogIsShow ? <AppDialog visible={dialogIsShow}></AppDialog> : <Applications />}
       </div>
     </AppInfoContext.Provider>

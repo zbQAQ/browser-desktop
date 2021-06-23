@@ -22,7 +22,7 @@ class App extends React.Component<Props> {
         <Switch>
           <Route exact path="/" render={() => <Home />}></Route>
         </Switch>
-        <MissionBar />
+        {/* <MissionBar /> */}
       </div>
     )
   }

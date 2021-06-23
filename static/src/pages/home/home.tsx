@@ -67,8 +67,7 @@ export default function Home() {
     <AppInfoContext.Provider value={{appKey, setAppKey, setDialogIsShow}}>
       <Wallpaper isBlur={dialogIsShow} />
       <div className="home">
-        {!dialogIsShow && <Applications />}
-        <AppDialog visible={dialogIsShow}></AppDialog>
+        {dialogIsShow ? <AppDialog visible={dialogIsShow}></AppDialog> : <Applications />}
       </div>
     </AppInfoContext.Provider>
   )

@@ -39,7 +39,7 @@ export const desktopApp: IDesktopAppType[] = [
     key: "huarong_road",
     name: "华容道仓库",
     iconType: "svg",
-    iconName: "iconsearch",
+    iconName: "iconline-dragmovetuozhuai-01",
     showType: "dialog",
   },
 ]

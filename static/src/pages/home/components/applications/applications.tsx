@@ -4,8 +4,7 @@ import { desktopApp } from "@/config/appContentMap"
 
 import MIcon from "@/components/mIcon/mIcon"
 
-import "./applications.css"
-
+import "./applications.less"
 
 export default function Applications() {
   const data = desktopApp
@@ -13,9 +12,7 @@ export default function Applications() {
   let { setAppKey } = useContext(AppInfoContext)
   
   const renderIcon = (iconType: string, iconName: string) => {
-    if(iconType === 'svg') {
-      return <MIcon iconName={iconName}></MIcon>
-    }
+    return <MIcon iconName={iconName} iconType={iconType}></MIcon>
   }
 
   return (

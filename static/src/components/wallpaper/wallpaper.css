@@ -11,11 +11,11 @@
   background-color: #333;
   background-image: radial-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%), radial-gradient(rgba(0,0,0,0) 33%, rgba(0,0,0,0.3) 166%);
   z-index: -1;
-  transform: scale(1);
+  transform: translateZ(0) scale(1);
   filter: blur(0);
   transition: transform 0.25s, filter 0.5s;
 }
 .background.blur {
-  transform: scale(1.2);
+  transform: translateZ(0) scale(1.2);
   filter: blur(10px);
 }

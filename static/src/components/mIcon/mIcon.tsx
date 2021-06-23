@@ -3,8 +3,8 @@ import React from "react"
 import "./mIcon.css";
 
 interface IProps {
-  iconName: string;
-  iconType?: 'svg' | 'iconfont';
+  iconName: string
+  iconType?: string
   className?: string
   onClick?: Function
 }

@@ -183,7 +183,7 @@ export default function TicTacToe() {
       if(getValueByIndex(rIndex, cIndex) === 'null') {
         const newBoard = initBoardApi.changeBoardValueByIndex(rIndex, cIndex, targetValue)
         setCheckerBoard([...newBoard])
-        resolve()
+        resolve(null)
       }
     })
   }

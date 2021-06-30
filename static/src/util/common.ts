@@ -178,3 +178,15 @@ export function queryStringify(obj: Record<string, any>, seq: string = "&", eq: 
   }
   return qs.join(seq)
 }
+
+/**
+ * @name randomNum 生成随机数 包含最小值 包含最大值
+ * 
+ * @param {number} min 最小值 
+ * @param {number} max 最大值 
+ * 
+ * @return {number}
+ */
+export function randomNum(min: number, max: number) {
+  return Math.floor(min + Math.random() * (max - min + 1))
+}

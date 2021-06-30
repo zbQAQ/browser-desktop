@@ -42,6 +42,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: "iconline-dragmovetuozhuai-01",
     showType: "dialog",
   },
+  {
+    id: 6,
+    key: "waterfall_layout",
+    name: "瀑布流布局",
+    iconType: "svg",
+    iconName: "iconpubuliu",
+    showType: "dialog",
+  },
 ]
 
 export const appContentMap: IAppContentMap[] = [
@@ -69,6 +77,11 @@ export const appContentMap: IAppContentMap[] = [
     key: "huarong_road",
     dialogStyle: ["fullScreen", "darkBackground"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/huarongRoad/huarongRoad"))
+  },
+  {
+    key: "waterfall_layout",
+    dialogStyle: ["fullScreen", "darkBackground"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/waterfall/waterfall"))
   },
 ]
 

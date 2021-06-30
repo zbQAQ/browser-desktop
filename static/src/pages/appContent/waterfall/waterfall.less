@@ -1,0 +1,40 @@
+.waterfall-container {
+  height: calc(100% - 2rem);
+  overflow: auto;
+  padding: 2rem 80px 0;
+
+  .flow-options {
+    height: 50px;
+    line-height: 50px;
+
+    border-bottom: 1px solid #fff;
+    span {
+      margin-right: 2rem;
+      border: 1px solid #fff;
+      border-radius: 2px;
+      padding: 0.4rem 1rem;
+      transition: all 0.25s ease;
+      user-select: none;
+
+      &:hover, &.active {
+        background-color: #70c000;
+        border-color: #70c000;
+      }
+    }
+  }
+
+  .flow-content {
+    position: relative;
+    width: 100%;
+    margin-bottom: 2rem;
+    
+    .flow-item {
+      position: absolute;
+      transition: 0.2s;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

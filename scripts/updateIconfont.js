@@ -47,6 +47,8 @@ inquirer.prompt(opitons)
           }
           console.log("\n The template.html write successul and save!!!");
         });
+      } else {
+        console.log("\n Nothing changes")
       }
     });
 

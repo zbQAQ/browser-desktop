@@ -1,6 +1,6 @@
 
 //applications 唯一键值的appkey
-type IAppKey = '' | 'search' | 'chess' | 'tic_tac_toe' | 'todo_list' | 'huarong_road' | 'waterfall_layout'
+type IAppKey = '' | 'search' | 'chess' | 'tic_tac_toe' | 'todo_list' | 'huarong_road' | 'waterfall_layout' | 'wallpaper_selector'
 
 //applications 显示方式 
 type IShowType = 'dialog' |  'newPage';
@@ -28,4 +28,10 @@ interface IDesktopAppType {
   iconName: string
   showType: IShowType
   pagePath?: string
+}
+
+interface Window {
+  CONFIG: any
+  createObjcectURL: any
+  createOjcectURL: any
 }

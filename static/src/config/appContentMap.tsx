@@ -50,6 +50,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: "iconpubuliu",
     showType: "dialog",
   },
+  {
+    id: 7,
+    key: "wallpaper_selector",
+    name: "更换壁纸",
+    iconType: "svg",
+    iconName: "iconpubuliu",
+    showType: "dialog",
+  },
 ]
 
 export const appContentMap: IAppContentMap[] = [
@@ -82,6 +90,11 @@ export const appContentMap: IAppContentMap[] = [
     key: "waterfall_layout",
     dialogStyle: ["fullScreen", "darkBackground"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/waterfall/waterfall"))
+  },
+  {
+    key: "wallpaper_selector",
+    dialogStyle: ["fullScreen", "darkBackground"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/wallpaperSelector/wallpaperSelector"))
   },
 ]
 

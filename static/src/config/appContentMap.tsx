@@ -93,7 +93,7 @@ export const appContentMap: IAppContentMap[] = [
   },
   {
     key: "wallpaper_selector",
-    dialogStyle: ["fullScreen", "darkBackground"],
+    dialogStyle: ["floatWindow", "floatCenter"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/wallpaperSelector/wallpaperSelector"))
   },
 ]

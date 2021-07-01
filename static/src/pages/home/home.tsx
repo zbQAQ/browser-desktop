@@ -3,8 +3,8 @@ import { useHistory } from "react-router-dom"
 
 import Wallpaper from "@/components/wallpaper/wallpaper"
 
-import Applications from "./components/applications/applications"
-import AppDialog from "./components/appDialog/appDialog"
+import Applications from "@/components/applications/applications"
+import AppDialog from "@/components/appDialog/appDialog"
 
 import { desktopApp } from "@/config/appContentMap"
 

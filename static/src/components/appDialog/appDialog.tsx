@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import TransitionGroup from "@/components/transitionGroup/transitionGroup"
 import MIcon from "@/components/mIcon/mIcon"
 
-import { AppInfoContext } from "../../home"
+import { AppInfoContext } from "@/pages/home/home"
 import { findAppContentByKey } from "@/util/appContent"
 
 import "./appDialog.css"

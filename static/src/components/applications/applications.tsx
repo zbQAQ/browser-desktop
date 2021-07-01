@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { AppInfoContext } from "../../home"
+import { AppInfoContext } from "@/pages/home/home"
 import { desktopApp } from "@/config/appContentMap"
 
 import MIcon from "@/components/mIcon/mIcon"

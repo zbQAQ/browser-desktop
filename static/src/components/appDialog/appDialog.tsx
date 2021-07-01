@@ -7,7 +7,7 @@ import MIcon from "@/components/mIcon/mIcon"
 import { AppInfoContext } from "@/pages/home/home"
 import { findAppContentByKey } from "@/util/appContent"
 
-import "./appDialog.css"
+import "./appDialog.less"
 
 interface IProps {
   visible: boolean;

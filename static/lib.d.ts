@@ -6,7 +6,7 @@ type IAppKey = '' | 'search' | 'chess' | 'tic_tac_toe' | 'todo_list' | 'huarong_
 type IShowType = 'dialog' |  'newPage';
 
 //appContent 应用程序显示的dialog样式
-type IAppContentStyle = 'fullScreen'| 'darkBackground'| 'floatWindow'| 'floatCenter' | 'garyBackground'
+type IAppContentStyle = 'fullScreen'| 'darkBackground'| 'floatWindow'| 'floatCenter' | 'garyBackground' | 'fontBlack' | 'fontWhite' | 'w650px' | 'h650px'
 
 interface UrlParmas {
   appkey?: IAppKey

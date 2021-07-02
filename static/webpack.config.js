@@ -39,7 +39,7 @@ const config = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|jpg|gif)/,
+        test: /\.(png|jpg|gif|jpeg)/,
         use: [
           {
             loader: "url-loader",

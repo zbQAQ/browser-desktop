@@ -55,7 +55,7 @@ export const desktopApp: IDesktopAppType[] = [
     key: "wallpaper_selector",
     name: "更换壁纸",
     iconType: "svg",
-    iconName: "iconpubuliu",
+    iconName: "icontupianbizhi",
     showType: "dialog",
   },
 ]

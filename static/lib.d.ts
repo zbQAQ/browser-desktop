@@ -31,7 +31,9 @@ interface IDesktopAppType {
 }
 
 interface Window {
-  CONFIG: any
+  CONFIG: {
+    apiHost: string
+  }
   createObjcectURL: any
   createOjcectURL: any
 }

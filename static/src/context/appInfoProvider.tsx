@@ -16,17 +16,23 @@ export const AppInfoContext = React.createContext(initAppInfo);
 
 // app应用 操作
 export enum APP_ACTION_TYPE {
+  // applications
   UPDATE_APP = 'update_app',
-  CLEAR_APP = 'clear_app'
+  CLEAR_APP = 'clear_app',
+
+  // wallpaper
+  UPDATE_WALLPAPER = 'update_wallpaper'
 }
 
 const reducer = (state: IAppInfoContext, action: IAction ) => {
+  const { payload } = action
   switch(action.type) {
     case APP_ACTION_TYPE.UPDATE_APP:
-      const { payload } = action
-      return { ...state, appKey: payload.appKey}
+      return { ...state, appKey: payload.appKey }
     case APP_ACTION_TYPE.CLEAR_APP:
-      return { ...state, appKey: ''}
+      return { ...state, appKey: '' }
+    case APP_ACTION_TYPE.UPDATE_WALLPAPER:
+      return { ...state, wallpaper: payload.wallpaper }
     default:
       return state  
   }

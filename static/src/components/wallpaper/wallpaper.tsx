@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
+
+import { AppInfoContext } from "@/context/appInfoProvider"
 
 import "./wallpaper.css"
 interface IProps {
@@ -10,6 +12,8 @@ function setBodyBackground(canvasDom: any, imageUrl: string) {
   // 在这里获取图片资源 1,1 坐标像素的颜色 给body设置背景色
   const context = canvasDom.getContext("2d")
   const imageDom = new Image()
+  // https://stackoverflow.com/questions/26688168/uncaught-securityerror-failed-to-execute-getimagedata-on-canvasrenderingcont
+  imageDom.crossOrigin = 'anonymous'; 
   imageDom.src = imageUrl
   imageDom.onload = () => {
     context.drawImage(imageDom, 0, 0);
@@ -37,15 +41,15 @@ function getPixelColor(context: any, x: number, y: number) {
 
 export default function Wallpaper(props: IProps) {
   const { isBlur } = props
-  const [image, setImage] = useState(require("@/assets/background.jpg")) as any
+  const { wallpaper } = useContext(AppInfoContext)
   const canvasMain = useRef(null) as any
 
   useEffect(() => {
-    setBodyBackground(canvasMain.current, image.default)
-  }, [image])
+    setBodyBackground(canvasMain.current, wallpaper)
+  }, [wallpaper])
 
   const style = {
-    backgroundImage: `url(${image.default})`
+    backgroundImage: `url(${wallpaper})`
   }
 
   return (

@@ -1,14 +1,19 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import { uploadImag } from "@/api/image"
+
+import { AppInfoContext, APP_ACTION_TYPE } from "@/context/appInfoProvider"
 
 import "./wallpaperSelector.less"
 
-const img1 = require("@/assets/background.jpg").default
-const img2 = require("@/assets/background2.jpeg").default
-const img3 = require("@/assets/background3.jpeg").default
+const mockData = [
+  "https://zhoubao-browser-desktop.oss-cn-shenzhen.aliyuncs.com/images/background.jpg",
+  "https://zhoubao-browser-desktop.oss-cn-shenzhen.aliyuncs.com/images/15655977217c186ce142d61e3c98588a.jpg",
+  "https://zhoubao-browser-desktop.oss-cn-shenzhen.aliyuncs.com/images/2751f1c4ac9bf2e4c1e15417bd2ddc3e.jpg",
+  "https://zhoubao-browser-desktop.oss-cn-shenzhen.aliyuncs.com/images/ead944ae9254f7394ee5e828b846da75.jpg",
+]
 
 function WallpaperSelector() {
-  
+  const { dispatch } = useContext(AppInfoContext)
   const inputRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | null>(null)
 
@@ -33,6 +38,11 @@ function WallpaperSelector() {
   //   }
   // }, [file])
 
+  const handleItemClick = (wallpaper: string) => {
+    const payload = { wallpaper }
+    dispatch({ type: APP_ACTION_TYPE.UPDATE_WALLPAPER, payload })
+  }
+
   return (
     <div className="wallpaper-container">
       <div className="title-box">
@@ -45,12 +55,13 @@ function WallpaperSelector() {
       </div>
 
       <div className="wallpaper-list">
-
-        <div className="wallpaper-item" style={{backgroundImage: `url(${img1})`}}>
-          <div className="selected textCenter">
-            <span className="iconfont iconxuanzhong"></span>
+        {mockData.map((v, index) => (
+          <div key={index} className="wallpaper-item" style={{backgroundImage: `url(${v})`}} onClick={() => handleItemClick(v)}>
+            <div className="selected textCenter">
+              <span className="iconfont iconxuanzhong"></span>
+            </div>
           </div>
-        </div>
+        ))}
 
       </div>
       

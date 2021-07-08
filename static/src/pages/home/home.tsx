@@ -11,7 +11,6 @@ import { queryParse } from "@/util/common"
 
 import { AppInfoContext, APP_ACTION_TYPE } from "@/context/appInfoProvider"
 
-
 import "./home.less"
 
 export default function Home() {

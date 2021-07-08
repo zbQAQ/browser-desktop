@@ -8,10 +8,6 @@ type IShowType = 'dialog' |  'newPage';
 //appContent 应用程序显示的dialog样式
 type IAppContentStyle = 'fullScreen'| 'darkBackground'| 'floatWindow'| 'floatCenter' | 'garyBackground' | 'fontBlack' | 'fontWhite' | 'w650px' | 'h650px'
 
-interface UrlParmas {
-  appkey?: IAppKey
-}
-
 interface IAppContentMap {
   //IAppContentMap 渲染app内容的类型接口
   key: IAppKey
@@ -36,4 +32,12 @@ interface Window {
   }
   createObjcectURL: any
   createOjcectURL: any
+}
+
+// context & reducer
+interface IAction {
+  // aciton 类型
+  type: string
+
+  payload?: any
 }

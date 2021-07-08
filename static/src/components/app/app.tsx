@@ -6,7 +6,9 @@ import {
   RouteComponentProps
 } from 'react-router-dom';
 
-import MissionBar from "@/components/missionBar/missionBar"
+// import MissionBar from "@/components/missionBar/missionBar"
+
+import { AppInfoProvider } from "@/context/appInfoProvider"
 
 import "./app.css"
 
@@ -20,7 +22,11 @@ class App extends React.Component<Props> {
     return (
       <div className="app">
         <Switch>
-          <Route exact path="/" render={() => <Home />}></Route>
+          <Route exact path="/" render={() => 
+            <AppInfoProvider>
+              <Home />
+            </AppInfoProvider>
+          }></Route>
         </Switch>
         {/* <MissionBar /> */}
       </div>

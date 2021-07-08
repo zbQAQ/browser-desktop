@@ -219,8 +219,8 @@ function Waterfall() {
   return (
     <div className="waterfall-container">
       <div className="flow-options fontWhite mb20 pb10">
-        {btnOption.map(v => (
-          <span className={`pointer ${v.key === equalType ? 'active' : ''}`} onClick={v.onclick}>{v.text}</span>
+        {btnOption.map((v, index) => (
+          <span key={index} className={`pointer ${v.key === equalType ? 'active' : ''}`} onClick={v.onclick}>{v.text}</span>
         ))}
       </div>
       <div className="flow-content" ref={flowContent} style={{height: flowContainerH}}>

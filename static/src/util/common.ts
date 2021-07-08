@@ -167,7 +167,7 @@ export function queryParse(str: string, seq: string = "&", eq: string = "="): Re
  * 
  * @return {string} 返回格式化后的字符串 不带问号
  */
-export function queryStringify(obj: Record<string, any>, seq: string = "&", eq: string = "=") {
+export function queryStringify(obj: Record<string, any>, seq: string = "&", eq: string = "="): string {
   const qs = []
   const keys = Object.keys(obj)
   const len = keys.length

@@ -1,35 +1,31 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 
 import Wallpaper from "@/components/wallpaper/wallpaper"
-
 import Applications from "@/components/applications/applications"
 import AppDialog from "@/components/appDialog/appDialog"
 
 import { desktopApp } from "@/config/appContentMap"
 
+import { queryParse } from "@/util/common"
+
+import { AppInfoContext, APP_ACTION_TYPE } from "@/context/appInfoProvider"
+
+
 import "./home.less"
 
-interface IAppInfoContext {
-  appKey: IAppKey
-  setAppKey: Function
-  // dialogIsShow: boolean;
-  setDialogIsShow: Function
-}
-
-const defaultAppInfo: IAppInfoContext = {
-  appKey: "",
-  setAppKey: () => {},
-  // dialogIsShow: false,
-  setDialogIsShow: () => {}
-}
-
-export const AppInfoContext = React.createContext(defaultAppInfo);
 export default function Home() {
-
-  const [appKey, setAppKey] = useState<IAppKey>('')  
+  const { appKey, dispatch } = useContext(AppInfoContext)
   const [dialogIsShow, setDialogIsShow] = useState(false)
   const history = useHistory()
+
+  useEffect(() => {
+    const urlParmas =  queryParse(location.search)
+    if(urlParmas.appKey) {
+      const payload = { appKey: urlParmas.appKey }
+      dispatch({ type: APP_ACTION_TYPE.UPDATE_APP, payload })
+    }
+  }, [])
 
   useEffect(() => {
     if(appKey) {
@@ -43,32 +39,17 @@ export default function Home() {
       } else {
         console.error("未找到相关app")
       }
-    }else {
+    } else {
       setDialogIsShow(false)
     }
   }, [appKey])
 
-  useEffect(() => {
-    const { search } = location
-    const searchArr = search.substr(1).split("&")
-    let urlParmas: UrlParmas = {}
-    if(searchArr.length > 0) {
-      for(let str in searchArr) {
-        let param = searchArr[str].split("=")
-        urlParmas[param[0]] = param[1]
-      }
-    }
-    if(urlParmas.appkey) {
-      setAppKey(urlParmas.appkey)
-    }
-  }, [])
-
   return (
-    <AppInfoContext.Provider value={{appKey, setAppKey, setDialogIsShow}}>
+    <>
       <Wallpaper isBlur={dialogIsShow} />
       <div className="home">
         {dialogIsShow ? <AppDialog visible={dialogIsShow}></AppDialog> : <Applications />}
       </div>
-    </AppInfoContext.Provider>
+    </>
   )
 }

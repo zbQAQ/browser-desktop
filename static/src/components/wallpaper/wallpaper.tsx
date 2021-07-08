@@ -37,12 +37,8 @@ function getPixelColor(context: any, x: number, y: number) {
 
 export default function Wallpaper(props: IProps) {
   const { isBlur } = props
-  const [image, setImage] = useState({}) as any
+  const [image, setImage] = useState(require("@/assets/background.jpg")) as any
   const canvasMain = useRef(null) as any
-
-  useEffect(() => {
-    setImage(require("@/assets/background.jpg"))  //default background images
-  }, [])
 
   useEffect(() => {
     setBodyBackground(canvasMain.current, image.default)
@@ -51,6 +47,7 @@ export default function Wallpaper(props: IProps) {
   const style = {
     backgroundImage: `url(${image.default})`
   }
+
   return (
     <div className={`background ${isBlur ? 'blur': ''}`} style={style}>
       <canvas ref={canvasMain} className="none" id="canvas"></canvas>

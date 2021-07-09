@@ -10,3 +10,8 @@ export function uploadImag (formdata: FormData) {
   }
   return request.post(uri, formdata, config)
 }
+
+export function getWallpaperThumb () {
+  const uri = apiPrefix + "/list/thumbnail"
+  return request.get(uri)
+}

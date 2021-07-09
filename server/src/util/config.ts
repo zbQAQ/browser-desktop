@@ -6,7 +6,7 @@ let config: Record<string, any>
 
 module.exports = {
   init: () => {
-    const configString = fs.readFileSync(CONFIG_PATH,'utf8');
+    const configString = fs.readFileSync(CONFIG_PATH, 'utf8');
     console.debug("====Config Initialization successful====")
     config = JSON.parse(configString);//读取的值
   },

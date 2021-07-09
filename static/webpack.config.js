@@ -5,6 +5,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const devConfig = require("./config/webpack.dev");
 const prodConfig = require("./config/webpack.prod");
 const { merge } = require("webpack-merge");
+const fs = require('fs')
+
+const CONFIG_PATH = path.resolve(__dirname, "../var/static.config.json")
 
 const mergeConfig =
   process.env.NODE_ENV === "development" ? devConfig : prodConfig;
@@ -56,6 +59,7 @@ const config = {
     new CleanWebpackPlugin(),
     // 这里面的template是模板的位置，title是模板渲染的变量 htmlWebpackPlugin.options.title
     new HtmlWebpackPlugin({
+      config: JSON.stringify(fs.readFileSync(CONFIG_PATH, 'utf8')),
       title: "browser-desktop",
       template: path.resolve(__dirname, "template.html"),
     }),

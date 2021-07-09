@@ -1,5 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react"
-import { uploadImag } from "@/api/image"
+import React, { useContext, useCallback, useRef, useState } from "react"
+
+import useFetch, { FETCH_STATUS } from "@/hooks/useFetch"
+import { uploadImag, getWallpaperThumb } from "@/api/image"
 
 import { AppInfoContext, APP_ACTION_TYPE } from "@/context/appInfoProvider"
 
@@ -38,10 +40,32 @@ function WallpaperSelector() {
   //   }
   // }, [file])
 
+  
+  const getThumbList = useCallback(() => {
+    return getWallpaperThumb()
+  }, [])
+  
+  const { data, status } = useFetch(getThumbList, { immediate: true })
+
+  const isFetching = status === FETCH_STATUS.FETCHING;
+  const isFailed = status === FETCH_STATUS.FETCH_FAILED;
+  const isSucceeed = status === FETCH_STATUS.FETCH_SUCCEEDED;
+
   const handleItemClick = (wallpaper: string) => {
     const payload = { wallpaper }
     dispatch({ type: APP_ACTION_TYPE.UPDATE_WALLPAPER, payload })
   }
+
+  const renderList = useCallback(() => {
+    if(!isSucceeed) return null;
+    return data.map((v: any)=> (
+      <div key={v.name} className="wallpaper-item" style={{backgroundImage: `url(${v.thumbUrl})`}} onClick={() => handleItemClick(v.url)}>
+        <div className="selected textCenter">
+          <span className="iconfont iconxuanzhong"></span>
+        </div>
+      </div>
+    ))
+  }, [isSucceeed])
 
   return (
     <div className="wallpaper-container">
@@ -55,14 +79,7 @@ function WallpaperSelector() {
       </div>
 
       <div className="wallpaper-list">
-        {mockData.map((v, index) => (
-          <div key={index} className="wallpaper-item" style={{backgroundImage: `url(${v})`}} onClick={() => handleItemClick(v)}>
-            <div className="selected textCenter">
-              <span className="iconfont iconxuanzhong"></span>
-            </div>
-          </div>
-        ))}
-
+        {renderList()}
       </div>
       
 

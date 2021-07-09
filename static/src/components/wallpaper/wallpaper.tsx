@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef } from "react"
 
 import { AppInfoContext } from "@/context/appInfoProvider"
 
@@ -14,6 +14,7 @@ function setBodyBackground(canvasDom: any, imageUrl: string) {
   const imageDom = new Image()
   // https://stackoverflow.com/questions/26688168/uncaught-securityerror-failed-to-execute-getimagedata-on-canvasrenderingcont
   imageDom.crossOrigin = 'anonymous'; 
+  // TODO: 需要优化这里wallpaper会加载两次的问题
   imageDom.src = imageUrl
   imageDom.onload = () => {
     context.drawImage(imageDom, 0, 0);

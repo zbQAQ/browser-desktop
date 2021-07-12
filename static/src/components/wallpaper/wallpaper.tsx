@@ -1,26 +1,11 @@
-import React, { useContext, useEffect, useRef } from "react"
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react"
 
+import TransitionGroup from "@/components/transitionGroup/transitionGroup"
 import { AppInfoContext } from "@/context/appInfoProvider"
 
-import "./wallpaper.css"
+import "./wallpaper.less"
 interface IProps {
   isBlur: boolean
-}
-
-function setBodyBackground(canvasDom: any, imageUrl: string) {
-  // 为解决 filter: blur 过渡的过程中泛出body背景色的问题
-  // 在这里获取图片资源 1,1 坐标像素的颜色 给body设置背景色
-  const context = canvasDom.getContext("2d")
-  const imageDom = new Image()
-  // https://stackoverflow.com/questions/26688168/uncaught-securityerror-failed-to-execute-getimagedata-on-canvasrenderingcont
-  imageDom.crossOrigin = 'anonymous'; 
-  // TODO: 需要优化这里wallpaper会加载两次的问题
-  imageDom.src = imageUrl
-  imageDom.onload = () => {
-    context.drawImage(imageDom, 0, 0);
-    const { rgba } = getPixelColor(context, 1, 1)
-    document.body.style.backgroundColor = rgba
-  }
 }
 
 function getPixelColor(context: any, x: number, y: number) {
@@ -43,18 +28,45 @@ function getPixelColor(context: any, x: number, y: number) {
 export default function Wallpaper(props: IProps) {
   const { isBlur } = props
   const { wallpaper } = useContext(AppInfoContext)
+  const [ loadStatus, setLoadStatus ] = useState(false)
   const canvasMain = useRef(null) as any
 
+  const imageLoader = useCallback((url) => {
+    return new Promise((resolve, reject) => {
+      const imageDom = new Image()
+      // TODO: 需要优化这里wallpaper会加载两次的问题
+      imageDom.onload = () => {
+        const canvasDom = canvasMain.current
+        const context = canvasDom.getContext("2d")
+        context.drawImage(imageDom, 0, 0);
+        const { rgba } = getPixelColor(context, 1, 1)
+        document.body.style.backgroundColor = rgba
+        resolve(undefined)
+      }
+      imageDom.onerror = () => {
+        reject();
+      }
+      imageDom.crossOrigin = 'anonymous';
+      imageDom.src = url
+    })
+  }, [canvasMain])
+
   useEffect(() => {
-    setBodyBackground(canvasMain.current, wallpaper)
+    setLoadStatus(false)
+    imageLoader(wallpaper).then(_ => {
+      setLoadStatus(true)
+    })
   }, [wallpaper])
 
-  const style = {
-    backgroundImage: `url(${wallpaper})`
-  }
-
   return (
-    <div className={`background ${isBlur ? 'blur': ''}`} style={style}>
+    <div className={`background ${isBlur ? 'blur': ''}`}>
+      <TransitionGroup
+        visible={loadStatus}
+        enterAnimation="fadeIn"
+        levaeAnimation="fadeOut" 
+      >
+        {loadStatus && <div className={`wallpaper-image`} style={{backgroundImage: `url(${wallpaper})`}}></div>}
+      </TransitionGroup>
       <canvas ref={canvasMain} className="none" id="canvas"></canvas>
     </div>
   )

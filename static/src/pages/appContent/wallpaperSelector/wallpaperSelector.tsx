@@ -59,7 +59,7 @@ function WallpaperSelector() {
   const renderList = useCallback(() => {
     if(!isSucceeed) return null;
     return data.map((v: any)=> (
-      <div key={v.name} className="wallpaper-item" style={{backgroundImage: `url(${v.thumbUrl})`}} onClick={() => handleItemClick(v.url)}>
+      <div key={v.name} className="wallpaper-item pointer" style={{backgroundImage: `url(${v.thumbUrl})`}} onClick={() => handleItemClick(v.url)}>
         <div className="selected textCenter">
           <span className="iconfont iconxuanzhong"></span>
         </div>

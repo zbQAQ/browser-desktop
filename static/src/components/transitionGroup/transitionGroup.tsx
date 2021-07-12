@@ -21,7 +21,7 @@ interface IProps {
 }
 
 export default function TransitionGroup(props: IProps) {
-  const { enterAnimation = "fadeIn", levaeAnimation = "fadeOut", visible, delay = 500, className } = props
+  const { enterAnimation = "fadeIn", levaeAnimation = "fadeOut", visible, delay = 500, className = '' } = props
   const transitionGroup = useRef(null);
   const [firstMount, setFirstMount] = useState(true)
 

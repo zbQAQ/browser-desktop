@@ -7,19 +7,21 @@ interface IProps {
 
   //进入动画 的名称
   //动画效果参考 https://digital-flowers.github.io/react-animated-css.html
-  enterAnimation: string;
+  enterAnimation?: string;
   
   //离开动画 的名称
-  levaeAnimation: string;
+  levaeAnimation?: string;
 
   //动画执行周期 单位ms
   delay?: number;
+
+  className?: string;
 
   children?: React.ReactNode
 }
 
 export default function TransitionGroup(props: IProps) {
-  const { enterAnimation, levaeAnimation, visible, delay = 500 } = props
+  const { enterAnimation = "fadeIn", levaeAnimation = "fadeOut", visible, delay = 500, className } = props
   const transitionGroup = useRef(null);
   const [firstMount, setFirstMount] = useState(true)
 
@@ -43,7 +45,7 @@ export default function TransitionGroup(props: IProps) {
       animationDuration: `${delay}ms`,
       animationName: visible ? enterAnimation : !firstMount ? levaeAnimation : '',
     }
-    const classes = `transitionGroup ${visible ? 'pointerEventsAll' : 'pointerEventsNone'}`
+    const classes = `transitionGroup ${className} ${visible ? 'pointerEventsAll' : 'pointerEventsNone'}`
 
     return (<div className={classes} ref={transitionGroup} style={initStyle}>{props.children}</div>)
   }

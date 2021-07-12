@@ -65,7 +65,7 @@ export default function Wallpaper(props: IProps) {
         enterAnimation="fadeIn"
         levaeAnimation="fadeOut" 
       >
-        {loadStatus && <div className={`wallpaper-image`} style={{backgroundImage: `url(${wallpaper})`}}></div>}
+        {loadStatus && <div className='wallpaper-image' style={{backgroundImage: `url(${wallpaper})`}}></div>}
       </TransitionGroup>
       <canvas ref={canvasMain} className="none" id="canvas"></canvas>
     </div>

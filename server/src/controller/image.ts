@@ -29,7 +29,7 @@ class MImage {
   }
 
   async upload(req: any, res: Response, next: NextFunction) {
-    res.send({ data: req.file })
+    res.send({ data: 'ok', status: 200, errormsg: '' })
   }
 }
 

@@ -9,7 +9,7 @@ export const enum FETCH_STATUS {
   FETCH_FAILED = 'fetchFailed',
 }
 
-interface IFetchState {
+interface IFetchState<T> {
   // 请求状态
   status: FETCH_STATUS,
   // loading 状态
@@ -19,24 +19,40 @@ interface IFetchState {
   // 错误信息
   errormsg: string
 }
+interface R<T> extends IFetchState<T> {
+  /** 请求触发器，由外层调用 */
+  triggerFetch: () => void;
+}
 
 // 异步请求体
-type IFetcher = (...args: any[]) => Promise<Record<string, any>>;
+type IFetcher = (...args: any[]) => Promise<any>;
 
 interface IFetchOptions {
   // 是否立即请求
   immediate?: boolean
   // 初始数据 data
   initData?: any
+  // 是否自动重置
+  autoReset?: boolean
+  // 自动重置计时
+  autoResetDelay?: number
+  // 请求结束手动延时
+  mockDelay?: number
+  // 请求完成时的回调函数
+  callback?: () => void
 }
 
-const defaultOption = {
+const defaultOption: IFetchOptions = {
   immediate: true,
   initData: null,
+  autoReset: false,
+  autoResetDelay: 1000,
+  mockDelay: 0,
 }
 
 // 请求状态处理
-function fetchReducer(state: IFetchState, action: IAction) {
+function fetchReducer<T>(state: IFetchState<T>, action: IAction) {
+  console.log("fetchReducer", state, action)
   switch (action.type) {
     case FETCH_STATUS.INIT:
     case FETCH_STATUS.READY: {
@@ -58,9 +74,9 @@ function fetchReducer(state: IFetchState, action: IAction) {
   }
 }
 
-export default function useFetch(fetcher: IFetcher, options: IFetchOptions): IFetchState {
+export default function useFetch<T = Record<string, any>>(fetcher: IFetcher, options?: IFetchOptions): R<T> {
   const opts = { ...defaultOption, ...options }
-  const { immediate, initData } = opts
+  const { immediate, initData, autoReset, autoResetDelay, mockDelay, callback } = opts
 
   const initState = {
     data: initData ?? null,
@@ -84,8 +100,21 @@ export default function useFetch(fetcher: IFetcher, options: IFetchOptions): IFe
       dispatch({ type: FETCH_STATUS.FETCHING })
       const resp = await fetcher()
       if(resp.status === 200) {
-        const payload = { data: resp.data }
-        dispatch({ type: FETCH_STATUS.FETCH_SUCCEEDED, payload: payload })
+        const dispatchSuccess = () => {
+          const payload = { data: resp.data }
+          dispatch({ type: FETCH_STATUS.FETCH_SUCCEEDED, payload: payload })
+          callback && callback()
+          if(autoReset) {
+            setTimeout(() => {
+              dispatch({ type: FETCH_STATUS.INIT })
+            }, autoResetDelay)
+          }
+        }
+        if(mockDelay) {
+          setTimeout(dispatchSuccess, mockDelay)
+        } else {
+          dispatchSuccess()
+        }
       } else {
         const payload = { errormsg: 'Failed to fetch' }
         dispatch({ type: FETCH_STATUS.FETCH_FAILED, payload: payload })
@@ -108,5 +137,5 @@ export default function useFetch(fetcher: IFetcher, options: IFetchOptions): IFe
     immediate && triggerFetch();
   }, [triggerFetch, immediate]);
 
-  return { ...state }
+  return { ...state, triggerFetch }
 }

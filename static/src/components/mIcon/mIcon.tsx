@@ -14,7 +14,7 @@ export default function mIcon(props: IProps) {
   const render = () => {
     if(iconType === "svg") {
       return (
-        <svg className={`msvg ${className}`} aria-hidden="true" onClick={()=>{onClick && onClick()}}>
+        <svg className={`msvg ${className}`} aria-hidden="true" onClick={(e)=>{onClick && onClick(e)}}>
           <use xlinkHref={`#${iconName}`}></use>
         </svg>
       )
@@ -22,7 +22,7 @@ export default function mIcon(props: IProps) {
 
     if(iconType === "iconfont") {
       return(
-        <i className={`iconfont ${iconName} ${className}`} onClick={() => {onClick && onClick()}}></i>
+        <i className={`iconfont ${iconName} ${className}`} onClick={(e) => {onClick && onClick(e)}}></i>
       )
     }
 

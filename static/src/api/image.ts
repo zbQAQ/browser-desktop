@@ -3,7 +3,7 @@ import request from "@/util/request"
 const CONFIG = window.CONFIG
 const apiPrefix = CONFIG.apiHost + "/image"
 
-export function uploadImag (formdata: FormData) {
+export function uploadImage (formdata: FormData) {
   const uri = apiPrefix + "/upload"
   const config = {
     headers: {'Content-Type': 'application/x-www-form-urlencoded'}

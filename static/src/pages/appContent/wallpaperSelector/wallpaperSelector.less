@@ -5,16 +5,28 @@
   background-color: #fff;
   padding: 1.6rem;
   border-radius: 4px;
-
-  .title {
-    font-size: 1.4rem;
-    color: #000;
-  }
-  .sub-title {
-    font-size: 0.8rem;
-
-    &:hover {
-      text-decoration: underline;
+  .title-box {
+    .title {
+      font-size: 1.4rem;
+      color: #000;
+    }
+    .sub-title {
+      font-size: 0.8rem;
+  
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .icon-upload {
+      position: static;
+      display: inline;
+    }
+    .iconfont {
+      display: inline-block;
+      margin-left: 0.2rem;
+    }
+    .iconloading {
+      animation: 1s ease infinite loading;
     }
   }
 
@@ -80,5 +92,17 @@
       border-radius: 12px;
       background-color:#666;
     }
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg); 
+  }
+  50% {
+    transform: rotate(180deg); 
+  }
+  100% {
+    transform: rotate(360deg); 
   }
 }

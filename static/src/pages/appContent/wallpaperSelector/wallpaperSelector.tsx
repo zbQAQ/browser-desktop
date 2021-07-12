@@ -58,7 +58,7 @@ export default function WallpaperSelector() {
         </div>
       </div>
     ))
-  }, [status])
+  }, [status, wallpaper])
 
   const uploadFetchOption = {
     immediate: false,

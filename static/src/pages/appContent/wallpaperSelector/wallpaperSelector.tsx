@@ -1,6 +1,7 @@
 import React, { useContext, useCallback, useRef, useState } from "react"
 
 import MIcon from "@/components/mIcon/mIcon"
+import Loading from "@/components/loading/loading"
 import TransitionGroup from "@/components/transitionGroup/transitionGroup"
 
 import useFetch, { FETCH_STATUS } from "@/hooks/useFetch"
@@ -40,15 +41,16 @@ export default function WallpaperSelector() {
     }
   }, [file])
   
-  const { data, status, triggerFetch: triggerList } = useFetch(getThumbList, { autoReset: true })
+  const { data, status, triggerFetch: triggerList } = useFetch(getThumbList, { autoReset: true, mockDelay: 1000 })
 
   const handleItemClick = (wallpaper: string) => {
     const payload = { wallpaper }
     dispatch({ type: APP_ACTION_TYPE.UPDATE_WALLPAPER, payload })
+    renderList()
   }
 
   const renderList = useCallback(() => {
-    if(!data) return null;
+    if(!data) return <Loading visible={!data} />;
     return data.map((v: any)=> (
       <div key={v.name} className={`wallpaper-item pointer ${v.url === wallpaper ? 'active': ''}`} style={{backgroundImage: `url(${v.thumbUrl})`}} onClick={() => handleItemClick(v.url)}>
         <div className="selected textCenter">
@@ -80,7 +82,7 @@ export default function WallpaperSelector() {
         <TransitionGroup 
           visible={readyUpload}
           className="icon-upload"
-          enterAnimation="fadeIn"
+          enterAnimation="flash"
           levaeAnimation="fadeOut"
         >
           <MIcon iconType="iconfont" iconName="iconcloudupload pointer" onClick={() => triggerUpload()}></MIcon>

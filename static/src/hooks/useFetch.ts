@@ -52,7 +52,6 @@ const defaultOption: IFetchOptions = {
 
 // 请求状态处理
 function fetchReducer<T>(state: IFetchState<T>, action: IAction) {
-  console.log("fetchReducer", state, action)
   switch (action.type) {
     case FETCH_STATUS.INIT:
     case FETCH_STATUS.READY: {

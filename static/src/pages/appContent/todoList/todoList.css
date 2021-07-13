@@ -100,6 +100,7 @@
   width: 40%;
   height: 40%;
   border: 2px solid #fff;
+  border-radius: 2px;
   margin: 30% auto;
   transition: all ease 0.45s;
 }

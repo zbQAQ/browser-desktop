@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from 'react-router-dom'
 import config from "./config"
 
+import ToastProvider from "@/components/toast/toastProvider"
 import App from "@/components/app/app";
 
 
@@ -16,7 +17,9 @@ import "./styles/variables.css"
 
 ReactDOM.render(
   <BrowserRouter basename='/'>
-    <App />
+    <ToastProvider>
+      <App />
+    </ToastProvider>
   </BrowserRouter>, 
   document.getElementById("root")
 );

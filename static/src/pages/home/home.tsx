@@ -47,7 +47,8 @@ export default function Home() {
     <>
       <Wallpaper isBlur={dialogIsShow} />
       <div className="home">
-        {dialogIsShow ? <AppDialog visible={dialogIsShow}></AppDialog> : <Applications />}
+        <AppDialog visible={dialogIsShow}></AppDialog>
+        <Applications visible={!dialogIsShow} />
       </div>
     </>
   )

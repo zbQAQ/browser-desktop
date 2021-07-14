@@ -6,8 +6,13 @@ import MIcon from "@/components/mIcon/mIcon"
 
 import "./applications.less"
 
-export default function Applications() {
+interface IProps {
+  visible: boolean
+}
+
+export default function Applications(props: IProps) {
   const data = desktopApp
+  const { visible } = props
   let { dispatch } = useContext(AppInfoContext)
   
   const renderIcon = (iconType: string, iconName: string) => {
@@ -19,7 +24,7 @@ export default function Applications() {
     dispatch({ type: APP_ACTION_TYPE.UPDATE_APP, payload })
   }
 
-  return (
+  return visible ? (
     <div className="applications">
       {data.map((item: IDesktopAppType) => (
         <div className="aitem textCenter pointer" key={item.id} onClick={()=>setAppKey(item.key)}>
@@ -30,5 +35,5 @@ export default function Applications() {
         </div>
       ))}
     </div>
-  )
+  ) : null
 }

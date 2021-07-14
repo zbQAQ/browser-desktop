@@ -1,8 +1,17 @@
 .transitionGroup {
+  position: absolute;
   width: 100%;
   height: 100%;
+  animation-delay: 0ms;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
 }
-
+.transitionGroup.show {
+  visibility: visible;
+}
+.transitionGroup.hide {
+  visibility: hidden;
+}
 .transitionGroup.pointerEventsAll {
   pointer-events: all;
 }

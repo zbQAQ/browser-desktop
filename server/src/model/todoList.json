@@ -18,5 +18,15 @@
     "id": "85674841c7842f9d",
     "status": 0,
     "title": "组件popup"
+  },
+  {
+    "id": "bc5ce8b151a6278c",
+    "status": 1,
+    "title": "transitionGroup改造"
+  },
+  {
+    "id": "f7b1c349359742c3",
+    "status": 1,
+    "title": "appDialog动画优化"
   }
 ]

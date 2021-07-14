@@ -10,28 +10,20 @@ export const desktopApp: IDesktopAppType[] = [
     showType: "dialog",
     pagePath: "/search"
   },
-  // {
-  //   id: 2,
-  //   key: "chess",
-  //   name: "象棋",
-  //   iconType: "svg",
-  //   iconName: "iconyouxiyouxiqipai",
-  //   showType: "dialog",
-  // },
-  {
-    id: 3,
-    key: "tic_tac_toe",
-    name: "井字棋",
-    iconType: "svg",
-    iconName: "iconjingziqi",
-    showType: "dialog",
-  },
   {
     id: 4,
     key: "todo_list",
     name: "todo",
     iconType: "svg",
     iconName: "icontodo-line",
+    showType: "dialog",
+  },
+  {
+    id: 3,
+    key: "tic_tac_toe",
+    name: "井字棋",
+    iconType: "svg",
+    iconName: "iconjingziqi",
     showType: "dialog",
   },
   {
@@ -54,6 +46,14 @@ export const desktopApp: IDesktopAppType[] = [
     id: 7,
     key: "wallpaper_selector",
     name: "更换壁纸",
+    iconType: "svg",
+    iconName: "icontupianbizhi",
+    showType: "dialog",
+  },
+  {
+    id: 8,
+    key: "toast_example",
+    name: "toast弹窗",
     iconType: "svg",
     iconName: "icontupianbizhi",
     showType: "dialog",
@@ -93,8 +93,13 @@ export const appContentMap: IAppContentMap[] = [
   },
   {
     key: "wallpaper_selector",
-    dialogStyle: ["floatWindow", "floatCenter", "w650px", "h650px", "fontBlack"],
+    dialogStyle: ["floatWindow", "whiteShadow", "floatCenter", "w650px", "h650px", "fontBlack"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/wallpaperSelector/wallpaperSelector"))
+  },
+  {
+    key: "toast_example",
+    dialogStyle: ["floatWindow", "floatCenter", "w650px", "h650px", "fontBlack"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/toastExample/toastExample"))
   },
 ]
 

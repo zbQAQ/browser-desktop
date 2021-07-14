@@ -57,7 +57,7 @@ export default function Wallpaper(props: IProps) {
       setLoadStatus(true)
     })
   }, [wallpaper])
-
+  
   return (
     <div className={`background ${isBlur ? 'blur': ''}`}>
       <TransitionGroup

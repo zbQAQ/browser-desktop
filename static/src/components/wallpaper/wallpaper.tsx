@@ -57,16 +57,16 @@ export default function Wallpaper(props: IProps) {
       setLoadStatus(true)
     })
   }, [wallpaper])
-
+  
   return (
     <div className={`background ${isBlur ? 'blur': ''}`}>
-      {/* <TransitionGroup
+      <TransitionGroup
         visible={loadStatus}
         enterAnimation="fadeIn"
         levaeAnimation="fadeOut" 
       >
         {loadStatus && <div className='wallpaper-image' style={{backgroundImage: `url(${wallpaper})`}}></div>}
-      </TransitionGroup> */}
+      </TransitionGroup>
       <canvas ref={canvasMain} className="none" id="canvas"></canvas>
     </div>
   )

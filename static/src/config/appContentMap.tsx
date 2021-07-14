@@ -50,6 +50,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: "icontupianbizhi",
     showType: "dialog",
   },
+  {
+    id: 8,
+    key: "toast_example",
+    name: "toast弹窗",
+    iconType: "svg",
+    iconName: "icontupianbizhi",
+    showType: "dialog",
+  },
 ]
 
 export const appContentMap: IAppContentMap[] = [
@@ -85,8 +93,13 @@ export const appContentMap: IAppContentMap[] = [
   },
   {
     key: "wallpaper_selector",
-    dialogStyle: ["floatWindow", "floatCenter", "w650px", "h650px", "fontBlack"],
+    dialogStyle: ["floatWindow", "whiteShadow", "floatCenter", "w650px", "h650px", "fontBlack"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/wallpaperSelector/wallpaperSelector"))
+  },
+  {
+    key: "toast_example",
+    dialogStyle: ["floatWindow", "floatCenter", "w650px", "h650px", "fontBlack"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/toastExample/toastExample"))
   },
 ]
 

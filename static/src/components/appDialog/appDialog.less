@@ -5,58 +5,6 @@
   z-index: 99;
 }
 
-/* 全屏 */
-.appDialog.fullScreen {
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* 深色背景 */
-.appDialog.darkBackground {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-/* 灰色背景 */
-.appDialog.garyBackground {
-  background-color: rgba(238, 238, 238, 0.4);
-}
-
-/* 悬浮窗口 */
-.appDialog.floatWindow {
-  width: 80%;
-  height: 80%;
-  border-radius: 12px;
-  box-shadow: 0px 0px 10px 0px #8c8c8c;
-}
-
-// /* 悬浮窗口 定制宽度、高度 */
-@widths: 650px, 850px, 1200px;
-@heights: 650px, 850px, 1200px;
-@widthOptionsLen: length(@widths);
-.for(@i) when(@i <= @widthOptionsLen) {
-  .for(@i + 1); //@i + 1 相当于"++i"
-  @name: extract(@widths , @i);
-  .appDialog.floatWindow.w@{name}{
-    width: extract(@widths , @i);
-  }
-  .appDialog.floatWindow.h@{name}{
-    height: extract(@heights , @i);
-  }
-}
-.for(1);
-
-
-/* 悬浮居中 */
-.appDialog.floatCenter {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .closeBtn {
   position: absolute;
   top: 12px;

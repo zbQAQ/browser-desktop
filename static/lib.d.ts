@@ -1,12 +1,27 @@
 
 //applications 唯一键值的appkey
-type IAppKey = '' | 'search' | 'chess' | 'tic_tac_toe' | 'todo_list' | 'huarong_road' | 'waterfall_layout' | 'wallpaper_selector'
+type IAppKey = '' | 'search' | 'chess' | 'tic_tac_toe' | 'todo_list' | 'huarong_road' | 'waterfall_layout' | 'wallpaper_selector' | 'toast_example'
 
 //applications 显示方式 
-type IShowType = 'dialog' |  'newPage';
+type IShowType = 'dialog' | 'newPage';
 
-//appContent 应用程序显示的dialog样式
-type IAppContentStyle = 'fullScreen'| 'darkBackground'| 'floatWindow'| 'floatCenter' | 'garyBackground' | 'fontBlack' | 'fontWhite' | 'w650px' | 'h650px'
+//appContent 应用程序显示的dialog样式 static\src\components\appDialog\appContentStyle.less
+type IAppContentStyle = 
+  'fullScreen' |
+  'darkBackground' |
+  'floatWindow' |
+  'floatCenter' |
+  'garyBackground' |
+  'fontBlack' |
+  'fontWhite' |
+  'w650px' |
+  'h650px' |
+  'w850px' |
+  'h850px' |
+  'w1200px' |
+  'w1200px' |
+  'whiteShadow' |
+  'blackShadow' 
 
 interface IAppContentMap {
   //IAppContentMap 渲染app内容的类型接口

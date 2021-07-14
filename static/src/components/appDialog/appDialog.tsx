@@ -8,6 +8,7 @@ import { AppInfoContext, APP_ACTION_TYPE } from "@/context/appInfoProvider"
 import { findAppContentByKey } from "@/util/appContent"
 
 import "./appDialog.less"
+import "./appContentStyle.less"
 
 interface IProps {
   visible: boolean;

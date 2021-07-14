@@ -15,25 +15,26 @@ interface IProps {
 
 export default function AppDialog(props: IProps) {
   const { visible } = props
-  const [curAppCnt, setCurAppCnt] = useState<IAppContentMap>()
+  const [curAppCnt, setCurAppCnt] = useState<IAppContentMap | null>()
   const { appKey, dispatch } = useContext(AppInfoContext)
-  const rootDom = document.getElementById("root")
   useEffect(() => {
     const result = findAppContentByKey(appKey)
     if(result) {
       setCurAppCnt(result)
+    } else {
+      setCurAppCnt(null)
     }
   }, [appKey])
-  
+
   const renderConetent = () => {
     const Comp = curAppCnt && curAppCnt.renderComponents
     return (
       <TransitionGroup
         visible={visible}
         enterAnimation="fadeIn"
-        levaeAnimation="fadeOut" 
+        levaeAnimation="" 
       >
-        <div className={`appDialog ${curAppCnt?.dialogStyle.join(' ')}`}>
+        <div className={`appDialog ${curAppCnt?.dialogStyle.join(' ') || ''}`}>
           <div className="closeBtn pointer" onClick={()=> dispatch({ type: APP_ACTION_TYPE.CLEAR_APP }) }>
             <MIcon iconName="iconclose" />
           </div>
@@ -43,9 +44,5 @@ export default function AppDialog(props: IProps) {
     )
   }
   
-  return (
-    !rootDom ? <></> : (
-      ReactDOM.createPortal(renderConetent(), rootDom)
-    )
-  )
+  return renderConetent()
 }

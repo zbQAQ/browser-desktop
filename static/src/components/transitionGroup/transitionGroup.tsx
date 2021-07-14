@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useCallback } from "react"
 
 import "./transitionGroup.css"
 interface IProps {
@@ -22,52 +22,38 @@ interface IProps {
 
 export default function TransitionGroup(props: IProps) {
   const { enterAnimation = "fadeIn", levaeAnimation = "fadeOut", visible, delay = 500, className = '' } = props
-  const transitionGroup = useRef(null);
-  const [firstMount, setFirstMount] = useState(true)
+  // 需要用新的标识用在 动画结束后 隐藏元素
+  const [ flag, setFlag ] = useState(visible)
+  const transitionGroup = useRef<HTMLDivElement>(null);
 
-  // const addEventListener = (el: any, eventName: string, callBack: Function) => {
+  // const addEventListener = (el: HTMLDivElement, eventName: string, callBack: ()=>void) => {
   //   if(!el) return;
   //   el.addEventListener(eventName, callBack)
+  // }
+  // const removeEventListener = (el: HTMLDivElement | null, eventName: string, callBack: ()=>void) => {
+  //   if(!el) return;
+  //   el.removeEventListener(eventName, callBack)
   // }
 
   useEffect(() => {
     if(visible) {
-      setFirstMount(false)
+      setFlag(visible)
+    } else {
+      setTimeout(() => setFlag(visible), delay)
     }
   }, [visible])
 
   const render = () => {
-    // debugger; 
     const initStyle = {
-      opacity: visible ? 1 : 0,
-      //控制动画结束后 隐藏的时间 所以需要比动画执行的时间长
-      transition: `opacity ${delay + 50}ms`,
+      // 控制动画结束后 隐藏的时间 所以需要比动画执行的时间长
+      // transition: `opacity ${delay + 50}ms`,
       animationDuration: `${delay}ms`,
-      animationName: visible ? enterAnimation : !firstMount ? levaeAnimation : '',
+      animationName: visible ? enterAnimation : levaeAnimation,
     }
-    const classes = `transitionGroup ${className} ${visible ? 'pointerEventsAll' : 'pointerEventsNone'}`
+    const classes = `transitionGroup ${className} ${flag ? "show" : "hide"} ${visible ? 'pointerEventsAll' : 'pointerEventsNone'}`
 
     return (<div className={classes} ref={transitionGroup} style={initStyle}>{props.children}</div>)
   }
 
-  // useEffect(() => {
-  //   // debugger;
-  //   addEventListener(transitionGroup.current, "animationstart", () => {
-  //     console.log("动画开始", props.visible)
-  //   })
-  //   addEventListener(transitionGroup.current, "animationend", () => {
-  //     console.log("动画结束", props.visible)
-  //   })
-
-  //   // // listen for animation iteration
-  //   // .addEventListener("animationiteration",function(e){
-  //   //   console.log("log at beginning of each subsequent iteration");
-  //   // },false);
-
-  //   // // listen for animation end
-  //   // transitionGroup.current.addEventListener("animationend",function(e){
-  //   //   console.log("log at end of monkey animation");
-  //   // },false);
-  // }, [])
   return render()
 }

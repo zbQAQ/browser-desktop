@@ -10,28 +10,20 @@ export const desktopApp: IDesktopAppType[] = [
     showType: "dialog",
     pagePath: "/search"
   },
-  // {
-  //   id: 2,
-  //   key: "chess",
-  //   name: "象棋",
-  //   iconType: "svg",
-  //   iconName: "iconyouxiyouxiqipai",
-  //   showType: "dialog",
-  // },
-  {
-    id: 3,
-    key: "tic_tac_toe",
-    name: "井字棋",
-    iconType: "svg",
-    iconName: "iconjingziqi",
-    showType: "dialog",
-  },
   {
     id: 4,
     key: "todo_list",
     name: "todo",
     iconType: "svg",
     iconName: "icontodo-line",
+    showType: "dialog",
+  },
+  {
+    id: 3,
+    key: "tic_tac_toe",
+    name: "井字棋",
+    iconType: "svg",
+    iconName: "iconjingziqi",
     showType: "dialog",
   },
   {

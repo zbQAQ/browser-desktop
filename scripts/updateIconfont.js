@@ -53,6 +53,6 @@ inquirer.prompt(opitons)
     });
 
   })
-  .catch(errr => {
+  .catch(err => {
     console.log("err", err);
   })

@@ -1,11 +1,17 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react"
 
-import TransitionGroup from "@/components/transitionGroup/transitionGroup"
+import TransitionGroupv2 from "@/components/transitionGroup/transitionGroup2"
 import { AppInfoContext } from "@/context/appInfoProvider"
 
 import "./wallpaper.less"
 interface IProps {
   isBlur: boolean
+}
+
+enum LOAD_STATUS {
+  READY = "ready",
+  LOADING = "loading",
+  END = "end"
 }
 
 function getPixelColor(context: any, x: number, y: number) {
@@ -24,6 +30,20 @@ function getPixelColor(context: any, x: number, y: number) {
     a: a,
   }
 }
+
+// const reducer = (state: IAppInfoContext, action: IAction ) => {
+//   const { payload } = action
+//   switch(action.type) {
+//     case APP_ACTION_TYPE.UPDATE_APP:
+//       return { ...state, appKey: payload.appKey }
+//     case APP_ACTION_TYPE.CLEAR_APP:
+//       return { ...state, appKey: '' }
+//     case APP_ACTION_TYPE.UPDATE_WALLPAPER:
+//       return { ...state, wallpaper: payload.wallpaper }
+//     default:
+//       return state  
+//   }
+// }
 
 export default function Wallpaper(props: IProps) {
   const { isBlur } = props
@@ -60,13 +80,14 @@ export default function Wallpaper(props: IProps) {
   
   return (
     <div className={`background ${isBlur ? 'blur': ''}`}>
-      <TransitionGroup
+      <TransitionGroupv2
         visible={loadStatus}
         enterAnimation="fadeIn"
         levaeAnimation="fadeOut" 
+        className='wallpaper-transition'
       >
         {loadStatus && <div className='wallpaper-image' style={{backgroundImage: `url(${wallpaper})`}}></div>}
-      </TransitionGroup>
+      </TransitionGroupv2>
       <canvas ref={canvasMain} className="none" id="canvas"></canvas>
     </div>
   )

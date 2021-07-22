@@ -28,5 +28,20 @@
     "id": "f7b1c349359742c3",
     "status": 1,
     "title": "appDialog动画优化"
+  },
+  {
+    "id": "95581ff188346ab1",
+    "status": 0,
+    "title": "dispatch payload 类型声明改造"
+  },
+  {
+    "id": "a7188f6ef6d1375a",
+    "status": 0,
+    "title": "todolist 排序改造"
+  },
+  {
+    "id": "3292be795f9f341a",
+    "status": 0,
+    "title": "transitionGroupv2 重构"
   }
 ]

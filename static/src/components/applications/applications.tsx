@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import { AppInfoContext, APP_ACTION_TYPE } from "@/context/appInfoProvider"
 import { desktopApp } from "@/config/appContentMap"
 
+import TransitionGroupV2 from "@/components/transitionGroup/transitionGroup2"
 import MIcon from "@/components/mIcon/mIcon"
 
 import "./applications.less"
@@ -24,16 +25,25 @@ export default function Applications(props: IProps) {
     dispatch({ type: APP_ACTION_TYPE.UPDATE_APP, payload })
   }
 
-  return visible ? (
-    <div className="applications">
-      {data.map((item: IDesktopAppType) => (
-        <div className="aitem textCenter pointer" key={item.id} onClick={()=>setAppKey(item.key)}>
-          <div className="icon">
-            {renderIcon(item.iconType, item.iconName)}
+  return (
+    <TransitionGroupV2 
+      className={'applications-transition'}
+      enterAnimation="fadeInLeft"
+      levaeAnimation="fadeOut"
+      visible={visible}
+      delay={200}
+      levaeDeleteDom={true}
+    >
+      <div className="applications">
+        {data.map((item: IDesktopAppType) => (
+          <div className="aitem textCenter pointer" key={item.id} onClick={()=>setAppKey(item.key)}>
+            <div className="icon">
+              {renderIcon(item.iconType, item.iconName)}
+            </div>
+            <div className="name">{item.name}</div>
           </div>
-          <div className="name">{item.name}</div>
-        </div>
-      ))}
-    </div>
-  ) : null
+        ))}
+      </div>
+    </TransitionGroupV2>
+  )
 }

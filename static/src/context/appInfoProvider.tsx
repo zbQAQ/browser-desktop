@@ -8,7 +8,8 @@ interface IAppInfoContext {
 
 const initAppInfo: IAppInfoContext = {
   appKey: "",
-  wallpaper: "http://zhoubao-browser-desktop.oss-cn-shenzhen.aliyuncs.com/images/default-wallpaper.jpg",
+  // wallpaper: "http://zhoubao-browser-desktop.oss-cn-shenzhen.aliyuncs.com/images/default-wallpaper.jpg",
+  wallpaper: "https://zhoubao-browser-desktop.oss-cn-shenzhen.aliyuncs.com/images/42bf51b4d888633d171fa27aa6b9e357.png",
   dispatch: () => {}
 }
 

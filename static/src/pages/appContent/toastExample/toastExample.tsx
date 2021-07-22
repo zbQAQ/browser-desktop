@@ -8,7 +8,7 @@ export default function ToastExample() {
   const { showToast } = useToast()
 
   const handleShowClick = () => {
-    const id = showToast("你好啊")
+    const id = showToast({content: "你好啊"})
     setToastId(id)
   }
 

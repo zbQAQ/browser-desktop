@@ -1,5 +1,5 @@
 import React from "react"
-import Toast, { ToastInstance } from "./toast"
+import Toast, { ToastInstance, ToastPosition } from "./toast"
 import { COMMON_TOAST_SPACING } from "./toastProvider"
 
 import "./toastContainer.less"
@@ -9,11 +9,12 @@ interface ToastContainerProps {
   clearToasts: () => void
 }
 
-const getCurrTop = (originArr: ToastInstance[], index: number): number => {
+const getCurrTop = (originArr: ToastInstance[], index: number, position: ToastPosition): number => {
   const beforeToast = originArr.slice(0, index)
   const totalHeight = beforeToast.reduce((total, current) => {
-    const h = document.getElementById("toast-" + current.id)?.clientHeight || 0
-    return h + total + COMMON_TOAST_SPACING
+    const { position: pCurrent = 'center' } = current
+    const h = position === pCurrent ? (document.getElementById("toast-" + current.id)?.clientHeight || 0) + COMMON_TOAST_SPACING : 0
+    return h + total
   }, COMMON_TOAST_SPACING)
 
   return totalHeight
@@ -26,8 +27,8 @@ export default function ToastContainer(props: ToastContainerProps) {
     <div className="toastContainer">
       {
         toasts.map((toast: ToastInstance, index, oriArr) => {
-          const { id } = toast
-          const top = getCurrTop(oriArr, index)
+          const { id, position = 'center' } = toast
+          const top = getCurrTop(oriArr, index, position)
           return <Toast key={id} { ...toast } top={top} resetTopCallback={clearToasts} />
         })
       }

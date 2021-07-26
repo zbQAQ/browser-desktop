@@ -7,7 +7,7 @@ import useToast from "@/hooks/useToast"
 
 import "./toast.less"
 
-type ToastPosition = 'left' | 'center' | 'right'
+export type ToastPosition = 'left' | 'center' | 'right'
 
 type ToastType = 'null' | 'warning' | 'info' | 'success' | 'error'
 

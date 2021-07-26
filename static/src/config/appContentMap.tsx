@@ -55,7 +55,7 @@ export const desktopApp: IDesktopAppType[] = [
     key: "toast_example",
     name: "toast弹窗",
     iconType: "svg",
-    iconName: "icontupianbizhi",
+    iconName: "iconxiaoxi",
     showType: "dialog",
   },
 ]

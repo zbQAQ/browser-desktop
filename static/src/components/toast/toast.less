@@ -1,12 +1,30 @@
 .toast {
-  box-sizing: border-box;
-  margin-bottom: 1rem;
-  background: #fff;
-  padding: 0.8rem;
+  position: absolute;
   pointer-events: auto;
-  transition: all 0.25s;
-}
+  transition: top 0.25s ease-in-out;
 
-.relative {
-  position: relative;
+  &.has-closebtn .toast-inner {
+    padding: 0.8rem 2rem 0.8rem 0.8rem;
+  }
+
+  .toast-inner {
+    box-sizing: border-box;
+    background: #fff;
+    padding: 0.8rem;
+    border-radius: 2px;
+
+    .pre-icon {
+      font-size: 10px;
+      margin-right: 4px;
+      vertical-align: top;
+    }
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 14px;
+    right: 8px;
+    font-size: 8px;
+    color: #666;
+  }
 }

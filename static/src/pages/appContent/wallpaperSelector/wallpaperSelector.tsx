@@ -83,7 +83,7 @@ export default function WallpaperSelector() {
           visible={readyUpload}
           className="icon-upload"
           enterAnimation="flash"
-          levaeAnimation="fadeOut"
+          leaveAnimation="fadeOut"
         >
           <MIcon iconType="iconfont" iconName="iconcloudupload pointer" onClick={() => triggerUpload()}></MIcon>
         </TransitionGroup>

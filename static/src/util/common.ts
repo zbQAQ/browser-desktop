@@ -190,3 +190,12 @@ export function queryStringify(obj: Record<string, any>, seq: string = "&", eq: 
 export function randomNum(min: number, max: number) {
   return Math.floor(min + Math.random() * (max - min + 1))
 }
+
+/**
+ * @name generateId 根据时间戳生成随机id 包含英文字符
+ * 
+ * @return {string}
+ */
+export function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2)
+}

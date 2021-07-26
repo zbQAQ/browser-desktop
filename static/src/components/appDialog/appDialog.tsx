@@ -32,7 +32,7 @@ export default function AppDialog(props: IProps) {
       <TransitionGroupV2
         visible={visible}
         enterAnimation="fadeIn"
-        levaeAnimation="" 
+        leaveAnimation="" 
       >
         <div className={`appDialog ${curAppCnt?.dialogStyle.join(' ') || ''}`}>
           <div className="closeBtn pointer" onClick={()=> dispatch({ type: APP_ACTION_TYPE.CLEAR_APP }) }>

@@ -1,14 +1,19 @@
 import React, { PropsWithChildren, createContext, useState } from "react"
+import { generateId } from "@/util/common"
 import { ToastInstance } from "./toast"
 import ToastContainer from "./toastContainer"
 
-const COMMON_TOAST_WIDTH = 375
+// 宽度
+export const COMMON_TOAST_WIDTH = 375
+
+// 间距
+export const COMMON_TOAST_SPACING = 20
 
 export interface IToastHelper {
   // 传入content  返回生成toastId
-  showToast: (options: ToastInstance) => number
+  showToast: (options: ToastInstance) => string
   // 传入要隐藏的toastId  返回传入的id
-  hideToast: (instanceId?: number) => void
+  hideToast: (instanceId?: string) => void
 }
 
 export const ToastContext = createContext<IToastHelper | null>(null)
@@ -17,13 +22,17 @@ export default function ToastProvider(props: PropsWithChildren<Record<string, an
 
   const [ toasts, setToasts ] = useState<ToastInstance[]>([])
 
+  const clearHiddenToasts = () => {
+    setToasts(pre => pre.filter(t => t.visible))
+  }
+
   const showToast = (options: ToastInstance) => {
-    const id = Date.now()
-    setToasts(pre => [...pre.filter(v => v.visible), { id, width: COMMON_TOAST_WIDTH, ...options, visible: true }])
+    const id = generateId()
+    setToasts(pre => [...pre.filter(v => v.visible), { id, ...options, visible: true }])
     return id
   }
 
-  const hideToast = (id?: number) => {
+  const hideToast = (id?: string) => {
     setToasts(pre => {
       return pre.map(t => {
         if(t.id === id) t.visible = false;
@@ -37,11 +46,10 @@ export default function ToastProvider(props: PropsWithChildren<Record<string, an
     hideToast
   }
 
-  // console.log("ToastProvider toasts", toasts)
   return (
     <ToastContext.Provider value={contextValue}>
       {props.children}
-      <ToastContainer toasts={toasts} />
+      <ToastContainer toasts={toasts} clearToasts={clearHiddenToasts} />
     </ToastContext.Provider>
   )
 

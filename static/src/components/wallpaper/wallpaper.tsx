@@ -83,7 +83,7 @@ export default function Wallpaper(props: IProps) {
       <TransitionGroupv2
         visible={loadStatus}
         enterAnimation="fadeIn"
-        levaeAnimation="fadeOut" 
+        leaveAnimation="fadeOut" 
         className='wallpaper-transition'
       >
         {loadStatus && <div className='wallpaper-image' style={{backgroundImage: `url(${wallpaper})`}}></div>}

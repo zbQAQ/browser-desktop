@@ -29,10 +29,10 @@ export default function Applications(props: IProps) {
     <TransitionGroupV2 
       className={'applications-transition'}
       enterAnimation="fadeInLeft"
-      levaeAnimation="fadeOut"
+      leaveAnimation="fadeOut"
       visible={visible}
       delay={200}
-      levaeDeleteDom={true}
+      leaveDeleteDom={true}
     >
       <div className="applications">
         {data.map((item: IDesktopAppType) => (

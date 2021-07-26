@@ -19,13 +19,16 @@ interface IProps {
   enterAnimation?: string;
   
   //离开动画 的名称
-  levaeAnimation?: string;
+  leaveAnimation?: string;
 
   // 离开动画结束后是否删除节点
-  levaeDeleteDom?: boolean
+  leaveDeleteDom?: boolean
 
   //动画执行周期 单位ms
   delay?: number;
+
+  // 离开动画结束时 执行的钩子函数
+  leaveAnimationTrigger?: () => any
 
   className?: string;
 }
@@ -50,7 +53,6 @@ export default class TransitionGroupV2 extends React.Component<IProps, IState> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: IProps) {
-    console.log("UNSAFE_componentWillReceiveProps", nextProps)
     if(nextProps.visible) {
       this.setState({ display: nextProps.visible })
     }
@@ -58,28 +60,18 @@ export default class TransitionGroupV2 extends React.Component<IProps, IState> {
 
   componentDidMount() {
     const el = this.tranDom as Element
-    console.log("componentDidMount", el)
     if(el) {
-      el.addEventListener('animationend', this.levaeAnimationEnd)
+      el.addEventListener('animationend', this.leaveAnimationEnd)
     }
   }
 
-  // componentWillUnmount() {
-  //   const el = this.tranDom as Element
-  //   console.log("componentWillUnmount", el)
-  //   if(el) {
-  //     el.removeEventListener('animationend', this.levaeAnimationEnd)
-  //   }
-  // }
-
   // 离开动画结束事件
-  levaeAnimationEnd = () => {
-    console.log("levaeAnimationEnd")
-    const { visible } = this.props
+  leaveAnimationEnd = () => {
+    const { visible, leaveAnimationTrigger } = this.props
     // 监听离开动画结束
     if(!visible) {
-      console.log("离开动画 结束", this.props)
       this.setState({ display: false })
+      leaveAnimationTrigger && leaveAnimationTrigger()
     }
   }
   
@@ -89,20 +81,20 @@ export default class TransitionGroupV2 extends React.Component<IProps, IState> {
       visible,
       delay = 500, 
       enterAnimation = "fadeIn", 
-      levaeAnimation = "fadeOut", 
-      levaeDeleteDom = false, 
+      leaveAnimation = "fadeOut", 
+      leaveDeleteDom = false, 
       className = '' 
     } = this.props
     
     const { display } = this.state
     const initStyle = {
       animationDuration: `${delay}ms`,
-      animationName: visible ? enterAnimation : levaeAnimation,
+      animationName: visible ? enterAnimation : leaveAnimation,
     }
 
     const classs = `transitionGroupV2 ${className} ${visible ? 'pointerEventsAll' : 'pointerEventsNone'}`
     
-    if(levaeDeleteDom) {
+    if(leaveDeleteDom) {
       return (
         <div className={classs} id={this._id} ref={el => this.tranDom = el} style={initStyle}>
           {display ? children : null}

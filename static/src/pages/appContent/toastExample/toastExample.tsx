@@ -23,6 +23,13 @@ const exampleList: IExampleList[] = [
         }
       },
       {
+        label: "info",
+        option: {
+          type: "info",
+          content: "我是类型为 info 的 toast"
+        }
+      },
+      {
         label: "success",
         option: {
           type: "success",

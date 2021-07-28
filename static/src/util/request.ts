@@ -1,6 +1,5 @@
 import axios from "axios"
 
-console.log("axios.create")
 const service = axios.create({
   timeout: 1000,
 });

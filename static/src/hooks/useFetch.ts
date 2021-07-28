@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useReducer } from "react"
+import useToast from "@/hooks/useToast"
 
 // fetch 状态
 export const enum FETCH_STATUS {
@@ -85,6 +86,8 @@ export default function useFetch<T = Record<string, any>>(fetcher: IFetcher, opt
   }
 
   const [ state, dispatch ] = useReducer(fetchReducer, initState)
+
+  const { showToast } = useToast()
   
   const { status } = state
 
@@ -115,12 +118,14 @@ export default function useFetch<T = Record<string, any>>(fetcher: IFetcher, opt
           dispatchSuccess()
         }
       } else {
-        const payload = { errormsg: 'Failed to fetch' }
+        const payload = { errormsg: resp.errormsg || 'Failed to fetch' }
         dispatch({ type: FETCH_STATUS.FETCH_FAILED, payload: payload })
+        showToast({type: "error", content: resp.errormsg || 'Failed to fetch'})
       }
     } catch (error) {
       const payload = { errormsg: error.message || 'Failed to fetch' }
       dispatch({ type: FETCH_STATUS.FETCH_FAILED, payload: payload })
+      showToast({ type: "error", content: error.message || 'Failed to fetch' })
     }
   }, [fetcher])
 

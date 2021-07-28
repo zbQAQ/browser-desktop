@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 const { getConfig } = require("../util/config")
 const OSS = require('ali-oss');
+const uResponse = require("../util/response")
 
 const client = new OSS({...getConfig("oss")})
 
@@ -24,12 +25,11 @@ class MImage {
       }
     }
 
-    // TODO: 统一规范返回格式
-    res.send({ data, status: 200, errormsg: '' })
+    uResponse.success(res, data)
   }
 
   async upload(req: any, res: Response, next: NextFunction) {
-    res.send({ data: 'ok', status: 200, errormsg: '' })
+    uResponse.success(res, 'ok')
   }
 }
 

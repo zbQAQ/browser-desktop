@@ -1,12 +1,14 @@
-/**
- * @name createHexRandom 生成指定位数 hex 随机字符串
- * 
- * @param {number}  length 位数
- * 
- * @return {string} 
- */
+import { RequestHandler, Request, Response, NextFunction } from "express";
+const uResponse = require("./response")
 
 module.exports = {
+  /**
+   * @name createHexRandom 生成指定位数 hex 随机字符串
+   * 
+   * @param {number}  length 位数
+   * 
+   * @return {string} 
+   */
   createHexRandom: (length: number) => { 
     let num = ""
     for(let i = 0; i < length; i++) {
@@ -37,5 +39,16 @@ module.exports = {
       }
     }
     return num
+  },
+
+  // 统一接口错误捕捉
+  catchError: (handler: RequestHandler) => {
+    return (req: Request, res:Response, next: NextFunction) => {
+      try {
+        handler(req, res, next)
+      } catch(e) {
+        uResponse.error(res, e.message || 'catchError: 服务器错误')
+      }
+    }
   }
 }

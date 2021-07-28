@@ -51,7 +51,7 @@ class TodoList {
   delete(req: Request, res: Response, next: NextFunction) {
     const { id } = req.query
     if(!id) {
-      res.send({ data: null, status: 500, errormsg: "payload missing id" });
+      uResponse.error(res, 'payload missing id')
       return
     }
     const data = JSON.parse(fs.readFileSync(PATH, "utf8"));

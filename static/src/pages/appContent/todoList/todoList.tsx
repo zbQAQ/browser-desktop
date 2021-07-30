@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from "react"
 
 import MIcon from "@/components/mIcon/mIcon"
 import { getTodoList, addTotoList, deleteTodoList, updateTodoStatus } from "@/api/todoList"
-import { animation } from "@/util/common"
+import { animation, timeFormat } from "@/util/common"
 import useFetch, { FETCH_STATUS } from "@/hooks/useFetch"
 
-import "./todoList.css"
+import "./todoList.less"
 
 interface ITodoListItem {
   id: string
@@ -13,49 +13,17 @@ interface ITodoListItem {
   title: string
 }
 
-const mockTodoData: ITodoListItem[] = [
-  { 
-    id: "1",
-    status: 0,
-    title: "点击 ➕ 添加你今天的第一件事吧~"
-  },
-]
-
-const mockTodoApi = {
-  changeStatus: (id: string, status: number) => {
-    const item = mockTodoData.find(v => v.id === id)
-    if(item) {
-      item.status = status
-    }
-    return mockTodoData
-  },
-  delete: (id: string) => {
-    const index = mockTodoData.findIndex(v => v.id === id)
-    mockTodoData.splice(index, 1)
-    return mockTodoData
-  },
-  increase: (title: string) => {
-    mockTodoData.unshift({
-      id: "Date.now()",
-      status: 0,
-      title: title
-    })
-    return mockTodoData
-  }
-}
-
 export default function TodoList() {
   const [data, setData] = useState<ITodoListItem[]>([])
   const [selectId, setSelectId] = useState("")
   const [afterAction, setAfterAction] = useState("")
   const [isIncrease, setIsIncrease] = useState(false)
-  const [input, setInput] = useState("")
   const increaseInput = useRef() as any
 
   const getList = useCallback(() => {
     return getTodoList()
   }, [])
-  const { data: listData, status: listStatus, triggerFetch: triggerGetList } = useFetch(getList, { autoReset: true })
+  const { data: listData, triggerFetch: triggerGetList } = useFetch(getList, { autoReset: true })
 
   const addTodo = useCallback(() => {
     const value = increaseInput.current.value.trim()
@@ -66,13 +34,13 @@ export default function TodoList() {
   const delTodo = useCallback(() => {
     return selectId ? deleteTodoList(selectId) : Promise.resolve()
   }, [selectId])
-  const { data: delData, triggerFetch: triggerDelTodo } = useFetch(delTodo, { autoReset: true, immediate: false })
+  const { triggerFetch: triggerDelTodo } = useFetch(delTodo, { autoReset: true, immediate: false })
 
   const updateTode = useCallback(() => {
     const stataus = data.find(v => v.id === selectId)?.status
-    return selectId ? updateTodoStatus(selectId, !!!stataus) : Promise.resolve()
+    return selectId ? updateTodoStatus(selectId, !!stataus) : Promise.resolve()
   }, [selectId])
-  const { data: updateData, triggerFetch: triggerUpdateTodo } = useFetch(updateTode, { autoReset: true, immediate: false })
+  const { triggerFetch: triggerUpdateTodo } = useFetch(updateTode, { autoReset: true, immediate: false })
 
 
   useEffect(() => {
@@ -87,10 +55,10 @@ export default function TodoList() {
       if(cntDom) {
         const width = cntDom.offsetWidth
         increaseInput.current.value = ''
+        triggerGetList()
         animation(cntDom, { left: width, opacity: 0 }, 5, () => {
           animation(cntDom, { left: -width / 5 }, 1, () => {
             animation(cntDom, { left: 0, opacity: 100, }, 5)
-            triggerGetList()
           })
         })
       }
@@ -118,9 +86,16 @@ export default function TodoList() {
         }
       }
       if(afterAction === 'updateStatus') {
+        // 为保留 update 时 check动画 修改状态时只更新本地列表和请求update接口
+        // 等新的时机 获取服务器新的列表
         triggerUpdateTodo()
+        setData(data.map(d => {
+          if(d.id === selectId) {
+            d.status = 1
+          }
+          return d
+        }))
         setTimeout(() => {
-          triggerGetList()
           clearAction()
         }, 0)
       }
@@ -128,19 +103,14 @@ export default function TodoList() {
     }
   }, [selectId, afterAction])
 
-  const setItemStatus = (item: ITodoListItem, status: boolean) => {
-    //status 是经过取反的值
-    const data = mockTodoApi.changeStatus(item.id, status ? 1 : 0)
-    setData([...data])
-  }
-
 
   const renderItem = (item: any) => {
-    const { status, title, id } = item
+    const { status, title, id, createTime } = item
     return (
       <div key={id} id={`todoItem${id}`} className={`todoItem pointer mb10 ${status === 1 ? 'complete' : ''}`}>
         <div className="checkbox textCenter" onClick={()=>{setSelectId(id);setAfterAction('updateStatus')}}></div>
         <p className="name">{title}</p>
+        {createTime && <p className="updateTime">{timeFormat(createTime, "MM-dd")}</p>}
         <div className="deleteIcon textCenter" onClick={()=>{setSelectId(id);setAfterAction('delete')}}>
           <MIcon iconType="iconfont" iconName="iconlajitong"></MIcon>
         </div>
@@ -163,9 +133,9 @@ export default function TodoList() {
     const iconClassStr = `pointer ${isIncrease ? 'isIncrease' : ''}`
     return (
       <>
-        <span className="title">Today</span>
+        <span className="title">Todo</span>
         <div className="increase">
-          <input type="text" ref={increaseInput} className={inputClassStr} onKeyUp={(e: any) => {increaseInputKeyUp(e)}} />
+          <input type="text" ref={increaseInput} className={inputClassStr} placeholder="Enter 添加你的计划" onKeyUp={(e: any) => {increaseInputKeyUp(e)}} />
           <MIcon iconType="iconfont" iconName="iconadd" className={iconClassStr} onClick={() => {clickIncreaseIcon()}}></MIcon>
         </div>
       </>

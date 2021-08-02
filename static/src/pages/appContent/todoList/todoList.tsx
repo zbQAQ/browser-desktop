@@ -120,6 +120,9 @@ export default function TodoList() {
 
   const clickIncreaseIcon = () => {
     setIsIncrease(!isIncrease)
+    if(!isIncrease && increaseInput.current) {
+      increaseInput.current.focus()
+    }
   }
 
   const increaseInputKeyUp = (e: KeyboardEvent) => {

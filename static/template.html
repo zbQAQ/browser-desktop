@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css" />
     <!-- iconfont css start --><link rel="stylesheet" href="//at.alicdn.com/t/font_2190858_j47kmbhc9c.css" /><!-- iconfont css end -->
     <script>
-      window.CONFIG = <%= htmlWebpackPlugin.options.config %>
+      window.CONFIG = <%= JSON.parse(htmlWebpackPlugin.options.config) %>
     </script>
   </head>
   <body>

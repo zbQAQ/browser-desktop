@@ -26,14 +26,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: "iconjingziqi",
     showType: "dialog",
   },
-  {
-    id: 5,
-    key: "huarong_road",
-    name: "华容道仓库",
-    iconType: "svg",
-    iconName: "iconline-dragmovetuozhuai-01",
-    showType: "dialog",
-  },
+  // {
+  //   id: 5,
+  //   key: "huarong_road",
+  //   name: "华容道仓库",
+  //   iconType: "svg",
+  //   iconName: "iconline-dragmovetuozhuai-01",
+  //   showType: "dialog",
+  // },
   {
     id: 6,
     key: "waterfall_layout",

@@ -9,6 +9,7 @@
     npm run dev-static
     npm run dev-server
     ```
+  - tips: server 端口默认 8888； static 端口默认 8080
 
 #### 其他
 

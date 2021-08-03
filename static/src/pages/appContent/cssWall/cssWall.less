@@ -1,0 +1,48 @@
+@color: red;
+
+.csswall-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #dedede;
+  background: linear-gradient(130deg, #fdae4b, #dedede, #218eff) left center / 400% 400%;
+  animation: 8s wallBackground infinite;
+
+  .title {
+    margin: 0;
+    color: @color;
+  }
+
+}
+
+@keyframes wallBackground {
+  0%, 100% {
+    background-position-x: left;
+  }
+  50% {
+    background-position-x: right;
+  }
+}
+
+
+.loading {
+  width: 60px;
+  height: 60px;
+  background-color: #70c000;
+  border-radius: 2px;
+  animation: 2s cubeLoading infinite;
+}
+
+@keyframes cubeLoading {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: rotateX(180deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(180deg) rotateY(180deg);
+  }
+}

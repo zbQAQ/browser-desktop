@@ -58,6 +58,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: "iconxiaoxi",
     showType: "dialog",
   },
+  {
+    id: 9,
+    key: "icss_wall",
+    name: "css背景墙",
+    iconType: "svg",
+    iconName: "iconxiaoxi",
+    showType: "dialog",
+  },
 ]
 
 export const appContentMap: IAppContentMap[] = [
@@ -100,6 +108,11 @@ export const appContentMap: IAppContentMap[] = [
     key: "toast_example",
     dialogStyle: ["floatWindow", "floatCenter", "w650px", "h650px", "fontBlack"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/toastExample/toastExample"))
+  },
+  {
+    key: "icss_wall",
+    dialogStyle: ["fullScreen", "darkCloseBtn"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/cssWall/cssWall"))
   },
 ]
 

@@ -15,6 +15,10 @@ export const enum LOADING_TYPE {
   SQUARE_LATTICE = "square-lattice",
   // 彩虹进度条
   RAINBOW_PROGRESS = "rainbow-progress",
+  // point 跳动
+  POINT_BOUNCE = "point-bounce",
+  // 移动方块
+  BLOCK_MOVE = "block_move",
 }
 
 interface IProps {
@@ -31,15 +35,21 @@ interface IProps {
 export default function Loading(props: IProps) {
   const { type, className = "" } = props
 
+  const rendererContainer = (ele: React.ReactNode) => {
+    return <div className={"loadingv2-container " + className}>
+      {ele}
+    </div>
+  }
+
   const renderByType = () => {
     switch (type) {
       case LOADING_TYPE.CUBE :
-        return <div className={"loadingv2-container cube " + className}></div>
+        return rendererContainer(<div className="entity cube"></div>)
       case LOADING_TYPE.ZOOM_CIRCLE :
-        return <div className={"loadingv2-container zoom-circle " + className}></div>
+        return rendererContainer(<div className="entity zoom-circle"></div>)
       case LOADING_TYPE.MATRIX :
-        return (
-          <div className={"loadingv2-container matrix " + className}>
+        return rendererContainer(
+          <div className="entity matrix">
             <div className="place"></div>
             <div className="place"></div>
             <div className="place"></div>
@@ -48,27 +58,48 @@ export default function Loading(props: IProps) {
           </div>
         )
       case LOADING_TYPE.GRADIENT_CIRCLE :
-        return <div className={"loadingv2-container gradient-circle " + className}></div>
+        return rendererContainer(<div className="entity gradient-circle"></div>)
       case LOADING_TYPE.SQUARE_LATTICE :
-        return <div className={"loadingv2-container square-lattice " + className}>
-          <div className="lat"></div>
-          <div className="lat"></div>
-          <div className="lat"></div>
-
-          <div className="lat"></div>
-          <div className="lat"></div>
-          <div className="lat"></div>
-
-          <div className="lat"></div>
-          <div className="lat"></div>
-          <div className="lat"></div>
-        </div>
+        return rendererContainer(
+          <div className="entity square-lattice">
+            <div className="lat"></div>
+            <div className="lat"></div>
+            <div className="lat"></div>
+            <div className="lat"></div>
+            <div className="lat"></div>
+            <div className="lat"></div>
+            <div className="lat"></div>
+            <div className="lat"></div>
+            <div className="lat"></div>
+          </div>
+        )
       case LOADING_TYPE.RAINBOW_PROGRESS :
-        return <div className={"loadingv2-container rainbow-progress " + className}>
-          <div className="progress"></div>
-        </div>
+        return rendererContainer(
+          <div className="entity rainbow-progress">
+            <div className="progress"></div>
+          </div>
+        )
+      case LOADING_TYPE.POINT_BOUNCE :
+        return rendererContainer(
+          <div className="entity point-bounce">
+            <div className="point"></div>
+            <div className="point"></div>
+            <div className="point"></div>
+            <div className="shadow"></div>
+            <div className="shadow"></div>
+            <div className="shadow"></div>
+          </div>
+        )
+      case LOADING_TYPE.BLOCK_MOVE :
+        return rendererContainer(
+          <div className="entity block_move">
+            <div className="block"></div>
+            <div className="block"></div>
+            <div className="block"></div>
+          </div>
+        )
       default:
-        return <h1>default</h1>
+        return <h1>Loading...</h1>
     }
   }
 

@@ -1,10 +1,16 @@
+@themeColor: #70c000;
+
+.normalSize() {
+  width: 60px;
+  height: 60px;
+}
+
 .loadingv2-container {
   position: relative;
 
-  &.cube {
-    width: 60px;
-    height: 60px;
-    background-color: #70c000;
+  .entity.cube {
+    .normalSize();
+    background-color: @themeColor;
     border-radius: 2px;
     animation: 2s cubeLoading infinite;
 
@@ -21,10 +27,9 @@
     }
   }
 
-  &.zoom-circle {
+  .entity.zoom-circle {
     position: relative;
-    width: 60px;
-    height: 60px;
+    .normalSize();
 
     &::before,
     &::after {
@@ -54,17 +59,16 @@
     }
   }
 
-  &.matrix {
+  .entity.matrix {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 60px;
-    height: 60px;
+    .normalSize();
     
     .place {
       width: 5px;
       height: 55px;
-      background-color: #70c000;
+      background-color: @themeColor;
       animation: 1.25s matrix infinite;
 
       &:nth-child(5) {
@@ -91,13 +95,12 @@
     }
   }
 
-  &.gradient-circle {
+  .entity.gradient-circle {
     position: relative;
-    width: 60px;
-    height: 60px;
+    .normalSize();
     border-radius: 50%;
     overflow: hidden;
-    background: linear-gradient(135deg, #70c000 33%, transparent 66%);
+    background: linear-gradient(135deg, @themeColor 33%, transparent 66%);
     animation: 1.3s gradientCircle infinite;
 
     &::after {
@@ -122,18 +125,17 @@
     }
   }
 
-  &.square-lattice {
+  .entity.square-lattice {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    width: 60px;
-    height: 60px;
+    .normalSize();
 
     .lat {
       width: 20px;
       height: 20px;
-      background: #70c000;
+      background: @themeColor;
 
       animation: 1s squareLattice infinite;
 
@@ -176,7 +178,7 @@
     }
   }
 
-  &.rainbow-progress {
+  .entity.rainbow-progress {
     position: relative;
     width: 180px;
     height: 60px;
@@ -225,6 +227,262 @@
 
   }
 
+  .entity.point-bounce {
+    @w: 120px;
+    @pointW: 20px;
+    @spacing: 15px;
+    position: relative;
+    width: @w;
+    height: 60px;
+
+    .point {
+      position: absolute;
+      top: 0;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background-color: @themeColor;
+      animation: pointBounce .5s ease infinite alternate;
+      z-index: 2;
+
+      &:nth-child(1) {
+        left: @spacing * 1;
+        animation-delay: 0s;
+      }
+      &:nth-child(2) {
+        left: @spacing * 2 + @pointW * 1;
+        animation-delay: 0.15s;
+      }
+      &:nth-child(3) {
+        left: @spacing * 3 + @pointW * 2;
+        animation-delay: 0.25s;
+      }
+    }
+
+    .shadow {
+      position: absolute;
+      bottom: -5px;
+      width: @pointW;
+      height: 5px;
+      background-color: rgba(0,0,0,.5);
+      filter: blur(2px);
+      transform-origin: 50%;
+      border-radius: 50%;
+      z-index: 1;
+      animation: cShadow .5s ease infinite alternate;
+      
+      &:nth-child(4) {
+        left: @spacing * 1;
+        animation-delay: 0s;
+      }
+      &:nth-child(5) {
+        left: @spacing * 2 + @pointW * 1;
+        animation-delay: 0.15s;
+      }
+      &:nth-child(6) {
+        left: @spacing * 3 + @pointW * 2;
+        animation-delay: 0.25s;
+      }
+    }
+
+
+    @keyframes pointBounce {
+      0% {
+        top: 55px;
+        height: 5px;
+        border-radius: 50px 50px 25px 25px;
+        transform: scaleX(1.7);
+      }
+      40% {
+        height: 20px;
+        border-radius: 50%;
+        transform: scaleX(1);
+      }
+      100% {
+        top: 0%;
+      }
+    }
+    @keyframes cShadow {
+      0% {
+        transform: scaleX(1.4);
+      }
+      40% {
+        transform: scaleX(1);
+        opacity: .7;
+      }
+      100% {
+        transform: scaleX(0.2);
+        opacity: .4;
+      }
+    }
+  }
+
+  .entity.block_move {
+    .normalSize();
+    position: relative;
+    background: transparent;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    .block {
+      position: absolute;
+      box-sizing: border-box;
+      float: left;
+      width: 25px;
+      height: 25px;
+      border: 4px solid @themeColor;
+      
+      &:nth-child(1) {
+        margin-left: 0;
+        margin-top: 0;
+        animation: moveBlock1 3s ease infinite;
+      }
+      &:nth-child(2) {
+        margin-left: 35px;
+        margin-top: 0;
+        animation: moveBlock2 3s ease infinite;
+      }
+      &:nth-child(3) {
+        margin-left: 0;
+        margin-top: 35px;
+        animation: moveBlock3 3s ease infinite;
+      }
+    }
+
+    @keyframes moveBlock1 {
+      0% {
+        width: 25px;
+        margin-left: 0px;
+      }
+      12.5% {
+        width: 25px;
+        margin-left: 0px;
+      }
+      25% {
+        width: 25px;
+        margin-left: 0px;
+      }
+      37.5% {
+        width: 60px;
+        margin-left: 0px;
+      }
+      50% {
+        width: 25px;
+        margin-left: 35px;
+      }
+      62.5% {
+        width: 25px;
+        margin-left: 35px;
+      }
+      75% {
+        width: 25px;
+        margin-left: 35px;
+      }
+      87.5% {
+        width: 25px;
+        margin-left: 35px;
+      }
+      100% {
+        width: 25px;
+        margin-left: 35px;
+      }
+    }
+
+    @keyframes moveBlock2 {
+      0% {
+        width: 25px;
+        height: 25px;
+        margin-top: 0px;
+        margin-left: 35px;
+      }
+      12.5% {
+        width: 25px;
+        height: 60px;
+        margin-top: 0px;
+        margin-left: 35px;
+      }
+      25% {
+        width: 25px;
+        height: 25px;
+        margin-top: 35px;
+        margin-left: 35px;
+      }
+      37.5% {
+        width: 25px;
+        height: 25px;
+        margin-top: 35px;
+        margin-left: 35px;
+      }
+      50% {
+        width: 25px;
+        height: 25px;
+        margin-top: 35px;
+        margin-left: 35px;
+      }
+      62.5% {
+        width: 25px;
+        height: 25px;
+        margin-top: 35px;
+        margin-left: 35px;
+      }
+      75% {
+        width: 25px;
+        height: 25px;
+        margin-top: 35px;
+        margin-left: 35px;
+      }
+      87.5%{
+        width: 60px;
+        height: 25px;
+        margin-top: 35px;
+        margin-left: 0px;
+      }
+      100% {
+        width: 25px;
+        height: 25px;
+        margin-top: 35px;
+        margin-left: 0px;
+      }
+    }
+
+    @keyframes moveBlock3 {
+      0% {
+        height: 25px;
+        margin-top: 35px;
+      }
+      12.5% {
+        height: 25px;
+        margin-top: 35px;
+      }
+      25% {
+        height: 25px;
+        margin-top: 35px;
+      }
+      37.5% {
+        height: 25px;
+        margin-top: 35px;
+      }
+      50% {
+        height: 25px;
+        margin-top: 35px;
+      }
+      62.5% {
+        height: 60px;
+        margin-top: 0px;
+      }
+      75% {
+        height: 25px;
+        margin-top: 0px;
+      }
+      87.5%{
+        height: 25px;
+        margin-top: 0px;
+      }
+      100% {
+        height: 25px;
+        margin-top: 0px;
+      }
+    }
+  }
+
 }
-
-

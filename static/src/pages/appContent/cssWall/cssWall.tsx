@@ -4,15 +4,31 @@ import Loading, { LOADING_TYPE } from "@/components/loadingv2/loading"
 
 import "./cssWall.less"
 
+interface ILoadingItem {
+  type: LOADING_TYPE
+}
+
 export default function CssWall() {
+
+  const loadingList: ILoadingItem[] = [
+    { type: LOADING_TYPE.CUBE },
+    { type: LOADING_TYPE.ZOOM_CIRCLE },
+    { type: LOADING_TYPE.MATRIX },
+    { type: LOADING_TYPE.GRADIENT_CIRCLE },
+    { type: LOADING_TYPE.SQUARE_LATTICE },
+    { type: LOADING_TYPE.RAINBOW_PROGRESS },
+    { type: LOADING_TYPE.BLOCK_MOVE },
+    { type: LOADING_TYPE.POINT_BOUNCE },
+  ]
+
   return (
-    <div className="csswall-container">
-      <Loading className="mr20" visible={true} type={LOADING_TYPE.CUBE} />
-      <Loading className="mr20" visible={true} type={LOADING_TYPE.ZOOM_CIRCLE} />
-      <Loading className="mr20" visible={true} type={LOADING_TYPE.MATRIX} />
-      <Loading className="mr20" visible={true} type={LOADING_TYPE.GRADIENT_CIRCLE} />
-      <Loading className="mr20" visible={true} type={LOADING_TYPE.SQUARE_LATTICE} />
-      <Loading className="mr20" visible={true} type={LOADING_TYPE.RAINBOW_PROGRESS} />
+    <div className="csswall-container textCenter">
+      <p className="title">Loading example</p>
+      <div className="show-dialog">
+        {loadingList.map( ( { type }, index ) => 
+          <Loading key={index} className="sItem mr20 ml20" visible={true} type={type} />
+        )}
+      </div>
     </div>  
   )
 }

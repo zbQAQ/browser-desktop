@@ -63,7 +63,7 @@ export const desktopApp: IDesktopAppType[] = [
     key: "icss_wall",
     name: "css背景墙",
     iconType: "svg",
-    iconName: "iconxiaoxi",
+    iconName: "iconyangshi",
     showType: "dialog",
   },
 ]

@@ -1,7 +1,7 @@
 import React, { useContext, useCallback, useRef, useState } from "react"
 
 import MIcon from "@/components/mIcon/mIcon"
-import Loading from "@/components/loading/loading"
+import Loading, { LOADING_TYPE } from "@/components/loadingv2/loading"
 import TransitionGroup from "@/components/transitionGroup/transitionGroup"
 
 import useFetch, { FETCH_STATUS } from "@/hooks/useFetch"
@@ -41,7 +41,7 @@ export default function WallpaperSelector() {
     }
   }, [file])
   
-  const { data, status, triggerFetch: triggerList } = useFetch(getThumbList, { autoReset: true, mockDelay: 1000 })
+  const { data, status, triggerFetch: triggerList } = useFetch(getThumbList, { autoReset: true, mockDelay: 2000 })
 
   const handleItemClick = (wallpaper: string) => {
     const payload = { wallpaper }
@@ -50,7 +50,7 @@ export default function WallpaperSelector() {
   }
 
   const renderList = useCallback(() => {
-    if(!data) return <Loading visible={!data} />;
+    if(!data) return <Loading className="wloading" visible={!data} type={LOADING_TYPE.MATRIX} />;
     return data.map((v: any)=> (
       <div key={v.name} className={`wallpaper-item pointer ${v.url === wallpaper ? 'active': ''}`} style={{backgroundImage: `url(${v.thumbUrl})`}} onClick={() => handleItemClick(v.url)}>
         <div className="selected textCenter">

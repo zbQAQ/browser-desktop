@@ -35,11 +35,19 @@
   }
 
   .wallpaper-list {
+    position: relative;
     height: 550px;
     max-height: 550px;
     margin-top: 1rem;
     overflow-y: auto;
     overflow-x: hidden;
+
+    .wloading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
     .wallpaper-item {
       position: relative;

@@ -19,6 +19,9 @@ export default function CssWall() {
     { type: LOADING_TYPE.RAINBOW_PROGRESS },
     { type: LOADING_TYPE.BLOCK_MOVE },
     { type: LOADING_TYPE.POINT_BOUNCE },
+    { type: LOADING_TYPE.GOOEY_POINT },
+    { type: LOADING_TYPE.BLOCK_WALK },
+    { type: LOADING_TYPE.BLUR_FONT },
   ]
 
   return (

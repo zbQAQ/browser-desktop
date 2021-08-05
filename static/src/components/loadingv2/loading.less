@@ -1,13 +1,18 @@
 @themeColor: #70c000;
 
-.normalSize() {
-  width: 60px;
-  height: 60px;
+.normalSize(@w: 60px, @h: 60px) {
+  width: @w;
+  height: @h;
 }
 
 .loadingv2-container {
   display: inline-block;
   position: relative;
+  webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
 
   .entity.cube {
     .normalSize();
@@ -181,8 +186,7 @@
 
   .entity.rainbow-progress {
     position: relative;
-    width: 180px;
-    height: 60px;
+    .normalSize(180px);
     border: 4px solid #70c000;
     border-radius: 8px;
     overflow: hidden;
@@ -233,8 +237,7 @@
     @pointW: 20px;
     @spacing: 15px;
     position: relative;
-    width: @w;
-    height: 60px;
+    .normalSize(@w);
 
     .point {
       position: absolute;
@@ -318,7 +321,7 @@
     }
   }
 
-  .entity.block_move {
+  .entity.block-move {
     .normalSize();
     position: relative;
     background: transparent;
@@ -486,4 +489,201 @@
     }
   }
 
+  .entity.gooey-point {
+    position: relative;
+    box-sizing: border-box;
+    .normalSize(95px);
+    background-color: #fff;
+    filter: contrast(10);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 5px 5px 0px 0px #6666664f;
+
+    span {
+      display: block;
+      float: left;
+      width: 10px;
+      height: 10px;
+      margin-top: 25px;
+      margin-left: 10px;
+      border-radius: 50%;
+      background-color: green;
+      transform: translateX(0);
+      filter: blur(4px);
+
+      &.dot {
+        left: 20px;
+        animation: cDot 2.5s infinite;
+      }
+    }
+
+    .dots {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateX(0);
+      animation: cDots 2.5s infinite;
+      span {
+        &:nth-child(1) {
+          margin-left: 30px;
+        }
+        &:nth-child(2) {
+          margin-left: 10px;
+        }
+        &:nth-child(3) {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    @keyframes cDot {
+      50% {
+        transform: translateX(60px);
+      }
+    }
+    @keyframes cDots {
+      50% {
+        transform: translateX(-20px);
+      }
+    }
+  }
+
+  .entity.block-walk {
+    position: relative;
+    .normalSize(90px);
+    
+    .block {
+      position: absolute;
+      top: 30px;
+      width: 30px;
+      height: 30px;
+      background-color: @themeColor;
+      transition: all 0.25s ease;
+
+      &.b1 {
+        left: 0;
+        transform-origin: 100% 0%;
+        animation: b1Rotate 1.5s infinite;
+      }
+      &.b2 {
+        left: 30px;
+        transform-origin: 100% 100%;
+        animation: b2Rotate 1.5s infinite;
+      }
+    }
+    @keyframes b1Rotate {
+      0% {
+        left: 0;
+        top: 30px;
+        height: 30px;
+        transform: rotate(0);
+      }
+      20% {
+        left: 0;
+        top: 30px;
+        height: 30px;
+        transform: rotate(180deg);
+      }
+      40% {
+        left: 0;
+        top: 60px;
+        height: 30px;
+        transform: rotate(180deg);
+      }
+      60% {
+        left: 0;
+        top: 60px;
+        height: 30px;
+        transform: rotate(180deg);
+      }
+      80% {
+        left: 0px;
+        top: 60px;
+        height: 30px;
+        transform: rotate(180deg);
+      }
+      100% {
+        left: -30px;
+        top: 60px;
+        height: 30px;
+        transform: rotate(180deg);
+      }
+    }
+    @keyframes b2Rotate {
+      0% {
+        left: 30px;
+        top: 30px;
+        height: 30px;
+        transform: rotate(0);
+      }
+      20% {
+        left: 30px;
+        top: 30px;
+        height: 30px;
+        transform: rotate(0);
+      }
+      21% {
+        left: 30px;
+        top: 0px;
+        height: 60px;
+        transform: rotate(0);
+      }
+      40% {
+        left: 30px;
+        top: 0px;
+        height: 60px;
+        transform: rotate(0);
+      }
+      60% {
+        left: 30px;
+        top: 0px;
+        height: 30px;
+        transform: rotate(0);
+      }
+      80% {
+        left: 30px;
+        top: 0px;
+        height: 30px;
+        transform: rotate(180deg);
+      }
+      100% {
+        left: 0px;
+        top: 0px;
+        height: 30px;
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .entity.blur-font {
+    .normalSize(160px);
+    display: flex;
+    justify-content: space-between;
+    color: @themeColor;
+    font-size: 1.8rem;
+    line-height: 60px;
+    .font {
+      display: inline-block;
+      animation: blurFont 1.6s infinite linear alternate;
+
+      .Loop(@index) when(@index < 8){
+        &:nth-child(@{index}){
+          animation-delay: @index * 0.2s
+        }
+        //递归调用 达到循环目的
+        .Loop(@index + 1);
+      }
+
+      // 调用循环
+      .Loop(1);
+      
+    }
+
+    @keyframes blurFont {
+      0% { filter: blur(0px); }
+      100% { filter: blur(4px); }
+    }
+  }
 }

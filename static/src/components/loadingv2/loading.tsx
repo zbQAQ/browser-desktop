@@ -18,7 +18,13 @@ export const enum LOADING_TYPE {
   // point 跳动
   POINT_BOUNCE = "point-bounce",
   // 移动方块
-  BLOCK_MOVE = "block_move",
+  BLOCK_MOVE = "block-move",
+  // 黏糊糊的点
+  GOOEY_POINT = "gooey-point",
+  // 会走的方块
+  BLOCK_WALK = "block-walk",
+  // 模糊的字体
+  BLUR_FONT = "blur-font",
 }
 
 interface IProps {
@@ -36,9 +42,7 @@ export default function Loading(props: IProps) {
   const { type, className = "" } = props
 
   const rendererContainer = (ele: React.ReactNode) => {
-    return <div className={"loadingv2-container " + className}>
-      {ele}
-    </div>
+    return <div className={"loadingv2-container " + className}>{ele}</div>
   }
 
   const renderByType = () => {
@@ -92,10 +96,40 @@ export default function Loading(props: IProps) {
         )
       case LOADING_TYPE.BLOCK_MOVE :
         return rendererContainer(
-          <div className="entity block_move">
+          <div className="entity block-move">
             <div className="block"></div>
             <div className="block"></div>
             <div className="block"></div>
+          </div>
+        )
+      case LOADING_TYPE.GOOEY_POINT :
+        return rendererContainer(
+          <div className="entity gooey-point">
+            <span className="dot"></span>
+            <div className="dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        )
+      case LOADING_TYPE.BLOCK_WALK :
+        return rendererContainer(
+          <div className="entity block-walk">
+            <div className="block b1"></div>
+            <div className="block b2"></div>
+          </div>
+        )
+      case LOADING_TYPE.BLUR_FONT :
+        return rendererContainer(
+          <div className="entity blur-font">
+            <div className="font">L</div>
+            <div className="font">o</div>
+            <div className="font">a</div>
+            <div className="font">d</div>
+            <div className="font">i</div>
+            <div className="font">n</div>
+            <div className="font">g</div>
           </div>
         )
       default:

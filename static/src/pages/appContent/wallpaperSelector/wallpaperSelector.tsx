@@ -44,9 +44,7 @@ export default function WallpaperSelector() {
   const { data, status, triggerFetch: triggerList } = useFetch(getThumbList, { autoReset: true, mockDelay: 2000 })
 
   const handleItemClick = (wallpaper: string) => {
-    const payload = { wallpaper }
-    dispatch({ type: APP_ACTION_TYPE.UPDATE_WALLPAPER, payload })
-    renderList()
+    dispatch({ type: APP_ACTION_TYPE.UPDATE_WALLPAPER, wallpaper })
   }
 
   const renderList = useCallback(() => {

@@ -21,8 +21,7 @@ export default function Applications(props: IProps) {
   }
 
   const setAppKey = (appKey: IAppKey) => {
-    const payload = { appKey }
-    dispatch({ type: APP_ACTION_TYPE.UPDATE_APP, payload })
+    dispatch({ type: APP_ACTION_TYPE.UPDATE_APP, appKey })
   }
 
   return (

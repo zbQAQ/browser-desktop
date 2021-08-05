@@ -3,7 +3,7 @@ import React, { useReducer } from "react"
 interface IAppInfoContext {
   appKey: IAppKey
   wallpaper: string
-  dispatch: React.Dispatch<IAction>
+  dispatch: React.Dispatch<IAnyAction<APP_ACTION_TYPE>>
 }
 
 const initAppInfo: IAppInfoContext = {
@@ -25,15 +25,14 @@ export enum APP_ACTION_TYPE {
   UPDATE_WALLPAPER = 'update_wallpaper'
 }
 
-const reducer = (state: IAppInfoContext, action: IAction ) => {
-  const { payload } = action
+const reducer = (state: IAppInfoContext, action: IAnyAction<APP_ACTION_TYPE> ) => {
   switch(action.type) {
     case APP_ACTION_TYPE.UPDATE_APP:
-      return { ...state, appKey: payload.appKey }
+      return { ...state, appKey: action.appKey }
     case APP_ACTION_TYPE.CLEAR_APP:
       return { ...state, appKey: '' }
     case APP_ACTION_TYPE.UPDATE_WALLPAPER:
-      return { ...state, wallpaper: payload.wallpaper }
+      return { ...state, wallpaper: action.wallpaper }
     default:
       return state  
   }

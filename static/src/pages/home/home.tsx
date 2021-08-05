@@ -21,8 +21,7 @@ export default function Home() {
   useEffect(() => {
     const urlParmas =  queryParse(location.search)
     if(urlParmas.appKey) {
-      const payload = { appKey: urlParmas.appKey }
-      dispatch({ type: APP_ACTION_TYPE.UPDATE_APP, payload })
+      dispatch({ type: APP_ACTION_TYPE.UPDATE_APP, appKey: urlParmas.appKey })
     }
   }, [])
 

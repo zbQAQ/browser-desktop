@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useReducer } from "react"
 import useToast from "@/hooks/useToast"
 
+const defaultErrorMsg = "Failed to fetch"
+
 // fetch 状态
 export const enum FETCH_STATUS {
   INIT = 'init',
@@ -52,7 +54,7 @@ const defaultOption: IFetchOptions = {
 }
 
 // 请求状态处理
-function fetchReducer<T>(state: IFetchState<T>, action: IAction) {
+function fetchReducer<T>(state: IFetchState<T>, action: IAnyAction<FETCH_STATUS>) {
   switch (action.type) {
     case FETCH_STATUS.INIT:
     case FETCH_STATUS.READY: {
@@ -62,11 +64,11 @@ function fetchReducer<T>(state: IFetchState<T>, action: IAction) {
       return { ...state, status: action.type, loading: true }
     }
     case FETCH_STATUS.FETCH_SUCCEEDED: {
-      const { data } = action.payload
+      const { data = null } = action
       return { ...state, status: action.type, data, errormsg: '', loading: false }
     }
     case FETCH_STATUS.FETCH_FAILED: {
-      const { errormsg } = action.payload
+      const { errormsg } = action
       return { ...state, status: action.type, data: null, errormsg, loading: false }
     }
     default:
@@ -103,8 +105,7 @@ export default function useFetch<T = Record<string, any>>(fetcher: IFetcher, opt
       const resp = await fetcher()
       if(resp.status === 200) {
         const dispatchSuccess = () => {
-          const payload = { data: resp.data }
-          dispatch({ type: FETCH_STATUS.FETCH_SUCCEEDED, payload: payload })
+          dispatch({ type: FETCH_STATUS.FETCH_SUCCEEDED, data: resp.data })
           callback && callback()
           if(autoReset) {
             setTimeout(() => {
@@ -118,14 +119,12 @@ export default function useFetch<T = Record<string, any>>(fetcher: IFetcher, opt
           dispatchSuccess()
         }
       } else {
-        const payload = { errormsg: resp.errormsg || 'Failed to fetch' }
-        dispatch({ type: FETCH_STATUS.FETCH_FAILED, payload: payload })
-        showToast({type: "error", content: resp.errormsg || 'Failed to fetch'})
+        dispatch({ type: FETCH_STATUS.FETCH_FAILED, errormsg: resp.errormsg || defaultErrorMsg })
+        showToast({type: "error", content: resp.errormsg || defaultErrorMsg})
       }
     } catch (error) {
-      const payload = { errormsg: error.message || 'Failed to fetch' }
-      dispatch({ type: FETCH_STATUS.FETCH_FAILED, payload: payload })
-      showToast({ type: "error", content: error.message || 'Failed to fetch' })
+      dispatch({ type: FETCH_STATUS.FETCH_FAILED, errormsg: error.message || defaultErrorMsg })
+      showToast({ type: "error", content: error.message || defaultErrorMsg })
     }
   }, [fetcher])
 

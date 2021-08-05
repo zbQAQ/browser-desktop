@@ -50,10 +50,14 @@ interface Window {
   createOjcectURL: any
 }
 
-// context & reducer
-interface IAction {
-  // aciton 类型
-  type: string
 
-  payload?: any
+interface IActionType<T = any> {
+  type: T
+}
+
+// context & reducer
+interface IAnyAction<T> extends IActionType<T> {
+  // payload?: any
+  // dispatch 不再显示 key， 需 reducer 根据不同类型约定使用不同key
+  [extraProps: string]: any
 }

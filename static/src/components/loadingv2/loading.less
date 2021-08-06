@@ -668,16 +668,16 @@
       display: inline-block;
       animation: blurFont 1.6s infinite linear alternate;
 
-      .Loop(@index) when(@index < 8){
+      .loop(@index) when(@index < 8){
         &:nth-child(@{index}){
           animation-delay: @index * 0.2s
         }
         //递归调用 达到循环目的
-        .Loop(@index + 1);
+        .loop(@index + 1);
       }
 
       // 调用循环
-      .Loop(1);
+      .loop(1);
       
     }
 

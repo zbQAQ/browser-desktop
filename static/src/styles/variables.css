@@ -5,6 +5,13 @@
   cursor: default;
 }
 
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+
 .none {
   display: none;
 }

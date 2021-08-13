@@ -66,6 +66,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: "iconyangshi",
     showType: "dialog",
   },
+  {
+    id: 10,
+    key: "2048",
+    name: "2048",
+    iconType: "svg",
+    iconName: "iconyangshi",
+    showType: "dialog",
+  },
 ]
 
 export const appContentMap: IAppContentMap[] = [
@@ -113,6 +121,11 @@ export const appContentMap: IAppContentMap[] = [
     key: "icss_wall",
     dialogStyle: ["fullScreen", "darkCloseBtn"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/cssWall/cssWall"))
+  },
+  {
+    key: "2048",
+    dialogStyle: ["fullScreen", "darkCloseBtn"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/game2048/game2048"))
   },
 ]
 

@@ -199,3 +199,49 @@ export function randomNum(min: number, max: number) {
 export function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2)
 }
+
+/**
+ * @name deepClone 对象深拷贝
+ * 
+ * @param {SourceDataType} data 数据源
+ * 
+ * @return {SourceDataType} res 克隆过后的data
+ */
+type SourceDataType = Record<string, any> | []
+export function deepClone(source: SourceDataType) {
+  if(source === null) return source;
+
+  const cloneArr = (data: any): any => {
+    const ret = []
+    for(let i = 0; i < data.length; i++) {
+      ret[i] = baseClone(data[i])
+    }
+    return ret
+  }
+  const cloneObj = (obj: any): any => {
+    const ret = {}
+    const keysArr = Object.keys(obj);
+    keysArr.forEach(k => {
+      ret[k] = baseClone(obj[k])
+    })
+    return ret;
+  }
+  const baseClone = (data: any): any => {
+    // 不需要 clone 的类型
+    const primitive = [
+      "string",
+      "boolean",
+      "number",
+      "undefined",
+      "function",
+    ]
+    if(primitive.includes(typeof data)) return data;
+    if(Array.isArray(data)) {
+      return cloneArr(data)
+    } else {
+      return cloneObj(data)
+    }
+  }
+
+  return baseClone(source)
+}

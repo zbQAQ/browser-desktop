@@ -1,0 +1,86 @@
+@cubeSize: 100px;
+@spaceing: 20px;
+@transitionTime: 450ms;
+
+.game2048-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  // background-color: #f5deb3;
+  // perspective: 800;
+  // -webkit-perspective: 800;
+
+  .stage {
+    @stageSize: @cubeSize * 4 + @spaceing * 4;
+    position: absolute;
+    width: @stageSize;
+    height: @stageSize;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    margin-left: -@stageSize / 2;
+    margin-top: -@stageSize / 2;
+    padding: 5px;
+  }
+
+  .cube {
+    position: absolute;
+    width: @cubeSize;
+    height: @cubeSize;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 2rem;
+    transform-style: preserve-3d;
+
+    transition-duration: @transitionTime;
+    transition-timing-function: ease;
+
+    transform: scale(0) rotateX(-8deg) rotateY(8deg);
+
+    .side {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      width: @cubeSize;
+      height: @cubeSize;
+      background: rgb(239, 226, 217);
+      border: 4px solid #fff;
+      border-radius: 10px;
+      transform-origin: 50% 50% -@cubeSize / 2;
+      
+      // 正面
+      &:nth-child(1) {
+        transform: rotateX(0deg);
+      }
+
+      // 上面
+      &:nth-child(2) {
+        transform: rotateX(90deg);
+      }
+
+      // 背面
+      &:nth-child(3) {
+        transform: translateZ(-@cubeSize);
+      }
+
+      // 下面
+      &:nth-child(4) {
+        transform: rotateX(-90deg);
+      }
+
+      // 左面
+      &:nth-child(5) {
+        transform: rotateY(-90deg);
+      }
+
+      // 右面
+      &:nth-child(6) {
+        transform: rotateY(90deg);
+      }
+    }
+  }
+}

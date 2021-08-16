@@ -28,8 +28,8 @@ export default function Cube(props: IProps) {
   const newStyles = {
     top: (CUBE_SIZE * mapY) + (SPACEING * mapY),
     left: (CUBE_SIZE * mapX) + (SPACEING * mapX),
-    transform: value === 0 ? "scale(0) rotateX(-8deg) rotateY(8deg)" : 
-      action === KEY_MAPS.UP || action === KEY_MAPS.DOWN ? `scale(1) rotateX(${rotateX - 8}deg) rotateY(${rotateY + 8}deg)` : `scale(1) rotateX(${rotateX - 8}deg) rotateY(${rotateY + 8}deg)`,
+    transform: value === 0 ? "scale(0) rotateX(-8deg) rotateY(8deg)" : action === KEY_MAPS.UP || action === KEY_MAPS.DOWN ? `scale(1) rotateX(${rotateX - 8}deg) rotateY(${rotateY + 8}deg)` : `scale(1) rotateX(${rotateX - 8}deg) rotateY(${rotateY + 8}deg)`,
+    // transform: value === 0 ? "scale(0) rotateX(-8deg) rotateY(8deg)" : "scale(1) rotateX(-8deg) rotateY(8deg)",
     transitionProperty: animation ?  "all" : "none",
   }
 

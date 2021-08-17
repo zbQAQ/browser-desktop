@@ -400,6 +400,7 @@ export default function Game2048() {
     const lastTime = window.localStorage.getItem("enter_time")
     if(clicktime - Number(lastTime) <= TRANSITION_TIME) {
       window.localStorage.setItem("enter_time", clicktime + "")
+      showToast({ content: "你点的太快了!", autoCloseDelay: TRANSITION_TIME + 100, type: "warning" })
       return;
     }
     window.localStorage.setItem("enter_time", clicktime + "")
@@ -439,12 +440,8 @@ export default function Game2048() {
         }
       }
     }
-
-    console.log("moveNum", moveNum)
     setStageMap([...stageMap])
-
     data = nextStep(data, mapIndexs)
-
     if(moveNum === 0) {
       const gameOver = isGameOver(data, mapIndexs)
       if(gameOver) {

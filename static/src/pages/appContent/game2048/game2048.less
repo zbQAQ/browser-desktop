@@ -202,11 +202,10 @@
     font-weight: bold;
     font-size: 2rem;
     transform-style: preserve-3d;
-
     transition-duration: @transitionTime;
     transition-timing-function: ease;
-
     transform: scale(0) rotateX(-8deg) rotateY(8deg);
+    background: rgb(239, 226, 217);
     user-select: none;
 
     .side {
@@ -219,7 +218,7 @@
       box-sizing: border-box;
       width: @cubeSize;
       height: @cubeSize;
-      background: rgb(239, 226, 217);
+      background: inherit;
       border: 4px solid #fff;
       border-radius: 10px;
       transform-origin: 50% 50% -@cubeSize / 2;

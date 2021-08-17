@@ -36,14 +36,15 @@ export default function Applications(props: IProps) {
     >
       <div className="applications">
         {data.map((item: IDesktopAppType) => (
-          <DraggableItem key={item.id} onDragEnd={console.log}>
-            <div className="aitem textCenter pointer" onDoubleClick={()=>setAppKey(item.key)}>
+          // <DraggableItem key={item.id} onDragEnd={console.log}>
+            // <div className="aitem textCenter pointer" onDoubleClick={()=>setAppKey(item.key)}>
+            <div className="aitem textCenter pointer" key={item.id} onClick={()=>setAppKey(item.key)}>
               <div className="icon">
                 {renderIcon(item.iconType, item.iconName)}
               </div>
               <div className="name">{item.name}</div>
             </div>
-          </DraggableItem>
+          //</DraggableItem>
         ))}
       </div>
     </TransitionGroupV2>

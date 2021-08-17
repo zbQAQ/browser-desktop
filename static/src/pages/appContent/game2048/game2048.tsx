@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { deepClone, randomNum } from "@/util/common"
-
+import useToast from "@/hooks/useToast"
 import Cube, { ICubeType } from "./cube"
 
 import "./game2048.less"
@@ -210,10 +210,11 @@ function isGameOver(data: IMapType, mapIndexs: Record<"x" | "y", number>[]): boo
  */
 export default function Game2048() {
   const [ hasAnimation, setHasAnimation ] = useState(true)
-  const [ disable, setDisable ] = useState(false)
   const [ gameover, setGameOver ] = useState(false)
+  const [ score, setScore ] = useState(0)
   const [ curAction, setCurAction ] = useState<KEY_MAPS | null>(null)
   const [ stageMap, setStageMap ] = useState<IMapType>(initMap())
+  const { showToast } = useToast()
 
   const renderStage = useCallback(() => {
     return stageMap.map((cols, cindex) => {
@@ -243,6 +244,7 @@ export default function Game2048() {
           if(name === "merge") {
             if(!mergedCubeIds.includes(target.id)) {
               cb()
+              setScore(n => n + moveTarget.value + target.value)
               moveNum += 1
               mergedCubeIds.push(item.id)
             } else {
@@ -282,6 +284,7 @@ export default function Game2048() {
           if(name === "merge") {
             if(!mergedCubeIds.includes(target.id)) {
               cb()
+              setScore(n => n + moveTarget.value + target.value)
               moveNum += 1
               mergedCubeIds.push(item.id)
             } else {
@@ -321,6 +324,7 @@ export default function Game2048() {
           if(name === "merge") {
             if(!mergedCubeIds.includes(target.id)) {
               cb()
+              setScore(n => n + moveTarget.value + target.value)
               moveNum += 1
               mergedCubeIds.push(item.id)
             } else {
@@ -359,6 +363,7 @@ export default function Game2048() {
           if(name === "merge") {
             if(!mergedCubeIds.includes(target.id)) {
               cb()
+              setScore(n => n + moveTarget.value + target.value)
               moveNum += 1
               mergedCubeIds.push(item.id)
             } else {
@@ -389,9 +394,17 @@ export default function Game2048() {
   }
 
   const handleKeyUp = useCallback(({ key }) => {
-    if(disable || gameover) return;
+    if(gameover) return;
+
+    const clicktime = Date.now()
+    const lastTime = window.localStorage.getItem("enter_time")
+    if(clicktime - Number(lastTime) <= TRANSITION_TIME) {
+      window.localStorage.setItem("enter_time", clicktime + "")
+      return;
+    }
+    window.localStorage.setItem("enter_time", clicktime + "")
+
     let moveNum = 0
-    setDisable(true)
     let data = deepClone(stageMap)
     const mapIndexs: Record<"x" | "y", number>[] = data.map((c: ICubeType[], cindex: number) => c.map((r: ICubeType, rindex: number) => ({ y: cindex, x: rindex }))).flat()
     setCurAction(key)
@@ -440,14 +453,30 @@ export default function Game2048() {
       }
     }
 
-
     setTimeout(() => {
       setHasAnimation(false)
       setStageMap([...data])
-      setDisable(false)
     }, TRANSITION_TIME)
     setHasAnimation(true)
   }, [stageMap, handleUp, handleRight, handleDown, handleLeft])
+
+  const startGame = () => {
+    const n1 = { y: randomNum(0, 3), x: randomNum(0, 3) }
+    const n2 = { y: randomNum(0, 3), x: randomNum(0, 3) }
+    setStageMap(v => {
+      const newValue = deepClone(v)
+      newValue[n1.y][n1.x].value = 2
+      newValue[n2.y][n2.x].value = 2
+      return [...newValue]
+    })
+  }
+
+  const resetGame = () => {
+    setStageMap(initMap())
+    setGameOver(false)
+    setScore(0)
+    startGame()
+  }
 
   useEffect(() => {
     window.addEventListener("keyup", handleKeyUp)
@@ -458,51 +487,80 @@ export default function Game2048() {
 
   useEffect(() => {
     if(gameover) {
-      
+      showToast({ content: "gameover!", autoClose: false, showCloseBtn: true, type: "error" })
     }
   }, [gameover])
 
 
   useEffect(() => {
-    // debug
-    setStageMap(v => {
-      const newValue = deepClone(v)
-      newValue[0][0].value = 4
-      newValue[0][1].value = 8
-      newValue[0][2].value = 4
-      newValue[0][3].value = 2
-
-      newValue[1][0].value = 2
-      newValue[1][1].value = 4
-      newValue[1][2].value = 8
-      newValue[1][3].value = 4
-
-      newValue[2][0].value = 2
-      newValue[2][1].value = 4
-      newValue[2][2].value = 32
-      newValue[2][3].value = 2
-
-      newValue[3][0].value = 8
-      newValue[3][1].value = 2
-      newValue[3][2].value = 8
-      newValue[3][3].value = 2
-      
-      
-      // newValue[0][0].value = 4
-      // newValue[0][1].value = 2
-      // newValue[0][2].value = 4
-      return newValue
-    })
+    window.localStorage.setItem("enter_time", Date.now() + "")
+    startGame()
   }, [])
 
-  console.log("return stageMap", stageMap)
   return (
     <div className="game2048-container">
-      <div className="header"></div>
-
-
+      <div className="header">
+        <div className="score-label">
+          <div className="side">当前得分:</div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+        </div>
+        <div className="score">
+          <div className="side">{ score }</div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+        </div>
+        <div className="reset pointer" onClick={() => resetGame()}>
+          <div className="side">reset</div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+        </div>
+      </div>
       <div className="stage">
         {renderStage()}
+      </div>
+      <div className="board-panel">
+        <div className="keyboard up pointer" onClick={() => handleKeyUp({ key: KEY_MAPS.UP })}>
+          <div className="side">↑</div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+        </div>
+        <div className="keyboard right pointer" onClick={() => handleKeyUp({ key: KEY_MAPS.RIGHT })}>
+          <div className="side">→</div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+        </div>
+        <div className="keyboard down pointer" onClick={() => handleKeyUp({ key: KEY_MAPS.DOWN })}>
+          <div className="side">↓</div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+        </div>
+        <div className="keyboard left pointer" onClick={() => handleKeyUp({ key: KEY_MAPS.LEFT })}>
+          <div className="side">←</div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+          <div className="side"></div>
+        </div>
       </div>
     </div> 
   )

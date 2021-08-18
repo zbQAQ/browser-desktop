@@ -41,7 +41,7 @@ export default function WallpaperSelector() {
     }
   }, [file])
   
-  const { data, status, triggerFetch: triggerList } = useFetch(getThumbList, { autoReset: true, mockDelay: 2000 })
+  const { data, status, triggerFetch: triggerList } = useFetch(getThumbList, { autoReset: true, mockDelay: 1200 })
 
   const handleItemClick = (wallpaper: string) => {
     dispatch({ type: APP_ACTION_TYPE.UPDATE_WALLPAPER, wallpaper })
@@ -49,7 +49,7 @@ export default function WallpaperSelector() {
 
   const renderList = useCallback(() => {
     if(!data) return <Loading className="wloading" visible={!data} type={LOADING_TYPE.MATRIX} />;
-    return data.map((v: any)=> (
+    return data.map((v: any) => (
       <div key={v.name} className={`wallpaper-item pointer ${v.url === wallpaper ? 'active': ''}`} style={{backgroundImage: `url(${v.thumbUrl})`}} onClick={() => handleItemClick(v.url)}>
         <div className="selected textCenter">
           <span className="iconfont iconxuanzhong"></span>
@@ -98,7 +98,7 @@ export default function WallpaperSelector() {
       <div className="title-box">
         <span className="title mr10">壁纸选择</span>
         <label>
-          <input type="file" id="file" ref={inputRef} style={{visibility: "hidden", width: 0}} onChange={inputFileChange} />
+          <input type="file" id="file" accept="image/*" ref={inputRef} style={{visibility: "hidden", width: 0}} onChange={inputFileChange} />
           <span className="sub-title pointer">
             上传我喜欢的壁纸
           </span>

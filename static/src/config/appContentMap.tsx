@@ -71,7 +71,7 @@ export const desktopApp: IDesktopAppType[] = [
     key: "2048",
     name: "2048",
     iconType: "svg",
-    iconName: "iconyangshi",
+    iconName: "icona-appscom2048",
     showType: "dialog",
   },
 ]

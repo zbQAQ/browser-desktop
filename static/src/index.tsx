@@ -9,7 +9,7 @@ import App from "@/components/app/app";
 //styles
 import './styles/global.css';
 import './styles/normalize.css';
-import "./styles/variables.css"
+import "./styles/variables.less"
 
 ReactDOM.render(
   <BrowserRouter basename='/'>

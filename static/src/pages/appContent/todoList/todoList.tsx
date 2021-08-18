@@ -37,7 +37,7 @@ export default function TodoList() {
   const { triggerFetch: triggerDelTodo } = useFetch(delTodo, { autoReset: true, immediate: false })
 
   const updateTode = useCallback(() => {
-    const stataus = data.find(v => v.id === selectId)?.status
+    const stataus = listData.find((v: ITodoListItem) => v.id === selectId)?.status
     return selectId ? updateTodoStatus(selectId, !!stataus) : Promise.resolve()
   }, [selectId])
   const { triggerFetch: triggerUpdateTodo } = useFetch(updateTode, { autoReset: true, immediate: false })
@@ -91,7 +91,7 @@ export default function TodoList() {
         triggerUpdateTodo()
         setData(data.map(d => {
           if(d.id === selectId) {
-            d.status = 1
+            d.status = d.status ? 0 : 1
           }
           return d
         }))

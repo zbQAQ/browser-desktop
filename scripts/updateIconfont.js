@@ -21,7 +21,7 @@ const cssReg = /(?<=<!-- iconfont css start --><link rel="stylesheet" href=")(.*
 const jsReg = /(?<=<!-- iconfont js start --><script src=")(.*)(?="><\/script><!-- iconfont js end -->)/g
 
 inquirer.prompt(opitons)
-  .then(input => {
+  .then(({ cssLink, jsLink }) => {
     fs.readFile(templateFilePath, function(err, data) {
       if(err) {
         console.log(err);
@@ -29,14 +29,18 @@ inquirer.prompt(opitons)
       }
       let templateString = data.toString()
 
-      if(input.cssLink) {
-        templateString = templateString.replace(cssReg, input.cssLink)
+      if(cssLink && cssLink.includes(".css")) {
+        templateString = templateString.replace(cssReg, cssLink)
         console.log('\n templateString: iconfont cssLink replace successul')
+      } else {
+        throw Error('please enter legal cssLink content！')
       }
       
-      if(input.jsLink) {
-        templateString = templateString.replace(jsReg, input.jsLink)
+      if(jsLink && jsLink.includes(".js")) {
+        templateString = templateString.replace(jsReg, jsLink)
         console.log('\n templateString: iconfont jsLink replace successul')
+      } else {
+        throw Error('please enter legal jsLink content！')
       }
 
       if(templateString !== data.toString()) {

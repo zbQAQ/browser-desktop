@@ -36,9 +36,9 @@ export default function TooltipInstance(props: IProps) {
   const classs = `tooltip-instance` 
 
   const styless = {
-    left: visible ? left : left,
-    top: visible ? top : top,
-    visibility: visible ? "visible" : "visible"
+    left: visible ? left : 0,
+    top: visible ? top : 0,
+    visibility: visible ? "visible" : "hidden"
   } as React.CSSProperties;
 
   useEffect(() => {
@@ -48,17 +48,17 @@ export default function TooltipInstance(props: IProps) {
   }, [instance])
 
   return (
-    // <TransitionGroup
-    //   visible={!!visible}
-    //   leaveAnimation="fadeOut"
-    //   enterAnimation="fadeIn"
-    // >
+    <TransitionGroup
+      visible={!!visible}
+      leaveAnimation="fadeOut"
+      enterAnimation="fadeIn"
+    >
       <div id={id} ref={instance} className={classs} style={styless}>
         <div className={"tooltip-arrow " + placement}>
           <span className="arrow-content"></span>
         </div>
         <div className="tooltip-inner">{content}</div>
       </div>
-    //</TransitionGroup>
+    </TransitionGroup>
   )
 }

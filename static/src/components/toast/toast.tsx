@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 
 import MIcon from "@/components/mIcon/mIcon"
-import TransitionGroupV2 from "@/components/transitionGroup/transitionGroup2"
+import TransitionGroup from "@/components/transitionGroup"
 
 import useToast from "@/hooks/useToast"
 
@@ -107,7 +107,7 @@ export default function Toast(props: IProps) {
 
   return (
     <div className={`toast ${showCloseBtn ? 'has-closebtn' : ''}`}  id={"toast-" + id} style={styleee}>
-      <TransitionGroupV2
+      <TransitionGroup
         delay={200}
         visible={visible}
         leaveAnimationTrigger={leaveTrigger}
@@ -123,7 +123,7 @@ export default function Toast(props: IProps) {
             <MIcon iconName="iconclose" />
           </div>
         ) }
-      </TransitionGroupV2>
+      </TransitionGroup>
     </div>
   )
   

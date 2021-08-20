@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react"
 
-import TransitionGroupv2 from "@/components/transitionGroup/transitionGroup2"
+import TransitionGroup from "@/components/transitionGroup"
 import { AppInfoContext } from "@/context/appInfoProvider"
 
 import "./wallpaper.less"
@@ -80,14 +80,14 @@ export default function Wallpaper(props: IProps) {
   
   return (
     <div className={`background ${isBlur ? 'blur': ''}`}>
-      <TransitionGroupv2
+      <TransitionGroup
         visible={loadStatus}
         enterAnimation="fadeIn"
         leaveAnimation="fadeOut" 
         className='wallpaper-transition'
       >
         {loadStatus && <div className='wallpaper-image' style={{backgroundImage: `url(${wallpaper})`}}></div>}
-      </TransitionGroupv2>
+      </TransitionGroup>
       <canvas ref={canvasMain} className="none" id="canvas"></canvas>
     </div>
   )

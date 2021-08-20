@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import TransitionGroupV2 from "@/components/transitionGroup/transitionGroup2"
+import TransitionGroup from "@/components/transitionGroup"
 import MIcon from "@/components/mIcon/mIcon"
 
 import { AppInfoContext, APP_ACTION_TYPE } from "@/context/appInfoProvider"
@@ -29,7 +29,7 @@ export default function AppDialog(props: IProps) {
   const renderConetent = () => {
     const Comp = curAppCnt && curAppCnt.renderComponents
     return (
-      <TransitionGroupV2
+      <TransitionGroup
         visible={visible}
         enterAnimation="fadeIn"
         leaveAnimation="" 
@@ -40,7 +40,7 @@ export default function AppDialog(props: IProps) {
           </div>
           {Comp && visible ? <Comp/> : <></>}
         </div>
-      </TransitionGroupV2>
+      </TransitionGroup>
     )
   }
   

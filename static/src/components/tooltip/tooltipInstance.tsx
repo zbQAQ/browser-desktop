@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react"
 
-import TransitionGroup from "@/components/transitionGroup/transitionGroup2"
+import TransitionGroup from "@/components/transitionGroup"
 
 import "./tooltipInstance.less"
 

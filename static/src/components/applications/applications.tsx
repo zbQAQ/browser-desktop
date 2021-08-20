@@ -3,7 +3,7 @@ import { AppInfoContext, APP_ACTION_TYPE } from "@/context/appInfoProvider"
 import { desktopApp } from "@/config/appContentMap"
 
 import DraggableItem from "@/components/draggable/draggable"
-import TransitionGroupV2 from "@/components/transitionGroup/transitionGroup2"
+import TransitionGroup from "@/components/transitionGroup"
 import MIcon from "@/components/mIcon/mIcon"
 
 import "./applications.less"
@@ -26,7 +26,7 @@ export default function Applications(props: IProps) {
   }
 
   return (
-    <TransitionGroupV2 
+    <TransitionGroup 
       className={'applications-transition'}
       enterAnimation="fadeInLeft"
       leaveAnimation="fadeOut"
@@ -47,6 +47,6 @@ export default function Applications(props: IProps) {
           //</DraggableItem>
         ))}
       </div>
-    </TransitionGroupV2>
+    </TransitionGroup>
   )
 }

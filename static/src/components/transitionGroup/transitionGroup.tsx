@@ -1,6 +1,15 @@
-import React, { PropsWithChildren, useRef, useCallback } from "react"
+import React from "react"
 
-import "./transitionGroup.css"
+import "./transitionGroup.less"
+
+// 未开始 进行中 已结束
+type AnimationStatus = 'notStart' | 'pendding' | 'finish'
+const enum ANIMATION_STATUS {
+  NOT_START = 'notStart',
+  PENDDING = 'pendding',
+  FINISH = 'finish'
+}
+
 interface IProps {
   // 显示 / 隐藏
   visible: boolean;
@@ -12,38 +21,91 @@ interface IProps {
   //离开动画 的名称
   leaveAnimation?: string;
 
+  // 离开动画结束后是否删除节点
+  leaveDeleteDom?: boolean
+
   //动画执行周期 单位ms
   delay?: number;
 
-  className?: string;
+  // 离开动画结束时 执行的钩子函数
+  leaveAnimationTrigger?: () => any
 
+  className?: string;
 }
 
-export default function TransitionGroup(props: PropsWithChildren<IProps>) {
-  const { enterAnimation = "fadeIn", leaveAnimation = "fadeOut", visible, delay = 500, className = '' } = props
-  const transitionGroup = useRef<HTMLDivElement>(null);
+interface IState {
+  // 实际控制 动画节点 或者 children节点 的显示隐藏
+  display: boolean
+}
 
-  // const addEventListener = (el: HTMLDivElement, eventName: string, callBack: ()=>void) => {
-  //   if(!el) return;
-  //   el.addEventListener(eventName, callBack)
-  // }
-  // const removeEventListener = (el: HTMLDivElement | null, eventName: string, callBack: ()=>void) => {
-  //   if(!el) return;
-  //   el.removeEventListener(eventName, callBack)
-  // }
+export default class TransitionGroup extends React.Component<IProps, IState> {
+  _id: string = "0"
+  // status: AnimationStatus = 'notStart'
+  tranDom: React.ReactNode | null = null
+  constructor(props: IProps) {
+    super(props)
+    this._id = Date.now() + ""
+    // this.status = 'notStart'
+    this.tranDom = React.createRef<HTMLDivElement>()
+    this.state = {
+      display: true
+    }
+  }
 
-  const render = useCallback(() => {
+  UNSAFE_componentWillReceiveProps(nextProps: IProps) {
+    if(nextProps.visible) {
+      this.setState({ display: nextProps.visible })
+    }
+  }
+
+  componentDidMount() {
+    const el = this.tranDom as Element
+    if(el) {
+      el.addEventListener('animationend', this.leaveAnimationEnd)
+    }
+  }
+
+  // 离开动画结束事件
+  leaveAnimationEnd = () => {
+    const { visible, leaveAnimationTrigger } = this.props
+    // 监听离开动画结束
+    if(!visible) {
+      this.setState({ display: false })
+      leaveAnimationTrigger && leaveAnimationTrigger()
+    }
+  }
+  
+  render() {
+    const { 
+      children,
+      visible,
+      delay = 500, 
+      enterAnimation = "fadeIn", 
+      leaveAnimation = "fadeOut", 
+      leaveDeleteDom = false, 
+      className = '' 
+    } = this.props
+    
+    const { display } = this.state
     const initStyle = {
-      // 控制动画结束后 隐藏的时间 所以需要比动画执行的时间长
-      // transition: `opacity ${delay + 50}ms`,
       animationDuration: `${delay}ms`,
       animationName: visible ? enterAnimation : leaveAnimation,
     }
 
-    const classs = `transitionGroup ${className} ${visible ? 'pointerEventsAll' : 'pointerEventsNone'}`
-
-    return (<div className={classs} ref={transitionGroup} style={initStyle}>{props.children}</div>)
-  }, [visible, delay])
-
-  return render()
+    const classs = `transitionGroupV2 ${className} ${visible ? 'pointerEventsAll' : 'pointerEventsNone'}`
+    
+    if(leaveDeleteDom) {
+      return (
+        <div className={classs} id={this._id} ref={el => this.tranDom = el} style={initStyle}>
+          {display ? children : null}
+        </div>
+      )
+    } else {
+      return (
+        <div className={classs} id={this._id} ref={el => this.tranDom = el} style={initStyle}>
+          {children}
+        </div>
+      )
+    }
+  }
 }

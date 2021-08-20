@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 
 import MIcon from "@/components/mIcon/mIcon"
+import Tooltip from "@/components/tooltip"
 import { getTodoList, addTotoList, deleteTodoList, updateTodoStatus } from "@/api/todoList"
 import { animation, timeFormat } from "@/util/common"
 import useFetch, { FETCH_STATUS } from "@/hooks/useFetch"
@@ -136,10 +137,12 @@ export default function TodoList() {
     const iconClassStr = `pointer ${isIncrease ? 'isIncrease' : ''}`
     return (
       <>
-        <span className="title">Todo</span>
+        <Tooltip placement="top" content="快来输入你的计划吧!">
+          <span className="title">Todo</span>
+        </Tooltip>
         <div className="increase">
           <input type="text" ref={increaseInput} className={inputClassStr} placeholder="Enter 添加你的计划" onKeyUp={(e: any) => {increaseInputKeyUp(e)}} />
-          <MIcon iconType="iconfont" iconName="iconadd" className={iconClassStr} onClick={() => {clickIncreaseIcon()}}></MIcon>
+            <MIcon iconType="iconfont" iconName="iconadd" className={iconClassStr} onClick={() => {clickIncreaseIcon()}}></MIcon>
         </div>
       </>
     )

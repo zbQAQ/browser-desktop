@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from 'react-router-dom'
 
 import ToastProvider from "@/components/toast/toastProvider"
+import TooltipProvider from "@/components/tooltip/tooltipProvider"
 import App from "@/components/app/app";
 
 
@@ -14,7 +15,9 @@ import "./styles/variables.less"
 ReactDOM.render(
   <BrowserRouter basename='/'>
     <ToastProvider>
-      <App />
+      <TooltipProvider>
+        <App />
+      </TooltipProvider>
     </ToastProvider>
   </BrowserRouter>, 
   document.getElementById("root")

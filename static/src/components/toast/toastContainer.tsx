@@ -24,7 +24,7 @@ export default function ToastContainer(props: ToastContainerProps) {
   const { toasts, clearToasts } = props
 
   return (
-    <div className="toastContainer">
+    <div className="toast-container">
       {
         toasts.map((toast: ToastInstance, index, oriArr) => {
           const { id, position = 'center' } = toast

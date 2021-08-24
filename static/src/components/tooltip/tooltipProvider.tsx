@@ -17,7 +17,6 @@ function getPosByPlacement(placement: PlacementType, tooltipElement: HTMLDivElem
   if(!triggerTarget) return pos;
   const triggerInfo = triggerTarget.getBoundingClientRect()
   const tooltipInfo = tooltipElement.getBoundingClientRect()
-  console.log("triggerInfo", triggerInfo)
   switch(placement) {
     case "top":
       pos.top = triggerInfo.top - triggerInfo.height
@@ -75,7 +74,7 @@ export default function TooltipProvider(props: PropsWithChildren<{}>) {
           return t
         })
       })
-      return id
+      return id as string
     }
   }
 

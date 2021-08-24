@@ -8,7 +8,7 @@ export type PlacementType = "top" | "right" | "bottom" | "left"
 
 export interface ITooltipType {
   /** id 自动生成不需要手动传入 */ 
-  id: string
+  id?: string
   /** 控制显示隐藏 不需要手动传入 */
   visible?: boolean
   /** tooltip 显示的文本内容 */
@@ -19,6 +19,8 @@ export interface ITooltipType {
   top?: number;
   /** position left */
   left?: number
+  /** 整体颜色 */
+  color?: string
   /** 触发的节点 */
   triggerTarget?: HTMLElement
 }
@@ -31,7 +33,7 @@ export const ARROW_SIZE = 12
 
 export default function TooltipInstance(props: IProps) {
   const instance = useRef<HTMLDivElement>(null)
-  const {id, visible, content, placement, top, left, updateTooltipPosition} = props
+  const { id, visible, content, placement, top, left, color, updateTooltipPosition } = props
 
   const classs = `tooltip-instance` 
 
@@ -42,10 +44,17 @@ export default function TooltipInstance(props: IProps) {
   } as React.CSSProperties;
 
   useEffect(() => {
-    if(instance && instance.current) {
+    if(instance && instance.current && id) {
       updateTooltipPosition(instance.current, id)
     }
-  }, [instance])
+  }, [instance, id])
+
+  useEffect(() => {
+    if(instance && instance.current && color) {
+      const el = instance.current
+      el.style.setProperty("--color", color)
+    }
+  }, [color])
 
   return (
     <TransitionGroup

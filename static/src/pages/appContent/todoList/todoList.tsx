@@ -137,7 +137,7 @@ export default function TodoList() {
     const iconClassStr = `pointer ${isIncrease ? 'isIncrease' : ''}`
     return (
       <>
-        <Tooltip placement="top" content="快来输入你的计划吧!">
+        <Tooltip placement="top" content="快来输入你的计划吧!" color="#123456">
           <span className="title">Todo</span>
         </Tooltip>
         <div className="increase">

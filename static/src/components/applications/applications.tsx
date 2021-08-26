@@ -17,8 +17,8 @@ export default function Applications(props: IProps) {
   const { visible } = props
   let { dispatch } = useContext(AppInfoContext)
   
-  const renderIcon = (iconType: string, iconName: string) => {
-    return <MIcon iconName={iconName} iconType={iconType}></MIcon>
+  const renderIcon = (iconType: string, iconName: string, hasStroke: boolean) => {
+    return <MIcon iconName={iconName} iconType={iconType} hasStroke={hasStroke}></MIcon>
   }
 
   const setAppKey = (appKey: IAppKey) => {
@@ -40,7 +40,7 @@ export default function Applications(props: IProps) {
             // <div className="aitem textCenter pointer" onDoubleClick={()=>setAppKey(item.key)}>
             <div className="aitem textCenter pointer" key={item.id} onClick={()=>setAppKey(item.key)}>
               <div className="icon">
-                {renderIcon(item.iconType, item.iconName)}
+                {renderIcon(item.iconType, item.iconName, !!item.iconStroke)}
               </div>
               <div className="name">{item.name}</div>
             </div>

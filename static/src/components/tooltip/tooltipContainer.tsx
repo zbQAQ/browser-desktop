@@ -11,10 +11,6 @@ interface IProps {
 export default function TooltipContainer(props: IProps) {
   const { tooltips, updateTooltipPosition } = props
 
-  useEffect(() => {
-    console.log("tooltips", tooltips)
-  }, [tooltips])
-
   return <div className="tooltipContainer">
     {tooltips.map(t => <TooltipInstance key={t.id} {...t} updateTooltipPosition={updateTooltipPosition} />)}
   </div>

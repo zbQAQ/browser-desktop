@@ -40,6 +40,7 @@ interface IDesktopAppType {
   iconName: string
   showType: IShowType
   pagePath?: string
+  iconStroke?: boolean
 }
 
 interface Window {

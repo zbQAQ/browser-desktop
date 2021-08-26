@@ -7,14 +7,15 @@ interface IProps {
   iconType?: string
   className?: string
   onClick?: Function
+  hasStroke?: boolean
 }
 //支持多色图标 
 export default function mIcon(props: IProps) {
-  const { iconName, iconType = "svg", className = '', onClick } = props
+  const { iconName, iconType = "svg", className = '', hasStroke = false, onClick } = props
   const render = () => {
     if(iconType === "svg") {
       return (
-        <svg className={`msvg ${className}`} aria-hidden="true" onClick={(e)=>{onClick && onClick(e)}}>
+        <svg className={`msvg ${className} ${hasStroke ? "stroke" : ""}`} aria-hidden="true" onClick={(e)=>{onClick && onClick(e)}}>
           <use xlinkHref={`#${iconName}`}></use>
         </svg>
       )
@@ -22,7 +23,7 @@ export default function mIcon(props: IProps) {
 
     if(iconType === "iconfont") {
       return(
-        <i className={`iconfont ${iconName} ${className}`} onClick={(e) => {onClick && onClick(e)}}></i>
+        <i className={`iconfont ${iconName} ${className} ${hasStroke ? "stroke" : ""}`} onClick={(e) => {onClick && onClick(e)}}></i>
       )
     }
 

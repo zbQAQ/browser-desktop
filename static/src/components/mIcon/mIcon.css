@@ -5,3 +5,8 @@
   fill: currentColor;
   overflow: hidden;
 }
+
+.msvg.stroke,
+.iconfont.stroke{
+  filter: drop-shadow(0px 0px 0.5px) drop-shadow(0px 0px 0px) drop-shadow(0px 0px 0px) drop-shadow(0px 0px 0px);
+}

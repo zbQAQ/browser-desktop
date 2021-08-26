@@ -25,6 +25,7 @@ export const desktopApp: IDesktopAppType[] = [
     iconType: "svg",
     iconName: "iconjingziqi",
     showType: "dialog",
+    iconStroke: true
   },
   // {
   //   id: 5,
@@ -41,6 +42,7 @@ export const desktopApp: IDesktopAppType[] = [
     iconType: "svg",
     iconName: "iconpubuliu",
     showType: "dialog",
+    iconStroke: true
   },
   {
     id: 7,
@@ -49,6 +51,7 @@ export const desktopApp: IDesktopAppType[] = [
     iconType: "svg",
     iconName: "icontupianbizhi",
     showType: "dialog",
+    iconStroke: true
   },
   {
     id: 8,
@@ -65,6 +68,7 @@ export const desktopApp: IDesktopAppType[] = [
     iconType: "svg",
     iconName: "iconyangshi",
     showType: "dialog",
+    iconStroke: true
   },
   {
     id: 10,

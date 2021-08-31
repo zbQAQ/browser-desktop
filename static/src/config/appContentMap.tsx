@@ -78,6 +78,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: "icona-appscom2048",
     showType: "dialog",
   },
+  {
+    id: 11,
+    key: "clock",
+    name: "3d时钟",
+    iconType: "svg",
+    iconName: "iconshijian1",
+    showType: "dialog",
+  },
 ]
 
 export const appContentMap: IAppContentMap[] = [
@@ -130,6 +138,11 @@ export const appContentMap: IAppContentMap[] = [
     key: "2048",
     dialogStyle: ["fullScreen", "darkCloseBtn"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/game2048/game2048"))
+  },
+  {
+    key: "clock",
+    dialogStyle: ["fullScreen", "darkBackground"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/clock/clock"))
   },
 ]
 

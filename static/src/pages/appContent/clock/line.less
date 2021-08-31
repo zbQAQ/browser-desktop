@@ -1,0 +1,80 @@
+.line {
+  position: absolute;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50% -50px;
+  transform: rotateX(-8deg) rotateY(8deg);
+  z-index: 10;
+
+  &.left1 {
+    top: 4px;
+    left: 0;
+  }
+  &.left2 {
+    top: 108px;
+    left: 0;
+  }
+  &.right1 {
+    top: 4px;
+    left: 104px;
+  }
+  &.right2 {
+    top: 108px;
+    left: 104px;
+  }
+  &.top {
+    top: 0px;
+    left: 4px;
+  }
+  &.mid {
+    top: 104px;
+    left: 4px;
+  }
+  &.bottom {
+    top: 208px;
+    left: 4px;
+  }
+
+  &.horizontal {
+    // 横
+    width: 100px;
+    height: 4px;
+  }
+  &.vertical {
+    // 竖
+    width: 4px;
+    height: 100px;
+  }
+
+  &.unfocus {
+    z-index: 1;
+    .inner {
+      transform: translateZ(-50px);
+      background-color: #353535;
+      z-index: 1;
+    }
+  }
+
+  .inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: #70c000;
+    transform: translateZ(0px);
+    transition: all .45s ease;
+  }
+
+  .inner-shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #272727;
+    transform: translateZ(-100px);
+  }
+
+}

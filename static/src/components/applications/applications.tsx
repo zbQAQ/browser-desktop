@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { AppInfoContext, APP_ACTION_TYPE } from "@/context/appInfoProvider"
 import { desktopApp } from "@/config/appContentMap"
 
-import DraggableItem from "@/components/draggable/draggable"
+// import DraggableItem from "@/components/draggable/draggable"
 import TransitionGroup from "@/components/transitionGroup"
 import MIcon from "@/components/mIcon/mIcon"
 

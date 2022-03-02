@@ -12,6 +12,7 @@ type IAppKey = ''
   | 'icss_wall' 
   | '2048' 
   | 'clock'
+  | 'aircraft_war'
 
 //applications 显示方式 
 type IShowType = 'dialog' | 'newPage';

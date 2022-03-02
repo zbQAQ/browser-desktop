@@ -86,6 +86,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: "iconshijian1",
     showType: "dialog",
   },
+  {
+    id: 12,
+    key: "aircraft_war",
+    name: "飞机大战",
+    iconType: "svg",
+    iconName: "iconshijian1",
+    showType: "dialog",
+  },
 ]
 
 export const appContentMap: IAppContentMap[] = [
@@ -143,6 +151,11 @@ export const appContentMap: IAppContentMap[] = [
     key: "clock",
     dialogStyle: ["fullScreen", "darkBackground"],
     renderComponents: asyncComponent(() => import("@/pages/appContent/clock/clock"))
+  },
+  {
+    key: "aircraft_war",
+    dialogStyle: ["fullScreen", "darkBackground"],
+    renderComponents: asyncComponent(() => import("@/pages/appContent/aircraftWar"))
   },
 ]
 

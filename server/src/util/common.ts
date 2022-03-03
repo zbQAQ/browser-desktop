@@ -46,7 +46,7 @@ module.exports = {
     return (req: Request, res:Response, next: NextFunction) => {
       try {
         handler(req, res, next)
-      } catch(e) {
+      } catch(e: any) {
         uResponse.error(res, e.message || 'catchError: 服务器错误')
       }
     }

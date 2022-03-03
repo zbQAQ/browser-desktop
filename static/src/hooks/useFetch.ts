@@ -122,7 +122,7 @@ export default function useFetch<T = Record<string, any>>(fetcher: IFetcher, opt
         dispatch({ type: FETCH_STATUS.FETCH_FAILED, errormsg: resp.errormsg || defaultErrorMsg })
         showToast({type: "error", content: resp.errormsg || defaultErrorMsg})
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch({ type: FETCH_STATUS.FETCH_FAILED, errormsg: error.message || defaultErrorMsg })
       showToast({ type: "error", content: error.message || defaultErrorMsg })
     }

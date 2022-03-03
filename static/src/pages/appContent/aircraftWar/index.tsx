@@ -12,9 +12,6 @@ export default function AircraftWar() {
       console.log(e.key)
     })
 
-    return () => {
-      window.
-    }
   }, [])
   
 

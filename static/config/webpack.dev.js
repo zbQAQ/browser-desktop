@@ -8,6 +8,7 @@ module.exports = {
     contentBase: path.resolve(__dirname, "../../var/static"),
     historyApiFallback: true,
     host: "localhost",
+    port: 12345,
   },
   plugins: [
     new ErrorOverlayPlugin()

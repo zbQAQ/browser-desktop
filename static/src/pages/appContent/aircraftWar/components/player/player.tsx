@@ -10,6 +10,7 @@ const EVENT_OF_KEY = {
 	ArrowLeft: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_LEFT,
 	ArrowUp: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_UP,
 	ArrowDown: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_DOWN,
+	Space: AIRCARFT_WAR_ACTION_TYPE.GENERATE_BULLET,
 }
 
 export default function Player() {
@@ -20,7 +21,8 @@ export default function Player() {
 		ArrowRight: false,
 		ArrowLeft: false,
 		ArrowUp: false,
-		ArrowDown: false 
+		ArrowDown: false,
+		Space: false
 	})
 
 	const { playerX, playerY, playerW, playerH, dispatch } = useContext(AircraftWarContext)
@@ -33,12 +35,19 @@ export default function Player() {
 		}
 	}, [dispatch, controlKeySataus])
 
+	// useSetInterval(() => {
+	// 	if(controlKeySataus['Space']) {
+	// 		dispatch({ type: EVENT_OF_KEY['Space'] })
+	// 	}
+	// }, 5000, true)
+
 	useSetInterval(() => {
 		playerAction()
 	}, 1000 / 60)
 
 	const handleKeyEvent = useCallback((e: KeyboardEvent, status: boolean) => {
 		const { code } = e
+		// console.log('code', code, status)
 		switch (code) {
 			case 'ArrowRight':
 				setControlKeyStatus({ ...controlKeySataus, 'ArrowRight': status })
@@ -51,6 +60,9 @@ export default function Player() {
 				break;
 			case 'ArrowDown':
 				setControlKeyStatus({ ...controlKeySataus, 'ArrowDown': status })
+				break;
+			case 'Space':
+				setControlKeyStatus({ ...controlKeySataus, 'Space': status })
 				break;
 		}
 	}, [setControlKeyStatus, controlKeySataus])
@@ -68,11 +80,10 @@ export default function Player() {
 		document.addEventListener('keydown', KeyDownEventListener)
 		document.addEventListener('keyup', KeyUpEventListener)
 		return () => {
-		document.removeEventListener('keydown', KeyDownEventListener)
-		document.removeEventListener('keyup', KeyUpEventListener)
+			document.removeEventListener('keydown', KeyDownEventListener)
+			document.removeEventListener('keyup', KeyUpEventListener)
 		}
 	}, [KeyDownEventListener, KeyUpEventListener])
-
 
 	const style: React.CSSProperties = {
 		width: playerW + 'px', 
@@ -82,6 +93,6 @@ export default function Player() {
 	}
 
 	return (
-		<div style={style} className="player">123</div>
+		<div style={style} className="player"></div>
 	)
 }

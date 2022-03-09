@@ -19,5 +19,5 @@ export default function useSetInterval(callback: Function, delay: number, immedi
     }
     const timer = setInterval(tick, delay)
     return () => clearInterval(timer)
-  }, [delay])
+  }, [delay, immediately])
 }

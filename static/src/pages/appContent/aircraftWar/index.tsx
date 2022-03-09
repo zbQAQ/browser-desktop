@@ -1,4 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
+import Player from "./components/player/player"
+import GameContainer from "./components/gameContainer/gameContainer"
+import { AircraftWarProvider, AircraftWarContext, AIRCARFT_WAR_ACTION_TYPE } from "@/context/aircraftWarProvider"
 
 import "./index.less"
 
@@ -6,20 +9,9 @@ import "./index.less"
 // 左上右下
 
 export default function AircraftWar() {
-
-  useEffect(() => {
-    window.addEventListener('keyup', (e) => {
-      console.log(e.key)
-    })
-
-  }, [])
-  
-
   return (
-    <div className="aircraft-container">
-      <div className="war-space">
-        <div className="player"></div>
-      </div>
-    </div>
+    <AircraftWarProvider>
+      <GameContainer />
+    </AircraftWarProvider>
   )
 }

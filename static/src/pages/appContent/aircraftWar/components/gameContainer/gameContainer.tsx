@@ -17,14 +17,6 @@ export default function gameContainer() {
     }
   }, [spaceRef])
 
-  // 游戏场景里 全局计时器 用于定时任务
-  useSetInterval(() => {
-    // 定时清洁 bulletQueue
-    if(bulletQueue.length > 0) {
-      dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.BULLET_CLEAN })
-    }
-  }, 1000)
-
   console.log('bulletQueue', bulletQueue)
 
   return (

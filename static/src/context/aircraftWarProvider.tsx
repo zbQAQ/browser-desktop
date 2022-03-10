@@ -10,7 +10,7 @@ export enum AIRCARFT_WAR_ACTION_TYPE {
   // 更新边界
   UPDATE_BOUNDARY = 'update_boundary',
   // 生成子弹
-  GENERATE_BULLET = 'GENERATE_BULLET',
+  GENERATE_BULLET = 'generate_bullet',
   // 子弹移动
   BULLET_MOVE = 'bullet_move',
   // 标记子弹为 已销毁
@@ -23,8 +23,12 @@ export interface IBullet {
   id: string
   x: number
   y: number
+  // 移动速度
   speed: number
+  // 标记销毁
   isDestory: boolean
+  // 生成时间
+  ct: number
 }
 
 interface IAircraftWarContext {
@@ -38,6 +42,8 @@ interface IAircraftWarContext {
   playerY: number
   // 玩家 移动速度
   playerSpeed: number;
+  // 玩家 射速 单位毫秒
+  playerShotRate: number;
   // 地图边界
   gameBoundary: {
     up: number,
@@ -57,6 +63,7 @@ const initAircarftInfo: IAircraftWarContext = {
   playerX: 175,
   playerY: 500,
   playerSpeed: 4,
+  playerShotRate: 500,
   gameBoundary: {
     up: 0,
     right: 0,
@@ -70,7 +77,7 @@ const initAircarftInfo: IAircraftWarContext = {
 export const AircraftWarContext = React.createContext(initAircarftInfo);
 
 const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACTION_TYPE>) => {
-  const { gameBoundary: { up, right, down, left } , playerW, playerH, playerX, playerSpeed, playerY, bulletQueue } = state
+  const { gameBoundary: { up, right, down, left } , playerW, playerH, playerX, playerSpeed, playerY, playerShotRate, bulletQueue } = state
   switch (action.type) {
     case AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_LEFT:
       return { ...state, playerX: playerX - playerSpeed < left ? left : playerX - playerSpeed }
@@ -83,18 +90,25 @@ const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACT
     case AIRCARFT_WAR_ACTION_TYPE.UPDATE_BOUNDARY:
       return { ...state, gameBoundary: action.data }
     case AIRCARFT_WAR_ACTION_TYPE.GENERATE_BULLET:
-      // 计算机头位置
-      // 减 5 为子弹固定长宽 10 / 2 
-      return { ...state, bulletQueue: [ 
-        ...bulletQueue, 
-        {
-          id: generateId(),
-          x: state.playerX + (state.playerW / 2) - 5,
-          y: state.playerY,
-          speed: 10,
-          isDestory: false,
-        }
-      ]}
+      const now = Date.now()
+      // 根据 playerShotRate 判断是否插入新子弹
+      // 判断 bulletQueue.length <= 0 是为了不管射速快慢触发射击事件的一瞬间就要生成一颗子弹
+      if(bulletQueue.length <= 0 || now - bulletQueue[bulletQueue.length - 1].ct > playerShotRate) {
+        // 计算player头位置 减 5 为子弹固定长宽 10 / 2 
+        return { ...state, bulletQueue: [ 
+          ...bulletQueue, 
+          {
+            id: generateId(),
+            x: playerX + (playerW / 2) - 5,
+            y: playerY,
+            speed: 10,
+            isDestory: false,
+            ct: now
+          }
+        ]}
+      } else {
+        return state
+      }
     case AIRCARFT_WAR_ACTION_TYPE.BULLET_MOVE: 
       const bullet = bulletQueue.find(b => b.id === action.id)
       if(bullet) {
@@ -104,7 +118,11 @@ const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACT
       }
       return { ...state, bulletQueue: bulletQueue }
     case AIRCARFT_WAR_ACTION_TYPE.BULLET_CLEAN: 
-      return { ...state, bulletQueue: bulletQueue.filter(b => !b.isDestory) }
+      if(bulletQueue.length > 0) {
+        return { ...state, bulletQueue: bulletQueue.filter(b => !b.isDestory) }
+      } else {
+        return state
+      }
     default:
       return state
   }

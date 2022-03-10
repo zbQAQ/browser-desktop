@@ -2,15 +2,18 @@ import React, { useEffect, useCallback, useState, useContext } from "react";
 import { AircraftWarContext, AIRCARFT_WAR_ACTION_TYPE } from "@/context/aircraftWarProvider"
 import useSetInterval from "@/hooks/useSetInterval"
 
-// 37 38 39 40
-// 左上右下
-
-const EVENT_OF_KEY = {
+// 按下（true状态下）事件触发key
+const DOWN_EVENT_OF_KEY = {
 	ArrowRight: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_RIGHT,
 	ArrowLeft: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_LEFT,
 	ArrowUp: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_UP,
 	ArrowDown: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_DOWN,
 	Space: AIRCARFT_WAR_ACTION_TYPE.GENERATE_BULLET,
+}
+
+// 抬起（false状态下）事件触发key
+const UP_EVENT_OF_KEY = {
+	Space: AIRCARFT_WAR_ACTION_TYPE.BULLET_CLEAN,
 }
 
 export default function Player() {
@@ -29,17 +32,15 @@ export default function Player() {
 
 	const playerAction = useCallback(() => {
 		for(let key in controlKeySataus) {
+			const downEvent = DOWN_EVENT_OF_KEY[key]
+			const upEvent = UP_EVENT_OF_KEY[key]
 			if(controlKeySataus[key]) {
-				dispatch({ type: EVENT_OF_KEY[key] })
+				!!downEvent && dispatch({ type: downEvent })
+			} else {
+				!!upEvent && dispatch({ type: upEvent })
 			}
 		}
 	}, [dispatch, controlKeySataus])
-
-	// useSetInterval(() => {
-	// 	if(controlKeySataus['Space']) {
-	// 		dispatch({ type: EVENT_OF_KEY['Space'] })
-	// 	}
-	// }, 5000, true)
 
 	useSetInterval(() => {
 		playerAction()

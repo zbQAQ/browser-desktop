@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { AircraftWarContext, AIRCARFT_WAR_ACTION_TYPE } from "@/context/aircraftWarProvider"
-import useSetInterval from "@/hooks/useSetInterval"
 import Player from "../player/player"
 import BulletContainer from "../bullet/bulletContainer";
 

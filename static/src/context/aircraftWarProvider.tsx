@@ -1,5 +1,5 @@
 import React, { useReducer, PropsWithChildren } from "react"
-import { generateId } from "@/util/common"
+import { generateId, randomNum } from "@/util/common"
 
 // AircraftWar应用 reducer操作
 export enum AIRCARFT_WAR_ACTION_TYPE {
@@ -17,6 +17,57 @@ export enum AIRCARFT_WAR_ACTION_TYPE {
   BULLET_MARK_DESTROY = 'bullet_mark_destroy',
   // 清除被标记为 已销毁 的子弹
   BULLET_CLEAN = 'bullet_clean',
+  // 生成 enemy
+  SPAWN_ENEMY = 'spawn_enemy',
+  // enemy 移动
+  ENEMY_RANDOM_MOVE = 'enemy_random_move',
+  // enemy 变向
+  ENEMY_CHANGE_DIRECTION = 'enemy_change_direction',
+}
+
+// enemy 难度
+enum ENEMY_DIFFICULTY {
+  // 障碍物 不需要变向
+  OBSTACLE = "obstacle",
+
+  NOOB = "noob",
+  STRONG = "strong",
+}
+
+// 根据难度值 变向频率 单位毫秒ms
+export const CHNAGE_FREQUENCY = {
+  [ENEMY_DIFFICULTY.NOOB]: 1000,
+  [ENEMY_DIFFICULTY.STRONG]: 500,
+}
+
+// 方向
+enum DIRECTION_TYPE {
+  LEFT = 'left',
+  UP = 'up',
+  RIGHT = 'right',
+  DOWN = 'down',
+  LEFT_UP = 'left_up',
+  LEFT_DOWN = 'left_down',
+  RIGHT_UP = 'right_up',
+  RIGHT_DOWN = 'right_down',
+}
+
+export interface IEnemy {
+  id: string
+  x: number
+  y: number
+  w: number
+  h: number
+  // 移动速度
+  speed: number
+  // 标记销毁
+  isDestory: boolean
+  // 生成时间
+  ct: number
+  // 移动方向
+  direction: DIRECTION_TYPE
+  // 难度
+  difficulty: ENEMY_DIFFICULTY
 }
 
 export interface IBullet {
@@ -53,6 +104,7 @@ interface IAircraftWarContext {
   };
   // 子弹队列
   bulletQueue: IBullet[]
+  enemyQueue: IEnemy[]
 
   dispatch: React.Dispatch<IAnyAction<AIRCARFT_WAR_ACTION_TYPE>>
 }
@@ -71,13 +123,14 @@ const initAircarftInfo: IAircraftWarContext = {
     left: 0,
   },
   bulletQueue: [],
+  enemyQueue: [],
   dispatch: () => { }
 }
 
 export const AircraftWarContext = React.createContext(initAircarftInfo);
 
 const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACTION_TYPE>) => {
-  const { gameBoundary: { up, right, down, left } , playerW, playerH, playerX, playerSpeed, playerY, playerShotRate, bulletQueue } = state
+  const { gameBoundary: { up, right, down, left } , playerW, playerH, playerX, playerSpeed, playerY, bulletQueue } = state
   switch (action.type) {
     case AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_LEFT:
       return { ...state, playerX: playerX - playerSpeed < left ? left : playerX - playerSpeed }
@@ -90,39 +143,17 @@ const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACT
     case AIRCARFT_WAR_ACTION_TYPE.UPDATE_BOUNDARY:
       return { ...state, gameBoundary: action.data }
     case AIRCARFT_WAR_ACTION_TYPE.GENERATE_BULLET:
-      const now = Date.now()
-      // 根据 playerShotRate 判断是否插入新子弹
-      // 判断 bulletQueue.length <= 0 是为了不管射速快慢触发射击事件的一瞬间就要生成一颗子弹
-      if(bulletQueue.length <= 0 || now - bulletQueue[bulletQueue.length - 1].ct > playerShotRate) {
-        // 计算player头位置 减 5 为子弹固定长宽 10 / 2 
-        return { ...state, bulletQueue: [ 
-          ...bulletQueue, 
-          {
-            id: generateId(),
-            x: playerX + (playerW / 2) - 5,
-            y: playerY,
-            speed: 10,
-            isDestory: false,
-            ct: now
-          }
-        ]}
-      } else {
-        return state
-      }
+      return generateBullet(state)
     case AIRCARFT_WAR_ACTION_TYPE.BULLET_MOVE: 
-      const bullet = bulletQueue.find(b => b.id === action.id)
-      if(bullet) {
-        bullet.y -= bullet.speed
-        // 子弹超出边界需要标记为 以销毁 不再渲染
-        bullet.isDestory = judeOutBoundart(up, bullet.y)
-      }
-      return { ...state, bulletQueue: bulletQueue }
+      return bulletMove(state, action.id)
     case AIRCARFT_WAR_ACTION_TYPE.BULLET_CLEAN: 
-      if(bulletQueue.length > 0) {
-        return { ...state, bulletQueue: bulletQueue.filter(b => !b.isDestory) }
-      } else {
-        return state
-      }
+      return bulletQueue.length > 0 ? { ...state, bulletQueue: bulletQueue.filter(b => !b.isDestory) } : state
+    case AIRCARFT_WAR_ACTION_TYPE.SPAWN_ENEMY: 
+      return spawnEnemy(state)
+    case AIRCARFT_WAR_ACTION_TYPE.ENEMY_RANDOM_MOVE: 
+      return enemyRondomMove(state, action.id)
+    case AIRCARFT_WAR_ACTION_TYPE.ENEMY_CHANGE_DIRECTION: 
+      return enemyChangeDirection(state, action.id)
     default:
       return state
   }
@@ -144,4 +175,127 @@ export const AircraftWarProvider = (props: PropsWithChildren<{}>) => {
  */
  function judeOutBoundart(upBoundary: number, y: number) {
   return y < upBoundary
+}
+
+// 生成 enemy
+function spawnEnemy(state: IAircraftWarContext) {
+  const now = Date.now()
+  const { enemyQueue } = state
+  return { ...state, enemyQueue: [ 
+    ...enemyQueue, 
+    {
+      id: generateId(),
+      x: 0,
+      y: 0,
+      w: 50,
+      h: 50,
+      speed: 2,
+      isDestory: false,
+      ct: now,
+      difficulty: ENEMY_DIFFICULTY.STRONG,
+      direction: DIRECTION_TYPE.DOWN
+    }
+  ]}
+}
+
+// enemy 随机移动
+function enemyRondomMove(state: IAircraftWarContext, id: string) {
+  const { enemyQueue, gameBoundary: { up, right, down, left } } = state
+  const enemyIdx = enemyQueue.findIndex(v => v.id === id && !v.isDestory)
+  const enemy = enemyQueue[enemyIdx]
+  const moveLeft = () => enemy.x = enemy.x - enemy.speed < left ? left : enemy.x - enemy.speed
+  const moveUp = () => enemy.y = enemy.y - enemy.speed < up ? up : enemy.y - enemy.speed
+  const moveRight = () => enemy.x = enemy.x + enemy.speed + enemy.w > right ? right - enemy.w : enemy.x + enemy.speed
+  const moveDown = () => enemy.y = enemy.y + enemy.speed + enemy.h > down ? down - enemy.h: enemy.y + enemy.speed
+  if(enemyIdx > -1) {
+    switch(enemy.direction) {
+      case 'up':
+        moveUp()
+        break;
+      case 'right':
+        moveRight()
+        break;
+      case 'down':
+        moveDown()
+        break;
+      case 'left':
+        moveLeft()
+        break;
+      case 'left_up':
+        moveLeft()
+        moveUp()
+        break;
+      case 'left_down':
+        moveLeft()
+        moveDown()
+        break;
+      case 'right_up':
+        moveUp()
+        moveRight()
+        break;
+      case 'right_down':
+        moveRight()
+        moveDown()
+        break;
+    }
+    return { ...state, enemyQueue }
+  } else {
+    return state
+  }
+}
+
+// enemy 变向
+function enemyChangeDirection(state: IAircraftWarContext, id: string) {
+  const { enemyQueue } = state
+  const enemy = enemyQueue.find(v => v.id === id && !v.isDestory)
+  const ranDir = randomDirections()
+  console.log(ranDir)
+  if(enemy) {
+    enemy.direction = ranDir
+    return { ...state, enemyQueue }
+  } else {
+    return state
+  }
+}
+
+// 初始化子弹
+function generateBullet(state: IAircraftWarContext) {
+  const now = Date.now()
+  const { bulletQueue, playerShotRate, playerX, playerW, playerY } = state
+  // 根据 playerShotRate 判断是否插入新子弹
+  // 判断 bulletQueue.length <= 0 是为了不管射速快慢触发射击事件的一瞬间就要生成一颗子弹
+  if(bulletQueue.length <= 0 || now - bulletQueue[bulletQueue.length - 1].ct > playerShotRate) {
+    // 计算player头位置 减 5 为子弹固定长宽 10 / 2 
+    return { ...state, bulletQueue: [ 
+      ...bulletQueue, 
+      {
+        id: generateId(),
+        x: playerX + (playerW / 2) - 5,
+        y: playerY,
+        speed: 10,
+        isDestory: false,
+        ct: now
+      }
+    ]}
+  } else {
+    return state
+  }
+}
+
+// 子弹移动
+function bulletMove(state: IAircraftWarContext, id: string) {
+  const { bulletQueue, gameBoundary: { up } } = state
+  const bullet = bulletQueue.find(b => b.id === id)
+  if(bullet) {
+    bullet.y -= bullet.speed
+    // 子弹超出边界需要标记为 以销毁 不再渲染
+    bullet.isDestory = judeOutBoundart(up, bullet.y)
+  }
+  return { ...state, bulletQueue: bulletQueue }
+}
+
+// 生成随机方向值
+function randomDirections(): DIRECTION_TYPE {
+  const directions = ['up', 'right', 'down', 'left', 'left_up', 'left_down', 'right_up', 'right_down']
+  return Object.values(DIRECTION_TYPE)[randomNum(0, directions.length - 1)]
 }

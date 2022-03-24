@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useContext } from "react";
+import React, { useEffect, useCallback, useState, useContext, useMemo } from "react";
 import { AircraftWarContext, AIRCARFT_WAR_ACTION_TYPE } from "@/context/aircraftWarProvider"
 import useSetInterval from "@/hooks/useSetInterval"
 
@@ -25,6 +25,10 @@ export default function Player() {
 		ArrowLeft: false,
 		ArrowUp: false,
 		ArrowDown: false,
+		KeyD: false,
+		KeyA: false,
+		KeyW: false,
+		KeyS: false,
 		Space: false
 	})
 
@@ -51,15 +55,19 @@ export default function Player() {
 		// console.log('code', code, status)
 		switch (code) {
 			case 'ArrowRight':
+			case 'KeyD':
 				setControlKeyStatus({ ...controlKeySataus, 'ArrowRight': status })
 				break;
 			case 'ArrowLeft':
+			case 'KeyA':
 				setControlKeyStatus({ ...controlKeySataus, 'ArrowLeft': status })
 				break;
 			case 'ArrowUp':
+			case 'KeyW':
 				setControlKeyStatus({ ...controlKeySataus, 'ArrowUp': status })
 				break;
 			case 'ArrowDown':
+			case 'KeyS':
 				setControlKeyStatus({ ...controlKeySataus, 'ArrowDown': status })
 				break;
 			case 'Space':
@@ -86,12 +94,12 @@ export default function Player() {
 		}
 	}, [KeyDownEventListener, KeyUpEventListener])
 
-	const style: React.CSSProperties = {
+	const style: React.CSSProperties = useMemo(() => ({
 		width: playerW + 'px', 
 		height: playerH + 'px', 
 		left: playerX + 'px',
 		top: playerY + 'px',
-	}
+	}), [playerW, playerH, playerX, playerY])
 
 	return (
 		<div style={style} className="player"></div>

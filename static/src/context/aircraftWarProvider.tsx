@@ -23,6 +23,27 @@ export enum AIRCARFT_WAR_ACTION_TYPE {
   ENEMY_RANDOM_MOVE = 'enemy_random_move',
   // enemy 变向
   ENEMY_CHANGE_DIRECTION = 'enemy_change_direction',
+  // 判断 player 和 enemy 是否重叠
+  JUDGE_PLAYER_OVERLAP_ENEMY = 'judge_player_overlap_enemy',
+  // 修改游戏状态
+  CHANGE_GAME_STATUS = 'change_game_status',
+}
+
+export enum GAME_STATUS {
+  // 进行中
+  ONLINT = "online",
+  // 停止
+  ABORT = "abort",
+  // 游戏结束
+  OVER = "over",
+}
+
+// 常规 boundary
+interface IBoundary {
+  x: number,
+  y: number,
+  w: number,
+  h: number
 }
 
 // enemy 难度
@@ -83,6 +104,8 @@ export interface IBullet {
 }
 
 interface IAircraftWarContext {
+  // 游戏状态
+  gameStatus: GAME_STATUS,
   // 玩家宽度
   playerW: number;
   // 玩家高度
@@ -110,6 +133,7 @@ interface IAircraftWarContext {
 }
 
 const initAircarftInfo: IAircraftWarContext = {
+  gameStatus: GAME_STATUS.ABORT,
   playerW: 50,
   playerH: 50,
   playerX: 175,
@@ -132,6 +156,8 @@ export const AircraftWarContext = React.createContext(initAircarftInfo);
 const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACTION_TYPE>) => {
   const { gameBoundary: { up, right, down, left } , playerW, playerH, playerX, playerSpeed, playerY, bulletQueue } = state
   switch (action.type) {
+    case AIRCARFT_WAR_ACTION_TYPE.CHANGE_GAME_STATUS:
+      return { ...state, gameStatus: action.status }
     case AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_LEFT:
       return { ...state, playerX: playerX - playerSpeed < left ? left : playerX - playerSpeed }
     case AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_RIGHT:
@@ -154,6 +180,8 @@ const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACT
       return enemyRondomMove(state, action.id)
     case AIRCARFT_WAR_ACTION_TYPE.ENEMY_CHANGE_DIRECTION: 
       return enemyChangeDirection(state, action.id)
+    case AIRCARFT_WAR_ACTION_TYPE.JUDGE_PLAYER_OVERLAP_ENEMY: 
+      return judgePlayerOverlapEnemy(state)
     default:
       return state
   }
@@ -249,7 +277,6 @@ function enemyChangeDirection(state: IAircraftWarContext, id: string) {
   const { enemyQueue } = state
   const enemy = enemyQueue.find(v => v.id === id && !v.isDestory)
   const ranDir = randomDirections()
-  console.log(ranDir)
   if(enemy) {
     enemy.direction = ranDir
     return { ...state, enemyQueue }
@@ -298,4 +325,29 @@ function bulletMove(state: IAircraftWarContext, id: string) {
 function randomDirections(): DIRECTION_TYPE {
   const directions = ['up', 'right', 'down', 'left', 'left_up', 'left_down', 'right_up', 'right_down']
   return Object.values(DIRECTION_TYPE)[randomNum(0, directions.length - 1)]
+}
+
+// 判断两者重叠
+function isOverlap(b1: IBoundary, b2: IBoundary) {
+  const { x: x1, y: y1, w: w1, h: h1 } = b1
+  const { x: x2, y: y2, w: w2, h: h2 } = b2
+  return !((y2 + h2 < y1) || (y2 > y1 + h1) || (x2 + w2 < x1) || (x2 > x1 + w1))
+}
+
+function judgePlayerOverlapEnemy(state: IAircraftWarContext) {
+  const { enemyQueue, playerX, playerY, playerH, playerW } = state
+  const aliveEnemys = enemyQueue.length > 0 ? enemyQueue.filter(v => !v.isDestory) : []
+  let isHit = false
+  if(aliveEnemys.length > 0) {
+    for(let i = 0; i < aliveEnemys.length; i++) {
+      // 重叠被撞
+      isHit = isOverlap({ x: playerX, y: playerY, w: playerW, h: playerH }, aliveEnemys[i])
+      if (isHit) {
+        break;
+      }
+    }
+    return isHit ? { ...state, gameStatus: GAME_STATUS.OVER } : state
+  } else {
+    return state
+  }
 }

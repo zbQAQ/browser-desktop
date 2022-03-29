@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState, useContext, useMemo } from "react";
-import { AircraftWarContext, AIRCARFT_WAR_ACTION_TYPE } from "@/context/aircraftWarProvider"
+import { AircraftWarContext, AIRCARFT_WAR_ACTION_TYPE, GAME_STATUS } from "@/context/aircraftWarProvider"
 import useSetInterval from "@/hooks/useSetInterval"
 
 // 按下（true状态下）事件触发key
@@ -32,9 +32,10 @@ export default function Player() {
 		Space: false
 	})
 
-	const { playerX, playerY, playerW, playerH, dispatch } = useContext(AircraftWarContext)
+	const { playerX, playerY, playerW, playerH, gameStatus, dispatch } = useContext(AircraftWarContext)
 
 	const playerAction = useCallback(() => {
+		if(gameStatus === GAME_STATUS.ABORT) return;
 		for(let key in controlKeySataus) {
 			const downEvent = DOWN_EVENT_OF_KEY[key]
 			const upEvent = UP_EVENT_OF_KEY[key]
@@ -48,6 +49,7 @@ export default function Player() {
 
 	useSetInterval(() => {
 		playerAction()
+		dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.JUDGE_PLAYER_OVERLAP_ENEMY })
 	}, 1000 / 60)
 
 	const handleKeyEvent = useCallback((e: KeyboardEvent, status: boolean) => {

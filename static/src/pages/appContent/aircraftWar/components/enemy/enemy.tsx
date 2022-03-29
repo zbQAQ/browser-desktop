@@ -9,11 +9,14 @@ export default function Enemys(props: IProps) {
   const { x, y, id, w, h, isDestory, difficulty } = props
 
   useSetInterval(() => {
-    gameStatus === GAME_STATUS.ONLINT && dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.ENEMY_RANDOM_MOVE, id })
+    if(gameStatus !== GAME_STATUS.ONLINT) return;
+    dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.ENEMY_RANDOM_MOVE, id })
+    dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.JUDGE_BULLET_OVERLAP_ENEMY, id })
   }, 1000 / 60)
 
   useSetInterval(() => {
-    gameStatus === GAME_STATUS.ONLINT && dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.ENEMY_CHANGE_DIRECTION, id })
+    if(gameStatus !== GAME_STATUS.ONLINT) return;
+    dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.ENEMY_CHANGE_DIRECTION, id })
   }, CHNAGE_FREQUENCY[difficulty])
 
   const style: React.CSSProperties = useMemo(() => ({

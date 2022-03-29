@@ -25,6 +25,8 @@ export enum AIRCARFT_WAR_ACTION_TYPE {
   ENEMY_CHANGE_DIRECTION = 'enemy_change_direction',
   // 判断 player 和 enemy 是否重叠
   JUDGE_PLAYER_OVERLAP_ENEMY = 'judge_player_overlap_enemy',
+  // 判断 bullet 和 enemy 是否重叠
+  JUDGE_BULLET_OVERLAP_ENEMY = 'judge_bullet_overlap_enemy',
   // 修改游戏状态
   CHANGE_GAME_STATUS = 'change_game_status',
 }
@@ -95,6 +97,8 @@ export interface IBullet {
   id: string
   x: number
   y: number
+  w: number
+  h: number
   // 移动速度
   speed: number
   // 标记销毁
@@ -182,6 +186,8 @@ const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACT
       return enemyChangeDirection(state, action.id)
     case AIRCARFT_WAR_ACTION_TYPE.JUDGE_PLAYER_OVERLAP_ENEMY: 
       return judgePlayerOverlapEnemy(state)
+    case AIRCARFT_WAR_ACTION_TYPE.JUDGE_BULLET_OVERLAP_ENEMY: 
+      return judgeBulletOverlapEnemy(state, action.id)
     default:
       return state
   }
@@ -299,6 +305,8 @@ function generateBullet(state: IAircraftWarContext) {
         id: generateId(),
         x: playerX + (playerW / 2) - 5,
         y: playerY,
+        w: 10,
+        h: 10,
         speed: 10,
         isDestory: false,
         ct: now
@@ -334,6 +342,7 @@ function isOverlap(b1: IBoundary, b2: IBoundary) {
   return !((y2 + h2 < y1) || (y2 > y1 + h1) || (x2 + w2 < x1) || (x2 > x1 + w1))
 }
 
+// 判断palyer和enemy是否重叠
 function judgePlayerOverlapEnemy(state: IAircraftWarContext) {
   const { enemyQueue, playerX, playerY, playerH, playerW } = state
   const aliveEnemys = enemyQueue.length > 0 ? enemyQueue.filter(v => !v.isDestory) : []
@@ -347,6 +356,25 @@ function judgePlayerOverlapEnemy(state: IAircraftWarContext) {
       }
     }
     return isHit ? { ...state, gameStatus: GAME_STATUS.OVER } : state
+  } else {
+    return state
+  }
+}
+
+// 判断bullet和enemy是否重叠
+function judgeBulletOverlapEnemy(state: IAircraftWarContext, enemyId: string) {
+  const { enemyQueue, bulletQueue } = state
+  const enemy = enemyQueue.length > 0 ? enemyQueue.find(v => v.id === enemyId) : null
+  const existBullets = bulletQueue.length > 0 ? bulletQueue.filter(v => !v.isDestory) : []
+  if(enemy && existBullets.length > 0) {
+    for(let i = 0; i < existBullets.length; i++) {
+      const curBullet = existBullets[i]
+      if(isOverlap(curBullet, enemy)) {
+        enemy.isDestory = true
+        curBullet.isDestory = true
+      }
+    }
+    return { ...state, enemyQueue: enemyQueue, bulletQueue: bulletQueue }
   } else {
     return state
   }

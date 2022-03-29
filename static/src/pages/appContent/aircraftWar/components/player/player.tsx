@@ -35,7 +35,6 @@ export default function Player() {
 	const { playerX, playerY, playerW, playerH, gameStatus, dispatch } = useContext(AircraftWarContext)
 
 	const playerAction = useCallback(() => {
-		if(gameStatus === GAME_STATUS.ABORT) return;
 		for(let key in controlKeySataus) {
 			const downEvent = DOWN_EVENT_OF_KEY[key]
 			const upEvent = UP_EVENT_OF_KEY[key]
@@ -48,6 +47,7 @@ export default function Player() {
 	}, [dispatch, controlKeySataus])
 
 	useSetInterval(() => {
+		if(gameStatus !== GAME_STATUS.ONLINT) return;
 		playerAction()
 		dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.JUDGE_PLAYER_OVERLAP_ENEMY })
 	}, 1000 / 60)

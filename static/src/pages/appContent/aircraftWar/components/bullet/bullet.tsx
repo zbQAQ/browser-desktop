@@ -6,7 +6,7 @@ interface IProps extends IBullet {}
 
 export default function Bullet(props: IProps) {
   const { dispatch } = useContext(AircraftWarContext)
-  const { x, y, id, isDestory } = props
+  const { x, y, id, w, h, isDestory } = props
 
   useSetInterval(() => {
     dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.BULLET_MOVE, id })
@@ -15,6 +15,8 @@ export default function Bullet(props: IProps) {
   const style: React.CSSProperties = {
     left: x,
     top: y,
+    width: w,
+    height: h,
   }
   return isDestory ? null : <div style={style} id={id} className="bullet" ></div>
 }

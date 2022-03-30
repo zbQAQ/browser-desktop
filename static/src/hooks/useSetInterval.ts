@@ -5,6 +5,8 @@ interface IntervalRef {
 }
 
 export default function useSetInterval(callback: Function, delay: number, immediately: boolean = false) {
+  if(delay < 0) return;
+
   const ref = useRef() as IntervalRef
 
   useEffect(() => {

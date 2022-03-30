@@ -59,8 +59,6 @@ interface Window {
   CONFIG: {
     apiHost: string
   }
-  createObjcectURL: any
-  createOjcectURL: any
 }
 
 

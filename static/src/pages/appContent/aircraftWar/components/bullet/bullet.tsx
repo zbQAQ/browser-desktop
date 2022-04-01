@@ -6,7 +6,7 @@ interface IProps extends IBullet {}
 
 export default function Bullet(props: IProps) {
   const { dispatch } = useContext(AircraftWarContext)
-  const { x, y, id, w, h, isDestory } = props
+  const { x, y, id, w, h, isDestory, belong } = props
 
   useSetInterval(() => {
     dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.BULLET_MOVE, id })
@@ -17,6 +17,8 @@ export default function Bullet(props: IProps) {
     top: y,
     width: w,
     height: h,
+    backgroundColor: belong === 'player' ? 'bisque' : 'red'
   }
+  
   return isDestory ? null : <div style={style} id={id} className="bullet" ></div>
 }

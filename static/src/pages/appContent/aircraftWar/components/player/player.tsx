@@ -8,7 +8,7 @@ const DOWN_EVENT_OF_KEY = {
 	ArrowLeft: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_LEFT,
 	ArrowUp: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_UP,
 	ArrowDown: AIRCARFT_WAR_ACTION_TYPE.PLAYER_MOVE_DOWN,
-	Space: AIRCARFT_WAR_ACTION_TYPE.GENERATE_BULLET,
+	Space: AIRCARFT_WAR_ACTION_TYPE.PLAYER_SHOT,
 }
 
 // 抬起（false状态下）事件触发key
@@ -50,6 +50,7 @@ export default function Player() {
 		if(gameStatus !== GAME_STATUS.ONLINT) return;
 		playerAction()
 		dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.JUDGE_PLAYER_OVERLAP_ENEMY })
+		dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.JUDGE_BULLET_OVERLAP_PLAYER })
 	}, 1000 / 60)
 
 	const handleKeyEvent = useCallback((e: KeyboardEvent, status: boolean) => {

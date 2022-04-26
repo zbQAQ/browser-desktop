@@ -7,7 +7,7 @@ export enum AIRCARFT_WAR_ACTION_TYPE {
   PLAYER_SHOT = 'player_shot',
   // 更新边界
   UPDATE_BOUNDARY = 'update_boundary',
-  // // 生成子弹
+  // // 生成子弹 兼容到 ENEMY_SHOT ｜ PLAYER_SHOT 里
   // GENERATE_BULLET = 'generate_bullet',
   // 子弹移动
   BULLET_MOVE = 'bullet_move',
@@ -38,6 +38,8 @@ export enum GAME_STATUS {
   ONLINT = "online",
   // 停止
   ABORT = "abort",
+  // 通关
+  CLEARANCE = "clearance",
   // 游戏结束
   OVER = "over",
 }
@@ -106,6 +108,8 @@ export interface IBullet {
 }
 
 export interface IAircraftWarContext {
+  // 游戏关卡
+  gameLevels: number,
   // 游戏状态
   gameStatus: GAME_STATUS,
   // 玩家宽度
@@ -169,6 +173,7 @@ export const GAME_LEVELS = [
   { 
     level: 0, 
     enemyNum: 3, 
+    spawnRate: 1000,
     diff: [
       ENEMY_DIFFICULTY.OBSTACLE,
       ENEMY_DIFFICULTY.NOOB,
@@ -177,7 +182,8 @@ export const GAME_LEVELS = [
   },
   { 
     level: 1, 
-    enemyNum: 3, 
+    enemyNum: 3,
+    spawnRate: 800,
     diff: [
       ENEMY_DIFFICULTY.OBSTACLE,
       ENEMY_DIFFICULTY.NOOB,
@@ -187,6 +193,7 @@ export const GAME_LEVELS = [
   { 
     level: 2, 
     enemyNum: 3, 
+    spawnRate: 600,
     diff: [
       ENEMY_DIFFICULTY.OBSTACLE,
       ENEMY_DIFFICULTY.NOOB,

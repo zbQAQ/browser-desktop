@@ -19,23 +19,21 @@ export default function gameContainer() {
   }, [spaceRef])
 
   return (
-    <div className="aircraft-container">
-      <div className="war-space" ref={spaceRef} id="test" >
-        <BulletContainer />
-        <Player />
-        <EnemyContainer />
-        <GameStatusMask />
-        <div style={{
-          position: "absolute",
-          top: "-30px",
-        }}>
-          <button onClick={() => {
-            dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.CHANGE_GAME_STATUS, status: GAME_STATUS.ONLINT })
-          }}>start</button>
-          <button onClick={() => {
-            dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.CHANGE_GAME_STATUS, status: GAME_STATUS.ABORT })
-          }}>stop</button>
-        </div>
+    <div className="war-space" ref={spaceRef} id="test" >
+      <BulletContainer />
+      <Player />
+      <EnemyContainer />
+      <GameStatusMask />
+      <div style={{
+        position: "absolute",
+        top: "-30px",
+      }}>
+        <button onClick={() => {
+          dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.CHANGE_GAME_STATUS, status: GAME_STATUS.ONLINT })
+        }}>start</button>
+        <button onClick={() => {
+          dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.CHANGE_GAME_STATUS, status: GAME_STATUS.ABORT })
+        }}>stop</button>
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import { AircraftWarContext, AIRCARFT_WAR_ACTION_TYPE } from "@/context/aircraft
 
 
 export default function BulletContainer() {
-  const { enemyQueue, dispatch } = useContext(AircraftWarContext)
+  const { enemyQueue, dispatch, gameLevels } = useContext(AircraftWarContext)
   
   const renderEnemy = useCallback(() => {
     const enemys = []

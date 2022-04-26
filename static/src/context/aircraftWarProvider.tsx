@@ -18,6 +18,7 @@ import {
 } from "@/constant/aircraftWar"
 
 const initAircarftInfo: IAircraftWarContext = {
+  gameLevels: 0,
   gameStatus: GAME_STATUS.ABORT,
   playerW: 50,
   playerH: 50,
@@ -306,6 +307,7 @@ function judgeBulletOverlapEnemy(state: IAircraftWarContext, enemyId: string) {
     return state
   }
 }
+
 
 export {
   AIRCARFT_WAR_ACTION_TYPE,

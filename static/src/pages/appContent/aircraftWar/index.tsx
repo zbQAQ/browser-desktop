@@ -7,7 +7,9 @@ import "./index.less"
 export default function AircraftWar() {
   return (
     <AircraftWarProvider>
-      <GameContainer />
+      <div className="aircraft-container">
+        <GameContainer />
+      </div>
     </AircraftWarProvider>
   )
 }

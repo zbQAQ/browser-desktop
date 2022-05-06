@@ -161,6 +161,13 @@ export const ENEMY_CHNAGE_FREQUENCY = {
   [ENEMY_DIFFICULTY.STRONG]: 500,
 }
 
+// 根据难度值 大小
+export const ENEMY_SIZES = {
+  [ENEMY_DIFFICULTY.OBSTACLE]: { w: 50, h: 50 },
+  [ENEMY_DIFFICULTY.NOOB]: { w: 69, h: 99 },
+  [ENEMY_DIFFICULTY.STRONG]: { w: 109, h: 167 },
+}
+
 // 根据难度值 移动速度 单位毫秒ms
 export const ENEMY_SPEEDS = {
   [ENEMY_DIFFICULTY.OBSTACLE]: 4,
@@ -185,7 +192,7 @@ export const ENEMY_SCORE_MAP = {
 export const ENEMY_SPAWN_POINTS = [
   { x: 0, y: 0 },
   { x: 175, y: 0 },
-  { x: 350, y: 0 },
+  { x: 220, y: 0 },
 ]
 
 // 不同游戏难度下 信息枚举

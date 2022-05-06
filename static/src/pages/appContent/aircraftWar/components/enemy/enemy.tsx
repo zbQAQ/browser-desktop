@@ -12,6 +12,12 @@ import useSetInterval from "@/hooks/useSetInterval";
 
 interface IProps extends IEnemy {}
 
+const enemyImages = {
+  [ENEMY_DIFFICULTY.OBSTACLE]: require("../../images/enemy0.png"),
+  [ENEMY_DIFFICULTY.NOOB]: require("../../images/enemy1.png"),
+  [ENEMY_DIFFICULTY.STRONG]: require("../../images/enemy2.png"),
+}
+
 export default function Enemys(props: IProps) {
   const { dispatch, gameStatus, gameBoundary } = useContext(AircraftWarContext)
   const { x, y, id, w, h, isDestory, difficulty } = props
@@ -44,6 +50,7 @@ export default function Enemys(props: IProps) {
     top: y,
     width: w,
     height: h,
+    backgroundImage: `url("${enemyImages[difficulty].default}")`
   }), [y, x, w, h])
 
   return isDestory ? null : <div style={style} id={id} className="ememy" ></div>

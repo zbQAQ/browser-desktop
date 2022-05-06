@@ -17,17 +17,18 @@ import {
   ENEMY_SCORE_MAP,
   GAME_LEVELS,
   GAME_LEVELS_INFO_MAP,
+  ENEMY_SIZES,
 } from "@/constant/aircraftWar"
 
 const initAircarftInfo: IAircraftWarContext = {
   gameLevels: GAME_LEVELS.SIMPLE,
   gameStatus: GAME_STATUS.ABORT,
-  playerW: 50,
-  playerH: 50,
+  playerW: 46,
+  playerH: 57,
   playerX: 175,
   playerY: 500,
-  playerSpeed: 4,
-  playerShotRate: 200,
+  playerSpeed: 5,
+  playerShotRate: 350,
   gameBoundary: {
     up: 0,
     right: 0,
@@ -117,8 +118,8 @@ function spawnEnemy(state: IAircraftWarContext, difficulty: ENEMY_DIFFICULTY) {
       id: generateId(),
       x,
       y,
-      w: 50,
-      h: 50,
+      w: ENEMY_SIZES[difficulty].w,
+      h: ENEMY_SIZES[difficulty].h,
       speed: ENEMY_SPEEDS[difficulty],
       isDestory: false,
       ct: now,
@@ -136,7 +137,9 @@ function enemyRondomMove(state: IAircraftWarContext, id: string) {
   const moveLeft = () => enemy.x = enemy.x - enemy.speed < left ? left : enemy.x - enemy.speed
   const moveUp = () => enemy.y = enemy.y - enemy.speed < up ? up : enemy.y - enemy.speed
   const moveRight = () => enemy.x = enemy.x + enemy.speed + enemy.w > right ? right - enemy.w : enemy.x + enemy.speed
-  const moveDown = () => enemy.y = enemy.y + enemy.speed > down ? down : enemy.y + enemy. speed
+  const obstacleMoveDown = () => enemy.y = enemy.y + enemy.speed > down ? down : enemy.y + enemy. speed
+  const normalMoveDown = () => enemy.y = enemy.y + enemy.speed + enemy.h > down ? down - enemy.h: enemy.y + enemy.speed
+  const moveDown = enemy.difficulty === ENEMY_DIFFICULTY.OBSTACLE ? obstacleMoveDown : normalMoveDown
   if(enemyIdx > -1) {
     switch(enemy.direction) {
       case 'up':
@@ -194,13 +197,13 @@ function enemyShot(state: IAircraftWarContext, id: string) {
   const index = enemyQueue.findIndex(v => v.id === id)
   if(index < 0) return state;
   const enemy = enemyQueue[index]
-  const { x, y, w, difficulty} = enemy
-  if(bulletQueue.length <= 0 || now - bulletQueue[bulletQueue.length - 1].ct > ENEMY_SHOT_RATE[difficulty]) {
-    bulletQueue.push(generateBullet(x + (w / 2) - 5, y, now, 'enemy'))
-    return { ...state, bulletQueue: bulletQueue }
-  } else {
-    return state
-  }
+  const { x, h, y, w } = enemy
+  // if(bulletQueue.length <= 0 || now - bulletQueue[bulletQueue.length - 1].ct > ENEMY_SHOT_RATE[difficulty]) {
+  bulletQueue.push(generateBullet(x + (w / 2) - 5, h + y, now, 'enemy'))
+  return { ...state, bulletQueue: bulletQueue }
+  // } else {
+  //   return state
+  // }
 }
 
 // player 射击
@@ -224,8 +227,8 @@ function generateBullet(x: number, y: number, ct: number, belong: IBulletBelong)
     id: generateId(),
     x,
     y,
-    w: 10,
-    h: 10,
+    w: 5,
+    h: 11,
     speed: 10,
     isDestory: false,
     ct,

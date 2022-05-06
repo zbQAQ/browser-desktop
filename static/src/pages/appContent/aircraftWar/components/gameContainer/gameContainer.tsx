@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { AircraftWarContext, AIRCARFT_WAR_ACTION_TYPE, GAME_STATUS } from "@/context/aircraftWarProvider"
+import { AircraftWarContext, AIRCARFT_WAR_ACTION_TYPE } from "@/context/aircraftWarProvider"
 import Player from "../player/player"
 import BulletContainer from "../bullet/bulletContainer";
 import EnemyContainer from "../enemy/enemyContainer"

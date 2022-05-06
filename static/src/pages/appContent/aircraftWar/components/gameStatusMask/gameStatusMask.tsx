@@ -1,12 +1,20 @@
 import React, { useContext } from "react";
-import { AircraftWarContext, GAME_STATUS, GAME_LEVELS } from "@/context/aircraftWarProvider"
+import { AircraftWarContext, GAME_STATUS, AIRCARFT_WAR_ACTION_TYPE } from "@/context/aircraftWarProvider"
 
 export default function GameStatusMask() {
-	const { gameStatus } = useContext(AircraftWarContext)
+	const { gameStatus, dispatch, score } = useContext(AircraftWarContext)
+
+  const handleRestartClick = () => {
+    dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.GAME_RESTART })
+    setTimeout(() => {
+      dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.CHANGE_GAME_STATUS, status: GAME_STATUS.ONLINT })
+    }, 0);
+  }
 
   const renderOverMask = () => (
     <div className="game-status-container">
-      <p className="mask-title">游戏结束</p>
+      <p className="mask-title">游戏结束🥺，你的得分是{score}</p>
+      <button onClick={handleRestartClick}>重新开始</button>
     </div> 
   )
 

@@ -4,10 +4,18 @@ import Player from "../player/player"
 import BulletContainer from "../bullet/bulletContainer";
 import EnemyContainer from "../enemy/enemyContainer"
 import GameStatusMask from "../gameStatusMask/gameStatusMask";
+import GameSetting from "../gameSetting/gameSetting";
+import Loading, { LOADING_TYPE } from "@/components/loadingv2/loading"
 
-export default function gameContainer() {
+
+interface IProps {
+  loading: boolean
+}
+
+export default function gameContainer(props: IProps) {
+  const { loading } = props
   const spaceRef = useRef(null)
-	const { dispatch, gameBoundary } = useContext(AircraftWarContext)
+	const { dispatch, gameBoundary, score } = useContext(AircraftWarContext)
 
   useEffect(() => {
     // 初始化边界
@@ -20,21 +28,26 @@ export default function gameContainer() {
 
   return (
     <div className="war-space" ref={spaceRef} id="test" >
-      <BulletContainer />
-      <Player />
-      <EnemyContainer />
-      <GameStatusMask />
-      <div style={{
-        position: "absolute",
-        top: "-30px",
-      }}>
-        <button onClick={() => {
-          dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.CHANGE_GAME_STATUS, status: GAME_STATUS.ONLINT })
-        }}>start</button>
-        <button onClick={() => {
-          dispatch({ type: AIRCARFT_WAR_ACTION_TYPE.CHANGE_GAME_STATUS, status: GAME_STATUS.ABORT })
-        }}>stop</button>
-      </div>
+      {
+        loading ? (
+          <div className="loading-mask">
+            <Loading className="game-loading" visible={loading} type={LOADING_TYPE.ZOOM_CIRCLE}/>
+          </div>
+        ) : (
+          <>
+            <div className="stage-center">
+              <BulletContainer />
+              <Player />
+              <EnemyContainer />
+              <GameStatusMask />
+            </div>
+            <div className="player-score">
+              当前得分: {score}
+            </div>
+            <GameSetting />
+          </>
+        )
+      }
     </div>
   )
 }

@@ -12,20 +12,22 @@ import {
   ENEMY_CHNAGE_FREQUENCY,
   ENEMY_SPEEDS,
   ENEMY_SHOT_RATE,
-  GAME_LEVELS,
   ENEMY_SPAWN_POINTS,
   IBulletBelong,
+  ENEMY_SCORE_MAP,
+  GAME_LEVELS,
+  GAME_LEVELS_INFO_MAP,
 } from "@/constant/aircraftWar"
 
 const initAircarftInfo: IAircraftWarContext = {
-  gameLevels: 0,
+  gameLevels: GAME_LEVELS.SIMPLE,
   gameStatus: GAME_STATUS.ABORT,
   playerW: 50,
   playerH: 50,
   playerX: 175,
   playerY: 500,
   playerSpeed: 4,
-  playerShotRate: 500,
+  playerShotRate: 200,
   gameBoundary: {
     up: 0,
     right: 0,
@@ -34,6 +36,7 @@ const initAircarftInfo: IAircraftWarContext = {
   },
   bulletQueue: [],
   enemyQueue: [],
+  score: 0,
   dispatch: () => { }
 }
 
@@ -61,7 +64,7 @@ const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACT
     case AIRCARFT_WAR_ACTION_TYPE.BULLET_CLEAN: 
       return bulletQueue.length > 0 ? { ...state, bulletQueue: bulletQueue.filter(b => !b.isDestory) } : state
     case AIRCARFT_WAR_ACTION_TYPE.SPAWN_ENEMY: 
-      return spawnEnemy(state)
+      return spawnEnemy(state, action.difficulty)
     case AIRCARFT_WAR_ACTION_TYPE.ENEMY_RANDOM_MOVE: 
       return enemyRondomMove(state, action.id)
     case AIRCARFT_WAR_ACTION_TYPE.ENEMY_CHANGE_DIRECTION: 
@@ -74,6 +77,12 @@ const reducer = (state: IAircraftWarContext, action: IAnyAction<AIRCARFT_WAR_ACT
       return judgeBulletOverlapEnemy(state, action.id)
     case AIRCARFT_WAR_ACTION_TYPE.JUDGE_BULLET_OVERLAP_PLAYER: 
       return judgeBulletOverlapPlayer(state)
+    case AIRCARFT_WAR_ACTION_TYPE.CHANGE_GAME_LEVELS: 
+      return { ...state, gameLevels: action.levels }
+    case AIRCARFT_WAR_ACTION_TYPE.DESTORY_ENEMY: 
+      return destoryEnemy(state, action.id)
+    case AIRCARFT_WAR_ACTION_TYPE.GAME_RESTART: 
+      return restartGame(state)
     default:
       return state
   }
@@ -98,7 +107,7 @@ export const AircraftWarProvider = (props: PropsWithChildren<{}>) => {
 }
 
 // 生成 enemy
-function spawnEnemy(state: IAircraftWarContext) {
+function spawnEnemy(state: IAircraftWarContext, difficulty: ENEMY_DIFFICULTY) {
   const now = Date.now()
   const { enemyQueue } = state
   const { x, y } = ENEMY_SPAWN_POINTS[randomNum(0, ENEMY_SPAWN_POINTS.length - 1)]
@@ -110,10 +119,10 @@ function spawnEnemy(state: IAircraftWarContext) {
       y,
       w: 50,
       h: 50,
-      speed: ENEMY_SPEEDS[ENEMY_DIFFICULTY.STRONG],
+      speed: ENEMY_SPEEDS[difficulty],
       isDestory: false,
       ct: now,
-      difficulty: ENEMY_DIFFICULTY.STRONG,
+      difficulty: difficulty,
       direction: DIRECTION_TYPE.DOWN
     }
   ]}
@@ -127,7 +136,7 @@ function enemyRondomMove(state: IAircraftWarContext, id: string) {
   const moveLeft = () => enemy.x = enemy.x - enemy.speed < left ? left : enemy.x - enemy.speed
   const moveUp = () => enemy.y = enemy.y - enemy.speed < up ? up : enemy.y - enemy.speed
   const moveRight = () => enemy.x = enemy.x + enemy.speed + enemy.w > right ? right - enemy.w : enemy.x + enemy.speed
-  const moveDown = () => enemy.y = enemy.y + enemy.speed + enemy.h > down ? down - enemy.h: enemy.y + enemy.speed
+  const moveDown = () => enemy.y = enemy.y + enemy.speed > down ? down : enemy.y + enemy. speed
   if(enemyIdx > -1) {
     switch(enemy.direction) {
       case 'up':
@@ -238,8 +247,8 @@ function bulletMove(state: IAircraftWarContext, id: string) {
 
 // 生成随机方向值
 function randomDirections(): DIRECTION_TYPE {
-  const directions = ['up', 'right', 'down', 'left', 'left_up', 'left_down', 'right_up', 'right_down']
-  return Object.values(DIRECTION_TYPE)[randomNum(0, directions.length - 1)]
+  const dirs = Object.values(DIRECTION_TYPE)
+  return dirs[randomNum(0, dirs.length - 1)]
 }
 
 // 判断两者重叠
@@ -268,7 +277,6 @@ function judgePlayerOverlapEnemy(state: IAircraftWarContext) {
   }
 }
 
-
 // 判断bullet和player是否重叠
 function judgeBulletOverlapPlayer(state: IAircraftWarContext) {
   const { bulletQueue, playerH, playerW, playerX, playerY } = state
@@ -291,7 +299,7 @@ function judgeBulletOverlapPlayer(state: IAircraftWarContext) {
 
 // 判断bullet和enemy是否重叠
 function judgeBulletOverlapEnemy(state: IAircraftWarContext, enemyId: string) {
-  const { enemyQueue, bulletQueue } = state
+  const { enemyQueue, bulletQueue, score } = state
   const enemy = enemyQueue.length > 0 ? enemyQueue.find(v => v.id === enemyId) : null
   const existBullets = bulletQueue.length > 0 ? bulletQueue.filter(v => !v.isDestory && v.belong !== 'enemy') : []
   if(enemy && existBullets.length > 0) {
@@ -300,6 +308,7 @@ function judgeBulletOverlapEnemy(state: IAircraftWarContext, enemyId: string) {
       if(isOverlap(curBullet, enemy)) {
         enemy.isDestory = true
         curBullet.isDestory = true
+        state.score = triggerScore(score, ENEMY_SCORE_MAP[enemy.difficulty])
       }
     }
     return { ...state, enemyQueue: enemyQueue, bulletQueue: bulletQueue }
@@ -308,6 +317,34 @@ function judgeBulletOverlapEnemy(state: IAircraftWarContext, enemyId: string) {
   }
 }
 
+function destoryEnemy(state: IAircraftWarContext, enemyId: string) {
+  const { enemyQueue } = state
+  const enemy = enemyQueue.find(v => v.id === enemyId)
+  if(enemy) {
+    enemy.isDestory = true
+    return { ...state, enemyQueue: enemyQueue }
+  } else {
+    return state
+  }
+}
+
+// 触发得分
+function triggerScore(sourceScore: number, value: number) {
+  return sourceScore + value
+}
+
+// 重开
+function restartGame(state: IAircraftWarContext) {
+  return {
+    ...state,
+    gameStatus: GAME_STATUS.ABORT,
+    bulletQueue: [],
+    enemyQueue: [],
+    score: 0,
+    playerX: 175,
+    playerY: 500,
+  }
+}
 
 export {
   AIRCARFT_WAR_ACTION_TYPE,
@@ -322,4 +359,5 @@ export {
   ENEMY_SPEEDS,
   ENEMY_SHOT_RATE,
   GAME_LEVELS,
+  GAME_LEVELS_INFO_MAP
 }

@@ -23,6 +23,8 @@ export enum AIRCARFT_WAR_ACTION_TYPE {
   ENEMY_CHANGE_DIRECTION = 'enemy_change_direction',
   // enemy 射击
   ENEMY_SHOT = 'enemy_shot',
+  // 销毁某个enemy
+  DESTORY_ENEMY = 'destoryEnemy',
   // 判断 player 和 enemy 是否重叠
   JUDGE_PLAYER_OVERLAP_ENEMY = 'judge_player_overlap_enemy',
   // 判断 bullet 和 enemy 是否重叠
@@ -31,6 +33,17 @@ export enum AIRCARFT_WAR_ACTION_TYPE {
   JUDGE_BULLET_OVERLAP_PLAYER = 'judge_bullet_overlap_player',
   // 修改游戏状态
   CHANGE_GAME_STATUS = 'change_game_status',
+  // 修改游戏难度等级
+  CHANGE_GAME_LEVELS = 'change_game_levels',
+  // 游戏重开
+  GAME_RESTART = 'game_restart',
+}
+
+// 游戏难度
+export enum GAME_LEVELS {
+  SIMPLE = 'simple',
+  MEDIUM = 'medium',
+  DIFFICULEY = 'difficulty',
 }
 
 export enum GAME_STATUS {
@@ -109,7 +122,7 @@ export interface IBullet {
 
 export interface IAircraftWarContext {
   // 游戏关卡
-  gameLevels: number,
+  gameLevels: GAME_LEVELS,
   // 游戏状态
   gameStatus: GAME_STATUS,
   // 玩家宽度
@@ -132,9 +145,10 @@ export interface IAircraftWarContext {
     left: number,
   };
   // 子弹队列
-  bulletQueue: IBullet[]
-  enemyQueue: IEnemy[]
-
+  bulletQueue: IBullet[];
+  enemyQueue: IEnemy[];
+  // 得分
+  score: number;
   dispatch: React.Dispatch<IAnyAction<AIRCARFT_WAR_ACTION_TYPE>>
 }
 
@@ -161,6 +175,12 @@ export const ENEMY_SHOT_RATE = {
   [ENEMY_DIFFICULTY.STRONG]: 400,
 }
 
+export const ENEMY_SCORE_MAP = {
+  [ENEMY_DIFFICULTY.OBSTACLE]: 10,
+  [ENEMY_DIFFICULTY.NOOB]: 100,
+  [ENEMY_DIFFICULTY.STRONG]: 500,
+}
+
 // enemy 出生点
 export const ENEMY_SPAWN_POINTS = [
   { x: 0, y: 0 },
@@ -168,36 +188,15 @@ export const ENEMY_SPAWN_POINTS = [
   { x: 350, y: 0 },
 ]
 
-// 游戏关卡
-export const GAME_LEVELS = [
-  { 
-    level: 0, 
-    enemyNum: 3, 
-    spawnRate: 1000,
-    diff: [
-      ENEMY_DIFFICULTY.OBSTACLE,
-      ENEMY_DIFFICULTY.NOOB,
-      ENEMY_DIFFICULTY.OBSTACLE,
-    ] 
+// 不同游戏难度下 信息枚举
+export const GAME_LEVELS_INFO_MAP = {
+  [GAME_LEVELS.SIMPLE] : {
+    spawnRate: 1200
   },
-  { 
-    level: 1, 
-    enemyNum: 3,
-    spawnRate: 800,
-    diff: [
-      ENEMY_DIFFICULTY.OBSTACLE,
-      ENEMY_DIFFICULTY.NOOB,
-      ENEMY_DIFFICULTY.OBSTACLE,
-    ] 
+  [GAME_LEVELS.MEDIUM] : {
+    spawnRate: 1000
   },
-  { 
-    level: 2, 
-    enemyNum: 3, 
-    spawnRate: 600,
-    diff: [
-      ENEMY_DIFFICULTY.OBSTACLE,
-      ENEMY_DIFFICULTY.NOOB,
-      ENEMY_DIFFICULTY.OBSTACLE,
-    ] 
+  [GAME_LEVELS.DIFFICULEY] : {
+    spawnRate: 600
   },
-]
+}

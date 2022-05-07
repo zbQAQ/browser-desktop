@@ -9,16 +9,13 @@ const { merge } = require("webpack-merge");
 const varConfig = require('../var/static.config.json');
 const fs = require('fs')
 
-const CONFIG_PATH = path.resolve(__dirname, "../var/static.config.json")
-
 const isDev = process.env.NODE_ENV === "development"
 
 const mergeConfig = isDev ? devConfig : prodConfig;
 
 function getStaticConfig() {
-  const config = JSON.stringify(fs.readFileSync(CONFIG_PATH, 'utf8'))
-  delete config.distDir
-  return config
+  const configString = JSON.stringify({ ...varConfig, distDir: null})
+  return configString
 }
 
 const config = {

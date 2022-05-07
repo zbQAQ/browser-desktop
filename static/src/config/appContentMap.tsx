@@ -91,7 +91,7 @@ export const desktopApp: IDesktopAppType[] = [
     key: "aircraft_war",
     name: "飞机大战",
     iconType: "svg",
-    iconName: "iconshijian1",
+    iconName: "iconlistfeiji",
     showType: "dialog",
   },
 ]

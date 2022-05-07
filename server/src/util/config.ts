@@ -18,7 +18,6 @@ module.exports = {
   getStaticConfig: () => {
     const configString = fs.readFileSync(STATIC_CONFIG_PATH, 'utf8');
     let config = JSON.parse(configString);
-    delete config.distDir
     return config
   }
 }

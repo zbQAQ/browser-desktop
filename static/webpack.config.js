@@ -4,19 +4,28 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const devConfig = require("./config/webpack.dev");
 const prodConfig = require("./config/webpack.prod");
+const InlineSourceHtmlPlugin = require("./config/InlineSourceHtmlPlugin.js");
 const { merge } = require("webpack-merge");
+const varConfig = require('../var/static.config.json');
 const fs = require('fs')
 
 const CONFIG_PATH = path.resolve(__dirname, "../var/static.config.json")
 
-const mergeConfig =
-  process.env.NODE_ENV === "development" ? devConfig : prodConfig;
+const isDev = process.env.NODE_ENV === "development"
+
+const mergeConfig = isDev ? devConfig : prodConfig;
+
+function getStaticConfig() {
+  const config = JSON.stringify(fs.readFileSync(CONFIG_PATH, 'utf8'))
+  delete config.distDir
+  return config
+}
 
 const config = {
   entry: "./src/index.tsx",
   output: {
-    path: path.resolve(__dirname, "../var/static"),
-    filename: "index.js"
+    path: varConfig.distDir,
+    filename: "index.js",
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js", "json"],
@@ -58,15 +67,24 @@ const config = {
   plugins: [
     new CleanWebpackPlugin(),
     // 这里面的template是模板的位置，title是模板渲染的变量 htmlWebpackPlugin.options.title
-    new HtmlWebpackPlugin({
-      config: JSON.stringify(fs.readFileSync(CONFIG_PATH, 'utf8')),
-      title: "browser-desktop",
-      template: path.resolve(__dirname, "template.html"),
-    }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
+    new HtmlWebpackPlugin({
+      minify: {
+        removeComments: !isDev,
+        collapseWhitespace: !isDev,
+        minifyJS: !isDev,
+        minifyCSS: !isDev,
+      },
+      config: getStaticConfig(),
+      title: "browser-desktop",
+      template: path.resolve(__dirname, "template.html"),
+      inject: 'body',
+      inlineSource: '.(js|css)'
+    }),
+    new InlineSourceHtmlPlugin(HtmlWebpackPlugin, ["index.js", "main.css"]),
   ],
 };
 

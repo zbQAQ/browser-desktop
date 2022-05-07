@@ -55,5 +55,5 @@ module.exports = {
   // 统一处理替换 协议头
   replaceProtocol: (str: string, before: string, after: string) => {
     return str.replace(before, after)
-  }
+  },
 }

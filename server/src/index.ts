@@ -7,10 +7,6 @@ config.init()
 app.use(require('cors')())
 app.use(express.json())
 
-app.get("/", (req, res) => {
-  res.send("hellooooooooooo~~~~~~~")
-})
-
 // 引入路由主文件
 require("./routes")(app)
 

@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useReducer } from "react"
-import useToast from "@/hooks/useToast"
+import { useCallback, useEffect, useReducer } from 'react';
+import useToast from '@/hooks/useToast';
 
-const defaultErrorMsg = "Failed to fetch"
+const defaultErrorMsg = 'Failed to fetch';
 
 // fetch 状态
 export const enum FETCH_STATUS {
@@ -14,13 +14,13 @@ export const enum FETCH_STATUS {
 
 interface IFetchState<T> {
   // 请求状态
-  status: FETCH_STATUS,
+  status: FETCH_STATUS;
   // loading 状态
-  loading: boolean,
+  loading: boolean;
   // 返回的数据
-  data: any
+  data: any;
   // 错误信息
-  errormsg: string
+  errormsg: string;
 }
 interface R<T> extends IFetchState<T> {
   /** 请求触发器，由外层调用 */
@@ -32,17 +32,17 @@ type IFetcher = (...args: any[]) => Promise<any>;
 
 interface IFetchOptions {
   // 是否立即请求
-  immediate?: boolean
+  immediate?: boolean;
   // 初始数据 data
-  initData?: any
+  initData?: any;
   // 是否自动重置
-  autoReset?: boolean
+  autoReset?: boolean;
   // 自动重置计时
-  autoResetDelay?: number
+  autoResetDelay?: number;
   // 请求结束手动延时
-  mockDelay?: number
+  mockDelay?: number;
   // 请求完成时的回调函数
-  callback?: () => void
+  callback?: () => void;
 }
 
 const defaultOption: IFetchOptions = {
@@ -51,94 +51,125 @@ const defaultOption: IFetchOptions = {
   autoReset: false,
   autoResetDelay: 1000,
   mockDelay: 0,
-}
+};
 
 // 请求状态处理
-function fetchReducer<T>(state: IFetchState<T>, action: IAnyAction<FETCH_STATUS>) {
+function fetchReducer<T>(
+  state: IFetchState<T>,
+  action: IAnyAction<FETCH_STATUS>
+) {
   switch (action.type) {
     case FETCH_STATUS.INIT:
     case FETCH_STATUS.READY: {
-      return { ...state, status: action.type, loading: false }
+      return { ...state, status: action.type, loading: false };
     }
     case FETCH_STATUS.FETCHING: {
-      return { ...state, status: action.type, loading: true }
+      return { ...state, status: action.type, loading: true };
     }
     case FETCH_STATUS.FETCH_SUCCEEDED: {
-      const { data = null } = action
-      return { ...state, status: action.type, data, errormsg: '', loading: false }
+      const { data = null } = action;
+      return {
+        ...state,
+        status: action.type,
+        data,
+        errormsg: '',
+        loading: false,
+      };
     }
     case FETCH_STATUS.FETCH_FAILED: {
-      const { errormsg } = action
-      return { ...state, status: action.type, data: null, errormsg, loading: false }
+      const { errormsg } = action;
+      return {
+        ...state,
+        status: action.type,
+        data: null,
+        errormsg,
+        loading: false,
+      };
     }
     default:
       throw new Error('Unknown fetch action');
   }
 }
 
-export default function useFetch<T = Record<string, any>>(fetcher: IFetcher, options?: IFetchOptions): R<T> {
-  const opts = { ...defaultOption, ...options }
-  const { immediate, initData, autoReset, autoResetDelay, mockDelay, callback } = opts
+export default function useFetch<T = Record<string, any>>(
+  fetcher: IFetcher,
+  options?: IFetchOptions
+): R<T> {
+  const opts = { ...defaultOption, ...options };
+  const {
+    immediate,
+    initData,
+    autoReset,
+    autoResetDelay,
+    mockDelay,
+    callback,
+  } = opts;
 
   const initState = {
     data: initData ?? null,
     errormsg: '',
     status: FETCH_STATUS.INIT,
     loading: false,
-  }
+  };
 
-  const [ state, dispatch ] = useReducer(fetchReducer, initState)
+  const [state, dispatch] = useReducer(fetchReducer, initState);
 
-  const { showToast } = useToast()
-  
-  const { status } = state
+  const { showToast } = useToast();
+
+  const { status } = state;
 
   // 请求触发器
   const triggerFetch = useCallback(() => {
-    dispatch({ type: FETCH_STATUS.READY })
-  }, [])
+    dispatch({ type: FETCH_STATUS.READY });
+  }, []);
 
   // 请求体
   const doFetch = useCallback(async () => {
     try {
-      dispatch({ type: FETCH_STATUS.FETCHING })
-      const resp = await fetcher()
-      if(resp.status === 200) {
+      dispatch({ type: FETCH_STATUS.FETCHING });
+      const resp = await fetcher();
+      if (resp.status === 200) {
         const dispatchSuccess = () => {
-          dispatch({ type: FETCH_STATUS.FETCH_SUCCEEDED, data: resp.data })
-          callback && callback()
-          if(autoReset) {
+          dispatch({ type: FETCH_STATUS.FETCH_SUCCEEDED, data: resp.data });
+          callback && callback();
+          if (autoReset) {
             setTimeout(() => {
-              dispatch({ type: FETCH_STATUS.INIT })
-            }, autoResetDelay)
+              dispatch({ type: FETCH_STATUS.INIT });
+            }, autoResetDelay);
           }
-        }
-        if(mockDelay) {
-          setTimeout(dispatchSuccess, mockDelay)
+        };
+        if (mockDelay) {
+          setTimeout(dispatchSuccess, mockDelay);
         } else {
-          dispatchSuccess()
+          dispatchSuccess();
         }
       } else {
-        dispatch({ type: FETCH_STATUS.FETCH_FAILED, errormsg: resp.errormsg || defaultErrorMsg })
-        showToast({type: "error", content: resp.errormsg || defaultErrorMsg})
+        dispatch({
+          type: FETCH_STATUS.FETCH_FAILED,
+          errormsg: resp.errormsg || defaultErrorMsg,
+        });
+        showToast({ type: 'error', content: resp.errormsg || defaultErrorMsg });
       }
     } catch (error: any) {
-      dispatch({ type: FETCH_STATUS.FETCH_FAILED, errormsg: error.message || defaultErrorMsg })
-      showToast({ type: "error", content: error.message || defaultErrorMsg })
+      dispatch({
+        type: FETCH_STATUS.FETCH_FAILED,
+        errormsg: error.message || defaultErrorMsg,
+      });
+      showToast({ type: 'error', content: error.message || defaultErrorMsg });
     }
-  }, [fetcher])
+  }, [fetcher]);
 
   // 请求状态由非Ready变成Ready时，触发请求逻辑
   useEffect(() => {
-    if(status === FETCH_STATUS.READY) {
-      doFetch()
+    if (status === FETCH_STATUS.READY) {
+      doFetch();
     }
-  }, [status, doFetch])
+  }, [status, doFetch]);
 
   // 检测是否立即触发请求
   useEffect(() => {
     immediate && triggerFetch();
   }, [triggerFetch, immediate]);
 
-  return { ...state, triggerFetch }
+  return { ...state, triggerFetch };
 }

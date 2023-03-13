@@ -1,7 +1,6 @@
 .searchContainer {
   position: absolute;
   top: 20vh;
-
   width: 100%;
 }
 
@@ -79,7 +78,7 @@
 
 .clock {
   position: absolute;
-  top: 90px;
+  top: 8vh;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;

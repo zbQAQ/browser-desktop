@@ -1,8 +1,0 @@
-{
-  "oss": {
-    "region": "xx",
-    "accessKeyId": "xx",
-    "accessKeySecret": "xx",
-    "bucket": "xx"
-  }
-}

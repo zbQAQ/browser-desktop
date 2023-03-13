@@ -4,6 +4,7 @@
 .eslintcache
 .editorconfig
 dist
+build
 logs
 var
 node_modules

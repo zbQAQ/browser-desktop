@@ -10,7 +10,6 @@ var
 node_modules
 npm-debug.log*
 config.json
-package-lock.json
 yarn.lock
 .csscomb.json
 .cache-loader

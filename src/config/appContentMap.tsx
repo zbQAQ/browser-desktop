@@ -94,6 +94,14 @@ export const desktopApp: IDesktopAppType[] = [
     iconName: 'iconlistfeiji',
     showType: 'dialog',
   },
+  {
+    id: 13,
+    key: 'mirror_button',
+    name: '镜面按钮',
+    iconType: 'svg',
+    iconName: 'iconlistfeiji',
+    showType: 'dialog',
+  },
 ];
 
 export const appContentMap: IAppContentMap[] = [
@@ -192,6 +200,13 @@ export const appContentMap: IAppContentMap[] = [
     dialogStyle: ['fullScreen', 'darkBackground'],
     renderComponents: asyncComponent(
       () => import('@/pages/appContent/aircraftWar')
+    ),
+  },
+  {
+    key: 'mirror_button',
+    dialogStyle: ['fullScreen', 'darkCloseBtn'],
+    renderComponents: asyncComponent(
+      () => import('@/pages/appContent/mirrorButton')
     ),
   },
 ];

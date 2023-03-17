@@ -1,19 +1,19 @@
-import React from "react"
+import React from 'react';
 import {
   Route,
   Switch,
   withRouter,
-  RouteComponentProps
+  RouteComponentProps,
 } from 'react-router-dom';
 
 // import MissionBar from "@/components/missionBar/missionBar"
 
-import { AppInfoProvider } from "@/context/appInfoProvider"
+import { AppInfoProvider } from '@/context/appInfoProvider';
 
-import "./app.css"
+import './app.css';
 
 // pages
-import Home from "@/pages/home/home"
+import Home from '@/pages/home/home';
 
 type Props = RouteComponentProps<any>;
 
@@ -22,16 +22,20 @@ class App extends React.Component<Props> {
     return (
       <div className="app">
         <Switch>
-          <Route exact path="/" render={() => 
-            <AppInfoProvider>
-              <Home />
-            </AppInfoProvider>
-          }></Route>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <AppInfoProvider>
+                <Home />
+              </AppInfoProvider>
+            )}
+          ></Route>
         </Switch>
         {/* <MissionBar /> */}
       </div>
-    )
+    );
   }
 }
 
-export default withRouter(App)
+export default withRouter(App as any);

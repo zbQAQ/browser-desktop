@@ -80,12 +80,12 @@ export default function Wallpaper(props: IProps) {
     [canvasMain]
   );
 
-  useEffect(() => {
-    setLoadStatus(false);
-    imageLoader('/assets/default-wallpaper.png').then((_) => {
-      setLoadStatus(true);
-    });
-  }, [wallpaper]);
+  // useEffect(() => {
+  //   setLoadStatus(false);
+  //   imageLoader('/assets/default-wallpaper.png').then((_) => {
+  //     setLoadStatus(true);
+  //   });
+  // }, [wallpaper]);
 
   return (
     <div className={`background ${isBlur ? 'blur' : ''}`}>

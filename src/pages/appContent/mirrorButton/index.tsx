@@ -1,10 +1,10 @@
 import React from 'react';
-import './index.less';
+import './mirrorButton.less';
 
 const MirrorButton = () => {
   return (
     <div className="mirror-button-container">
-      <span>MirrorButton123123</span>
+      <span>1111</span>
     </div>
   );
 };

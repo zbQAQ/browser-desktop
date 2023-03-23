@@ -48,22 +48,22 @@ export enum GAME_LEVELS {
 
 export enum GAME_STATUS {
   // 进行中
-  ONLINT = "online",
+  ONLINT = 'online',
   // 停止
-  ABORT = "abort",
+  ABORT = 'abort',
   // 通关
-  CLEARANCE = "clearance",
+  CLEARANCE = 'clearance',
   // 游戏结束
-  OVER = "over",
+  OVER = 'over',
 }
 
 // enemy 难度
 export enum ENEMY_DIFFICULTY {
   // 障碍物 不需要变向
-  OBSTACLE = "obstacle",
+  OBSTACLE = 'obstacle',
 
-  NOOB = "noob",
-  STRONG = "strong",
+  NOOB = 'noob',
+  STRONG = 'strong',
 }
 
 // 方向
@@ -80,130 +80,130 @@ export enum DIRECTION_TYPE {
 
 // 常规 boundary
 export interface IBoundary {
-  x: number,
-  y: number,
-  w: number,
-  h: number
+  x: number;
+  y: number;
+  w: number;
+  h: number;
 }
 
 export interface IEnemy {
-  id: string
-  x: number
-  y: number
-  w: number
-  h: number
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
   // 移动速度
-  speed: number
+  speed: number;
   // 标记销毁
-  isDestory: boolean
+  isDestory: boolean;
   // 生成时间
-  ct: number
+  ct: number;
   // 移动方向
-  direction: DIRECTION_TYPE
+  direction: DIRECTION_TYPE;
   // 难度
-  difficulty: ENEMY_DIFFICULTY
+  difficulty: ENEMY_DIFFICULTY;
 }
 
 export interface IBullet {
-  id: string
-  x: number
-  y: number
-  w: number
-  h: number
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
   // 移动速度
-  speed: number
+  speed: number;
   // 标记销毁
-  isDestory: boolean
+  isDestory: boolean;
   // 生成时间
-  ct: number
+  ct: number;
   // 属于哪个
-  belong: IBulletBelong
+  belong: IBulletBelong;
 }
 
 export interface IAircraftWarContext {
   // 游戏关卡
-  gameLevels: GAME_LEVELS,
+  gameLevels: GAME_LEVELS;
   // 游戏状态
-  gameStatus: GAME_STATUS,
+  gameStatus: GAME_STATUS;
   // 玩家宽度
   playerW: number;
   // 玩家高度
   playerH: number;
   // 玩家 坐标X
-  playerX: number
+  playerX: number;
   // 玩家 坐标Y
-  playerY: number
+  playerY: number;
   // 玩家 移动速度
   playerSpeed: number;
   // 玩家 射速 单位毫秒
   playerShotRate: number;
   // 地图边界
   gameBoundary: {
-    up: number,
-    right: number,
-    down: number,
-    left: number,
+    up: number;
+    right: number;
+    down: number;
+    left: number;
   };
   // 子弹队列
   bulletQueue: IBullet[];
   enemyQueue: IEnemy[];
   // 得分
   score: number;
-  dispatch: React.Dispatch<IAnyAction<AIRCARFT_WAR_ACTION_TYPE>>
+  dispatch: React.Dispatch<IAnyAction<AIRCARFT_WAR_ACTION_TYPE>>;
 }
 
-export type IBulletBelong = 'player' | 'enemy'
+export type IBulletBelong = 'player' | 'enemy';
 
 // 根据难度值 变向频率 单位毫秒ms
 export const ENEMY_CHNAGE_FREQUENCY = {
   [ENEMY_DIFFICULTY.OBSTACLE]: -1,
   [ENEMY_DIFFICULTY.NOOB]: 1000,
   [ENEMY_DIFFICULTY.STRONG]: 500,
-}
+};
 
 // 根据难度值 大小
 export const ENEMY_SIZES = {
   [ENEMY_DIFFICULTY.OBSTACLE]: { w: 50, h: 50 },
   [ENEMY_DIFFICULTY.NOOB]: { w: 69, h: 99 },
   [ENEMY_DIFFICULTY.STRONG]: { w: 109, h: 167 },
-}
+};
 
 // 根据难度值 移动速度 单位毫秒ms
 export const ENEMY_SPEEDS = {
   [ENEMY_DIFFICULTY.OBSTACLE]: 4,
   [ENEMY_DIFFICULTY.NOOB]: 5,
   [ENEMY_DIFFICULTY.STRONG]: 6,
-}
+};
 
 // 根据难度值 射击间隔 单位毫秒ms
 export const ENEMY_SHOT_RATE = {
   [ENEMY_DIFFICULTY.OBSTACLE]: -1,
   [ENEMY_DIFFICULTY.NOOB]: 1000,
   [ENEMY_DIFFICULTY.STRONG]: 400,
-}
+};
 
 export const ENEMY_SCORE_MAP = {
   [ENEMY_DIFFICULTY.OBSTACLE]: 10,
   [ENEMY_DIFFICULTY.NOOB]: 100,
   [ENEMY_DIFFICULTY.STRONG]: 500,
-}
+};
 
 // enemy 出生点
 export const ENEMY_SPAWN_POINTS = [
   { x: 0, y: 0 },
   { x: 175, y: 0 },
   { x: 220, y: 0 },
-]
+];
 
 // 不同游戏难度下 信息枚举
 export const GAME_LEVELS_INFO_MAP = {
-  [GAME_LEVELS.SIMPLE] : {
-    spawnRate: 1200
+  [GAME_LEVELS.SIMPLE]: {
+    spawnRate: 1200,
   },
-  [GAME_LEVELS.MEDIUM] : {
-    spawnRate: 1000
+  [GAME_LEVELS.MEDIUM]: {
+    spawnRate: 1000,
   },
-  [GAME_LEVELS.DIFFICULEY] : {
-    spawnRate: 600
+  [GAME_LEVELS.DIFFICULEY]: {
+    spawnRate: 600,
   },
-}
+};

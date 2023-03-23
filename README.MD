@@ -6,8 +6,6 @@
     ```shell
     npm run install
     npm run dev
-    ```
-  - tips: 端口默认 12345
 
 #### 其他
 

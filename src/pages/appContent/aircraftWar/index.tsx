@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GameContainer from './components/gameContainer/gameContainer';
 import { AircraftWarProvider } from '@/context/aircraftWarProvider';
 
